@@ -17,6 +17,7 @@
     "gradle/": true,
     ".vscode/": true,
     ".gitignore": true,
+    ".github/": true,
 
     "**/.classpath": true,
     "**/.project": true,
