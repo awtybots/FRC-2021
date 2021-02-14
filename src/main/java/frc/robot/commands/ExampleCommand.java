@@ -5,16 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import static frc.robot.Robot.*;
 
-/** <b>Do NOT modify this file for any reason.</b> */
-public final class Main {
-  private Main() {}
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-  /** Main initialization function. Do not perform any initialization here. */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
+public class ExampleCommand extends CommandBase {
+  private boolean button;
+  private boolean on;
+
+  public ExampleCommand() {}
+
+  @Override
+  public void initialize() {}
+
+  @Override
+  public void end(boolean interrupted) {}
+
+  @Override
+  public boolean isFinished() {
+    return false; // return true when you want the command to stop running
   }
 }

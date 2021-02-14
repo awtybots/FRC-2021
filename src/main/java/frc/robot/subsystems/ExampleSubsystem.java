@@ -5,16 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/** <b>Do NOT modify this file for any reason.</b> */
-public final class Main {
-  private Main() {}
+public class ExampleSubsystem extends SubsystemBase {
 
-  /** Main initialization function. Do not perform any initialization here. */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  }
+  public ExampleSubsystem() {}
+
+  @Override
+  public void periodic() {}
 }
