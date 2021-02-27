@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.config.DriveConfig;
 import org.awtybots.frc.botplus.motors.Falcon500;
@@ -19,8 +18,7 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
   private static DrivetrainSubsystem instance;
 
   private static DriveConfig driveConfig =
-      new DriveConfig(
-          true, 0.0, 1.0, 0.5, 10.0, 5.0, FeedbackDevice.IntegratedSensor, 6.0, 0.5, 0.0, 0.0, 0.5);
+      new DriveConfig(true, 0.0, 1.0, 0.5, 10.0, 5.0, 6.0, 0.5, 0.0, 0.0, 0.5);
   private static double gearRatio = 1.0;
 
   private static MotorGroup<Falcon500> leftMotorGroup =

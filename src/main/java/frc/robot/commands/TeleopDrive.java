@@ -8,40 +8,17 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
-import java.util.function.Function;
 import org.awtybots.frc.botplus.commands.AnalogInputCommand;
 import org.awtybots.frc.botplus.commands.ControllerValues;
 import org.awtybots.frc.botplus.math.Vector2;
 
 public class TeleopDrive extends AnalogInputCommand {
 
-  private final Function<ControllerValues, Vector2> splitArcadeDrive =
-      (ControllerValues controllerValues) -> {
-        double speed = controllerValues.getLeftStickY();
-        double steer = controllerValues.getRightStickX();
-
-        double left = speed + steer;
-        double right = speed - steer;
-
-        return new Vector2(left, right);
-      };
-
-  private final Function<ControllerValues, Vector2> gtaDrive =
-      (ControllerValues controllerValues) -> {
-        double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
-        double steer = controllerValues.getLeftStickX();
-
-        double left = speed + steer;
-        double right = speed - steer;
-
-        return new Vector2(left, right);
-      };
-
   public TeleopDrive() {}
 
   @Override
   public void analogExecute(ControllerValues controllerValues) {
-    Vector2 driveControlsInput = splitArcadeDrive.apply(controllerValues);
+    Vector2 driveControlsInput = splitArcadeDrive(controllerValues);
 
     DrivetrainSubsystem.getInstance()
         .setMotorRawOutput(driveControlsInput.getX(), driveControlsInput.getY());
@@ -50,5 +27,25 @@ public class TeleopDrive extends AnalogInputCommand {
   @Override
   public void cancel() {
     DrivetrainSubsystem.getInstance().kill();
+  }
+
+  private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
+    double speed = controllerValues.getLeftStickY();
+    double steer = controllerValues.getRightStickX();
+
+    double left = speed + steer;
+    double right = speed - steer;
+
+    return new Vector2(left, right);
+  }
+
+  private Vector2 gtaDrive(ControllerValues controllerValues) {
+    double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
+    double steer = controllerValues.getLeftStickX();
+
+    double left = speed + steer;
+    double right = speed - steer;
+
+    return new Vector2(left, right);
   }
 }
