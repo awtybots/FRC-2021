@@ -20,7 +20,7 @@ public class Robot extends CompetitionBot {
   @Override
   public void bindIO() {
     Controller controller1 = new Controller(0);
-    //Controller controller2 = new Controller(1);
+    // Controller controller2 = new Controller(1);
 
     controller1.streamAnalogInputTo(new TeleopDrive());
     controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());

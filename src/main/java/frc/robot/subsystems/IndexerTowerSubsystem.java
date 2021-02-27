@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-
-import org.awtybots.frc.botplus.motors.Bag;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import org.awtybots.frc.botplus.motors.Bag;
 
 public class IndexerTowerSubsystem extends SubsystemBase {
 
@@ -47,7 +45,7 @@ public class IndexerTowerSubsystem extends SubsystemBase {
   private static IndexerTowerSubsystem instance;
 
   public static IndexerTowerSubsystem getInstance() {
-    if(instance == null) instance = new IndexerTowerSubsystem();
+    if (instance == null) instance = new IndexerTowerSubsystem();
     return instance;
   }
 }
