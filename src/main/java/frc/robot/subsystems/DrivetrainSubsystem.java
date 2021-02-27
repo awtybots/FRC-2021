@@ -38,6 +38,7 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
 
   private DrivetrainSubsystem() {
     super(driveConfig, leftMotorGroup, rightMotorGroup);
+    kill();
   }
 
   public static DrivetrainSubsystem getInstance() {

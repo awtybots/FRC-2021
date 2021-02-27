@@ -56,7 +56,7 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
     simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
 
-    implementation files('libs/botplus-v0.3.1.jar')
+    implementation files('libs/botplus-v0.3.2.jar')
 
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)

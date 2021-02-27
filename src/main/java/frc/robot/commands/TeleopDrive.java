@@ -14,11 +14,13 @@ import org.awtybots.frc.botplus.math.Vector2;
 
 public class TeleopDrive extends AnalogInputCommand {
 
-  public TeleopDrive() {}
+  public TeleopDrive() {
+    addRequirements(DrivetrainSubsystem.getInstance());
+  }
 
   @Override
   public void analogExecute(ControllerValues controllerValues) {
-    Vector2 driveControlsInput = splitArcadeDrive(controllerValues);
+    Vector2 driveControlsInput = gtaDrive(controllerValues);
 
     DrivetrainSubsystem.getInstance()
         .setMotorRawOutput(driveControlsInput.getX(), driveControlsInput.getY());
