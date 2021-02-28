@@ -10,34 +10,39 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.config.DriveConfig;
 import org.awtybots.frc.botplus.motors.Falcon500;
-import org.awtybots.frc.botplus.motors.MotorGroup;
 import org.awtybots.frc.botplus.subsystems.Drivetrain;
 
 public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
 
   private static DrivetrainSubsystem instance;
 
-  private static DriveConfig driveConfig =
-      new DriveConfig(true, 0.0, 1.0, 0.5, 10.0, 5.0, 6.0, 0.5, 0.0, 0.0, 0.5);
   private static double gearRatio = 1.0;
-
-  private static MotorGroup<Falcon500> leftMotorGroup =
-      new MotorGroup<Falcon500>(
-          new Falcon500[] {
-            new Falcon500(RobotMap.CAN.leftDrive1, gearRatio),
-            new Falcon500(RobotMap.CAN.leftDrive2, gearRatio)
-          },
-          driveConfig);
-  private static MotorGroup<Falcon500> rightMotorGroup =
-      new MotorGroup<Falcon500>(
-          new Falcon500[] {
-            new Falcon500(RobotMap.CAN.rightDrive1, gearRatio),
-            new Falcon500(RobotMap.CAN.rightDrive2, gearRatio)
-          },
-          driveConfig);
+  private static DriveConfig driveConfig =
+      new DriveConfig(
+          false, // invertRight
+          0.154, // wheelDiameter (m)
+          0.0, // p
+          0.0, // i
+          0.0, // d
+          0.0, // f
+          0.4, // percentRamp
+          1.0, // percentPeak
+          0.05, // percentNominal
+          10.0 // velocityPeak (m/s)
+          );
 
   private DrivetrainSubsystem() {
-    super(driveConfig, leftMotorGroup, rightMotorGroup);
+    super(
+        driveConfig,
+        new Falcon500[] {
+          new Falcon500(RobotMap.CAN.leftDrive1, gearRatio),
+          new Falcon500(RobotMap.CAN.leftDrive2, gearRatio)
+        },
+        new Falcon500[] {
+          new Falcon500(RobotMap.CAN.rightDrive1, gearRatio),
+          new Falcon500(RobotMap.CAN.rightDrive2, gearRatio)
+        });
+
     kill();
   }
 

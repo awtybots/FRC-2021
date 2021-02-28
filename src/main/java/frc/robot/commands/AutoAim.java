@@ -40,7 +40,7 @@ public class AutoAim extends CommandBase {
     if (onTarget) {
       DrivetrainSubsystem.getInstance().kill();
     } else {
-      double speed = MathUtil.clamp(x * kP, -1.0, 1.0) * maxDrivePercentOutput;
+      double speed = MathUtil.clamp(x * kP, -maxDrivePercentOutput, maxDrivePercentOutput);
       DrivetrainSubsystem.getInstance().setMotorRawOutput(speed, -speed);
     }
   }
