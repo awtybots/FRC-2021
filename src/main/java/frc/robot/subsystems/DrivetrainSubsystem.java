@@ -16,6 +16,8 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
 
   private static DrivetrainSubsystem instance;
 
+  public static double trackWidth = 0.7; // distance between the left and right wheels (meters)
+
   private static double gearRatio = 1.0;
   private static DriveConfig driveConfig =
       new DriveConfig(

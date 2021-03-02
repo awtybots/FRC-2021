@@ -1,7 +1,9 @@
 package frc.robot.commands.auton;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class RotateAngle extends CommandBase {
-  
+public class RotateAngle extends DriveDistance {
+  public RotateAngle(double degrees) {
+    super(Math.toRadians(degrees) * DrivetrainSubsystem.trackWidth * 0.5, -Math.toRadians(degrees) * DrivetrainSubsystem.trackWidth * 0.5);
+  }
 }
