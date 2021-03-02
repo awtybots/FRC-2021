@@ -1,8 +1,6 @@
 package frc.robot.commands.teleop;
 
 import org.awtybots.frc.botplus.Logger;
-import org.awtybots.frc.botplus.math.Flywheel;
-import org.awtybots.frc.botplus.math.ProjectileMotionKt;
 import org.awtybots.frc.botplus.math.Simulation;
 import org.awtybots.frc.botplus.math.Vector2;
 import org.awtybots.frc.botplus.math.VisionTarget;
@@ -10,7 +8,6 @@ import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerTowerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
