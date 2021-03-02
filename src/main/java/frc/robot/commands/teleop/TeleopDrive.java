@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.teleop;
 
 import frc.robot.subsystems.DrivetrainSubsystem;
 import org.awtybots.frc.botplus.commands.AnalogInputCommand;

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.motors.Bag;
@@ -17,11 +16,6 @@ public class IndexerTowerSubsystem extends SubsystemBase {
   private final Bag tower2 = new Bag(RobotMap.CAN.tower2, 1.0);
 
   private IndexerTowerSubsystem() {
-    indexerL.getMotorController().configFactoryDefault();
-    indexerR.getMotorController().configFactoryDefault();
-    tower1.getMotorController().configFactoryDefault();
-    tower2.getMotorController().configFactoryDefault();
-
     indexerL.getMotorController().setInverted(false);
     indexerR.getMotorController().setInverted(true);
     tower1.getMotorController().setInverted(true);
@@ -31,21 +25,22 @@ public class IndexerTowerSubsystem extends SubsystemBase {
   }
 
   public void toggle(boolean on) {
-    indexerL.getMotorController().set(ControlMode.PercentOutput, on ? indexerLPercentOutput : 0.0);
-    indexerR.getMotorController().set(ControlMode.PercentOutput, on ? indexerRPercentOutput : 0.0);
-    tower1.getMotorController().set(ControlMode.PercentOutput, on ? towerPercentOutput : 0.0);
-    tower2.getMotorController().set(ControlMode.PercentOutput, on ? towerPercentOutput : 0.0);
+    indexerL.setRawOutput(on ? indexerLPercentOutput : 0.0);
+    indexerR.setRawOutput(on ? indexerRPercentOutput : 0.0);
+    tower1.setRawOutput(on ? towerPercentOutput : 0.0);
+    tower2.setRawOutput(on ? towerPercentOutput : 0.0);
   }
 
   public void reverse() {
-    tower1.getMotorController().set(ControlMode.PercentOutput, -towerPercentOutput);
-    tower2.getMotorController().set(ControlMode.PercentOutput, -towerPercentOutput);
+    tower1.setRawOutput(-towerPercentOutput);
+    tower2.setRawOutput(-towerPercentOutput);
   }
 
   private static IndexerTowerSubsystem instance;
 
   public static IndexerTowerSubsystem getInstance() {
-    if (instance == null) instance = new IndexerTowerSubsystem();
+    if (instance == null)
+      instance = new IndexerTowerSubsystem();
     return instance;
   }
 }

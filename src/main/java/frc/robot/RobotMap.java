@@ -15,7 +15,7 @@ public abstract class RobotMap {
     public static final int tower1 = 5;
     public static final int tower2 = 6;
 
-    public static final int flywheel = 10;
+    public static final int shooter = 10;
 
     public static final int controlPanelSpinner = 13;
   }

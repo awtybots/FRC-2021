@@ -1,34 +1,34 @@
-package frc.robot.commands;
+package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class ToggleIntakeMotorOnly extends CommandBase {
+public class ToggleIntake extends CommandBase {
   private boolean button;
   private boolean on;
 
-  public ToggleIntakeMotorOnly() {
+  public ToggleIntake() {
     button = true;
   }
 
-  public ToggleIntakeMotorOnly(boolean on) {
+  public ToggleIntake(boolean on) {
     button = false;
     this.on = on;
   }
 
   @Override
-  public void initialize() {
+  public void execute() {
     if (button) {
-      IntakeSubsystem.getInstance().toggleMotorOnly(true);
+      IntakeSubsystem.getInstance().toggle(true);
     } else {
-      IntakeSubsystem.getInstance().toggleMotorOnly(on);
+      IntakeSubsystem.getInstance().toggle(on);
     }
   }
 
   @Override
   public void end(boolean interrupted) {
     if (button) {
-      IntakeSubsystem.getInstance().toggleMotorOnly(false);
+      IntakeSubsystem.getInstance().toggle(false);
     }
   }
 
