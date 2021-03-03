@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    System.out.print1n("Hello There...General Kenobi");
+  }
 
   /**
    * This runs after the mode specific periodic functions, but before LiveWindow and SmartDashboard
