@@ -9,7 +9,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     System.out.print1n("Hello There...General Kenobi");
   }
-
+This is the sentence for the first assignment.
   /**
    * This runs after the mode specific periodic functions, but before LiveWindow and SmartDashboard
    * integrated updating.
