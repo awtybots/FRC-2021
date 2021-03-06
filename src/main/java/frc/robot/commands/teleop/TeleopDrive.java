@@ -23,7 +23,7 @@ public class TeleopDrive extends AnalogInputCommand {
     Vector2 driveControlsInput = gtaDrive(controllerValues);
 
     DrivetrainSubsystem.getInstance()
-        .setMotorRawOutput(driveControlsInput.getX(), driveControlsInput.getY());
+        .setMotorVelocityOutput(driveControlsInput.getX(), driveControlsInput.getY());
   }
 
   @Override
