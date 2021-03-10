@@ -7,11 +7,25 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ExampleSubsystem extends SubsystemBase {
+public class DrivetrainSubsystem extends SubsystemBase {
 
-  public ExampleSubsystem() {}
+  private TalonFX motorLeftBack = new TalonFX(1);
+  private TalonFX motorLeftFront = new TalonFX(2);
+  private TalonFX motorRightBack = new TalonFX(3);
+  private TalonFX motorRightFront = new TalonFX(4);
+
+  public DrivetrainSubsystem() {}
+
+  public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
+    motorLeftBack.set(ControlMode.PercentOutput, leftSpeed);
+    motorLeftFront.set(ControlMode.PercentOutput, leftSpeed);
+  
+    motorRightBack.set(ControlMode.PercentOutput, rightSpeed);
+    motorRightFront.set(ControlMode.PercentOutput, rightSpeed);
+  }
 
   @Override
   public void periodic() {}
