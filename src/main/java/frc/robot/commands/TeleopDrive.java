@@ -9,20 +9,31 @@ package frc.robot.commands;
 
 import static frc.robot.Robot.*;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 
-public class ExampleCommand extends CommandBase {
+public class TeleopDrive extends CommandBase {
   private boolean button;
   private boolean on;
 
-  public ExampleCommand() {}
+  public TeleopDrive() {}
 
   @Override
   public void initialize() {}
 
   @Override
-  public void end(boolean interrupted) {}
+  public void @Override
+  public void execute() {
+    double left = Robot.controller1.getY(Hand.kLeft);
+    double right = Robot.controller1.getY(Hand.kRight);
 
+    Robot.drivetrainSubsystem.setMotorSpeeds(left, right); 
+  }
+
+  @Override
+  public void end(boolean interrupted) {}
+    Robot.DriveTrainSubsystem.setMotorSpeeds(0, 0);
   @Override
   public boolean isFinished() {
     return false; // return true when you want the command to stop running
