@@ -18,7 +18,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private TalonFX motorRightBack = new TalonFX(3);
   private TalonFX motorRightFront = new TalonFX(4);
 
-  public DrivetrainSubsystem() {}
+  public DrivetrainSubsystem() {
+    motorRightBack.setInverted(true);
+    motorRightFront.setInverted(true);
+  }
 
   public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
     motorLeftBack.set(ControlMode.PercentOutput, leftSpeed);
