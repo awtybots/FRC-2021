@@ -1,15 +1,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.commands.TeleopDrive;
+import frc.robot.commands.ToggleIntake;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
 
   public static DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+  public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
+  public static XboxController controller1 = new XboxController(0);
 
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    System.out.println("hi");
+  }
 
   /**
    * This runs after the mode specific periodic functions, but before LiveWindow and SmartDashboard
@@ -36,7 +46,12 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    new TeleopDrive().schedule();
+
+    JoystickButton buttonA = new JoystickButton(controller1, Button.kA.value);
+    buttonA.whenHeld(new ToggleIntake());
+  }
 
   @Override
   public void teleopPeriodic() {}

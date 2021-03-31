@@ -4,29 +4,31 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class IntakeSubsystem extends CommandBase {
-  /** Creates a new IntakeSubsystem. */
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
+public class IntakeSubsystem {
+  private TalonSRX intakeMotor = new TalonSRX(5);
+  private DoubleSolenoid intakePistons = new DoubleSolenoid(0, 1);
+
   public IntakeSubsystem() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    intakePistons.set(Value.kForward);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+  public void toggleIntake(boolean on){
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    if(on){
+      intakeMotor.set(ControlMode.PercentOutput, 0.6);
+      intakePistons.set(Value.kReverse);
+    }else{
+      intakeMotor.set(ControlMode.PercentOutput,0.0);
+      intakePistons.set(Value.kForward);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    intakeMotor.set(ControlMode.PercentOutput, 0.6);
   }
+
 }
