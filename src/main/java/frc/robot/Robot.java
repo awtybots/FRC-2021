@@ -10,7 +10,7 @@ import frc.robot.subsystems.*;
 public class Robot extends TimedRobot {
 
   public static DriveTrainSubsystem drivetrainSubsystem = new DriveTrainSubsystem();
-
+  public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static XboxController controller1 = new XboxController(0);
 
   @Override
