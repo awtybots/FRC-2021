@@ -26,8 +26,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     motorRightBack.set(ControlMode.PercentOutput, rightSpeed);
     motorRightFront.set(ControlMode.PercentOutput, rightSpeed);
+    
+    motorRightBack.setInverted(true);
+    motorRightFront.setInverted(true);
+    }
   }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
