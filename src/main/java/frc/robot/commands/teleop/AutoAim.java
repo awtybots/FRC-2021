@@ -1,58 +1,61 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Robot;
-import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.commands.auton.RotateAngle;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class AutoAim extends CommandBase {
-  private static final double maxDrivePercentOutput = 0.3;
-  private static final double goalMaxOffsetAngle = 1.0; // degrees
-  private static final double kP = 0.03;
+
+  private final static double startupTime = 0.5;
 
   private Logger logger = new Logger("AutoAim");
-  private boolean onTarget = false;
+  private RotateAngle rotateCommand = null;
+  private Timer timer;
 
   public AutoAim() {
-    addRequirements(DrivetrainSubsystem.getInstance());
   }
 
   @Override
   public void initialize() {
     Robot.limelight.setPipeline(0);
     Robot.limelight.setLedMode(LEDMode.On);
+  
+    rotateCommand = null;
+    
+    timer = new Timer();
+    timer.start();
   }
 
   @Override
   public void execute() {
-    if (!Robot.limelight.getHasVisibleTarget()) {
-      logger.error("Cannot auto-aim without a target!");
-      cancel();
-      return;
-    }
+    if(rotateCommand != null) return;
 
-    double x = Robot.limelight.getXOffset();
+    if(timer.get() > startupTime) {
+      timer = null;
 
-    onTarget = Math.abs(x) < goalMaxOffsetAngle;
+      if (!Robot.limelight.getHasVisibleTarget()) {
+        logger.error("Cannot auto-aim without a target!");
+        return;
+      }
 
-    if (onTarget) {
-      DrivetrainSubsystem.getInstance().kill();
-    } else {
-      double speed = MathUtil.clamp(x * kP, -maxDrivePercentOutput, maxDrivePercentOutput);
-      DrivetrainSubsystem.getInstance().setMotorRawOutput(speed, -speed);
+      double x = Robot.limelight.getXOffset();
+      rotateCommand = new RotateAngle(x);
+      rotateCommand.schedule();
     }
   }
 
   @Override
   public boolean isFinished() {
-    return onTarget;
+    return rotateCommand.isFinished();
   }
 
   @Override
   public void end(boolean interrupted) {
-    DrivetrainSubsystem.getInstance().kill();
+    if (interrupted)
+      rotateCommand.cancel();
     Robot.limelight.setLedMode(LEDMode.Off);
   }
 }

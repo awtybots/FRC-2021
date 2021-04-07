@@ -45,7 +45,6 @@ public class AutoShoot extends CommandBase {
   public void execute() {
     if (!Robot.limelight.getHasVisibleTarget()) {
       logger.error("Cannot auto-shoot without visible target!");
-      cancel();
       return;
     }
 
@@ -54,7 +53,6 @@ public class AutoShoot extends CommandBase {
 
     if(velocity == null) {
       logger.error("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
-      cancel();
       return;
     }
 
