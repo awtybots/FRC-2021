@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveDistance extends CommandBase {
-  private final static double gapTime = 0.5;
+  private static final double gapTime = 0.5;
 
   private DriveSideDistance driveSideDistanceL;
   private DriveSideDistance driveSideDistanceR;
@@ -47,10 +47,8 @@ public class DriveDistance extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    if (interrupted)
-      DrivetrainSubsystem.getInstance().kill();
-    else
-      DrivetrainSubsystem.getInstance().softStop();
+    if (interrupted) DrivetrainSubsystem.getInstance().kill();
+    else DrivetrainSubsystem.getInstance().softStop();
   }
 
   @Override

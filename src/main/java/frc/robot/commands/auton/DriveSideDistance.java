@@ -3,8 +3,8 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 class DriveSideDistance {
-  private final static double defaultMaxVelocity = 2.0; // meters per second
-  private final static double defaultMaxAcceleration = 2.0; // meters per second per second
+  private static final double defaultMaxVelocity = 2.0; // meters per second
+  private static final double defaultMaxAcceleration = 2.0; // meters per second per second
 
   private double maxVelocity;
   private double maxAcceleration;
@@ -32,11 +32,13 @@ class DriveSideDistance {
     maxAcceleration = defaultMaxAcceleration;
 
     double timeToAccelerate = maxVelocity / maxAcceleration;
-    double distanceWhileAccelerating = maxVelocity * timeToAccelerate; // accounts for both accel at beginning and decel
-                                                                       // at the end
+    double distanceWhileAccelerating =
+        maxVelocity * timeToAccelerate; // accounts for both accel at beginning and decel
+    // at the end
 
     if (distanceGoal >= distanceWhileAccelerating) {
-      plannedTime = timeToAccelerate * 2.0 + (distanceGoal - distanceWhileAccelerating) / maxVelocity;
+      plannedTime =
+          timeToAccelerate * 2.0 + (distanceGoal - distanceWhileAccelerating) / maxVelocity;
       decelerationStartTime = plannedTime - timeToAccelerate;
     } else {
       plannedTime = 2.0 * Math.sqrt(distanceGoal / maxAcceleration); // TODO double check this math
@@ -63,5 +65,4 @@ class DriveSideDistance {
 
     return MathUtil.clamp(newVelocity, 0.0, maxVelocity) * outputFactor;
   }
-
 }

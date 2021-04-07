@@ -2,7 +2,6 @@ package frc.robot;
 
 import frc.robot.commands.teleop.*;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
 import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
 import org.awtybots.frc.botplus.sensors.vision.Limelight;
@@ -24,13 +23,13 @@ public class Robot extends CompetitionBot {
   @Override
   public void teleopInit() {
     super.teleopInit();
-    if(testMode) DrivetrainSubsystem.getInstance().getConfig().addToShuffleboard();
+    if (testMode) DrivetrainSubsystem.getInstance().getConfig().addToShuffleboard();
   }
 
   @Override
   public void teleopPeriodic() {
     super.teleopPeriodic();
-    if(testMode) DrivetrainSubsystem.getInstance().getConfig().updateValues();
+    if (testMode) DrivetrainSubsystem.getInstance().getConfig().updateValues();
   }
 
   @Override

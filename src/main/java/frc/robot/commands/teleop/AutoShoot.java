@@ -1,15 +1,14 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.subsystems.IndexerTowerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
 import org.awtybots.frc.botplus.math.Vector2;
 import org.awtybots.frc.botplus.math.VisionTarget;
 import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.IndexerTowerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutoShoot extends CommandBase {
 
@@ -21,18 +20,22 @@ public class AutoShoot extends CommandBase {
   public AutoShoot() {
     addRequirements(ShooterSubsystem.getInstance());
 
-    powerPort = new VisionTarget(Robot.limelight, 2.0, // power port height - TODO fix
-        0.5 // power port offset from vision target - TODO fix
-    );
-    projectileMotionSimulation = new Simulation(
-      0.01, // simulation step (seconds)
-      10, // simulation iterations
-      0.178, // ball radius (m)
-      0.142, // ball mass (kg)
-      45, // launch angle (degrees) - TODO fix
-      ShooterSubsystem.getInstance().flywheel.getMaxBallVelocity(),
-      false // debug mode
-    );
+    powerPort =
+        new VisionTarget(
+            Robot.limelight,
+            2.0, // power port height - TODO fix
+            0.5 // power port offset from vision target - TODO fix
+            );
+    projectileMotionSimulation =
+        new Simulation(
+            0.01, // simulation step (seconds)
+            10, // simulation iterations
+            0.178, // ball radius (m)
+            0.142, // ball mass (kg)
+            45, // launch angle (degrees) - TODO fix
+            ShooterSubsystem.getInstance().flywheel.getMaxBallVelocity(),
+            false // debug mode
+            );
   }
 
   @Override
@@ -51,12 +54,14 @@ public class AutoShoot extends CommandBase {
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
-    if(velocity == null) {
-      logger.error("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
+    if (velocity == null) {
+      logger.error(
+          "Projectile motion simulation found no solution! Move the robot to a better shooting position.");
       return;
     }
 
-    double goalRevsPerSecond = ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
+    double goalRevsPerSecond =
+        ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
     boolean readyToShoot = ShooterSubsystem.getInstance().isFlywheelReady();

@@ -39,8 +39,7 @@ public class IndexerTowerSubsystem extends SubsystemBase {
   private static IndexerTowerSubsystem instance;
 
   public static IndexerTowerSubsystem getInstance() {
-    if (instance == null)
-      instance = new IndexerTowerSubsystem();
+    if (instance == null) instance = new IndexerTowerSubsystem();
     return instance;
   }
 }

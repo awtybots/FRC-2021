@@ -9,31 +9,30 @@ import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class AutoAim extends CommandBase {
 
-  private final static double startupTime = 0.5;
+  private static final double startupTime = 0.5;
 
   private Logger logger = new Logger("AutoAim");
   private RotateAngle rotateCommand = null;
   private Timer timer;
 
-  public AutoAim() {
-  }
+  public AutoAim() {}
 
   @Override
   public void initialize() {
     Robot.limelight.setPipeline(0);
     Robot.limelight.setLedMode(LEDMode.On);
-  
+
     rotateCommand = null;
-    
+
     timer = new Timer();
     timer.start();
   }
 
   @Override
   public void execute() {
-    if(rotateCommand != null) return;
+    if (rotateCommand != null) return;
 
-    if(timer.get() > startupTime) {
+    if (timer.get() > startupTime) {
       timer = null;
 
       if (!Robot.limelight.getHasVisibleTarget()) {
@@ -54,8 +53,7 @@ public class AutoAim extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    if (interrupted)
-      rotateCommand.cancel();
+    if (interrupted) rotateCommand.cancel();
     Robot.limelight.setLedMode(LEDMode.Off);
   }
 }
