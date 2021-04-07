@@ -1,8 +1,8 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.teleop.*;
 import frc.robot.subsystems.DrivetrainSubsystem;
+
 import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
 import org.awtybots.frc.botplus.sensors.vision.Limelight;
@@ -11,12 +11,26 @@ public class Robot extends CompetitionBot {
 
   public static Limelight limelight = new Limelight(0.8, 20); // TODO
 
+  private static boolean testMode = true;
+
   @Override
   public void addAutonOptions() {
     // addAutonDefault("name", command);
     // addAutonOption("name", command);
     // addAutonOption("name", command);
     // addAutonOption("name", command);
+  }
+
+  @Override
+  public void teleopInit() {
+    super.teleopInit();
+    if(testMode) DrivetrainSubsystem.getInstance().getConfig().addToShuffleboard();
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    super.teleopPeriodic();
+    if(testMode) DrivetrainSubsystem.getInstance().getConfig().updateValues();
   }
 
   @Override
@@ -34,10 +48,5 @@ public class Robot extends CompetitionBot {
     controller2.getBtnY().whenHeld(new AutoAim().alongWith(new AutoShoot()));
     controller2.getBmpL().whenHeld(new ReverseTower());
     controller2.getBmpR().whenHeld(new ToggleIndexerTower());
-  }
-
-  @Override
-  public void testInit() {
-    SmartDashboard.putData(DrivetrainSubsystem.getInstance().getConfig());
   }
 }
