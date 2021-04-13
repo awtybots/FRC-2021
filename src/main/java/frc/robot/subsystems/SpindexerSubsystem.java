@@ -13,18 +13,16 @@ public class SpindexerSubsystem {
   public SpindexerSubsystem() {
   }
 
-  public void toggleIntake(boolean on){
+  public void toggleSpindexer(boolean on){
 
     if(on){
       spindexerMotor.set(ControlMode.PercentOutput, 0.6);
     }else{
       spindexerMotor.set(ControlMode.PercentOutput,0.0);
     }
-
-    spindexerMotor.set(ControlMode.PercentOutput, 0.6);
   }
 
-  public void ToggleSpindexer(boolean b) {
+  public void toggleSpindexer(boolean b) {
   }
 
 }

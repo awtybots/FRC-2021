@@ -51,17 +51,12 @@ public class Robot extends TimedRobot {
     new TeleopDrive().schedule();
 
     JoystickButton buttonA = new JoystickButton(controller1, Button.kA.value);
-    buttonA.whenHeld(new ToggleIntake());
-  }
-
-  @Override
-  public void Spindexer() {
-    new TeleopDrive().schedule();
-
     JoystickButton buttonB = new JoystickButton(controller1, Button.kB.value);
+    
+    buttonA.whenHeld(new ToggleIntake());
     buttonB.whenHeld(new ToggleSpindexer());
   }
-  
+ 
   @Override
   public void teleopPeriodic() {}
 

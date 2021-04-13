@@ -27,8 +27,7 @@ public class IntakeSubsystem {
       intakeMotor.set(ControlMode.PercentOutput,0.0);
       intakePistons.set(Value.kForward);
     }
-
-    intakeMotor.set(ControlMode.PercentOutput, 0.6);
+    
   }
 
 }
