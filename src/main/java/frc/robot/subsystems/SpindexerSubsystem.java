@@ -22,7 +22,7 @@ public class SpindexerSubsystem {
     }
   }
 
-  public void toggleSpindexer(boolean b) {
+  public void ToggleSpindexer(boolean b) {
   }
 
 }

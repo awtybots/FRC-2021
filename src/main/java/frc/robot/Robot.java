@@ -16,7 +16,7 @@ public class Robot extends TimedRobot {
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   public static XboxController controller1 = new XboxController(0);
-  public static SpindexerSubsystem SpindexerSubsystem = new SpindexerSubsystem();
+  public static SpindexerSubsystem spindexerSubsystem = new SpindexerSubsystem();
 
   @Override
   public void robotInit() {
