@@ -1,13 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.ToggleSpindexer;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {}
-//Hello Xavier. I hope this works.
+  // Hello Xavier. I hope this works.
   /**
    * This runs after the mode specific periodic functions, but before LiveWindow and SmartDashboard
    * integrated updating.
@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     new TeleopDrive().schedule();
-    
+
     JoystickButton buttonA = new JoystickButton(controller1, Button.kA.value);
     buttonA.whenHeld(new ToggleIntake());
-    
+
     JoystickButton buttonB = new JoystickButton(controller1, Button.kB.value);
     buttonB.whenHeld(new ToggleSpindexer());
   }
