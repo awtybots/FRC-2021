@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.ToggleSpindexer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
@@ -15,10 +16,10 @@ public class Robot extends TimedRobot {
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   public static XboxController controller1 = new XboxController(0);
+  public static SpindexerSubsystem SpindexerSubsystem = new SpindexerSubsystem();
 
   @Override
   public void robotInit() {
-    System.out.println("hi");
   }
 
   /**
@@ -53,6 +54,14 @@ public class Robot extends TimedRobot {
     buttonA.whenHeld(new ToggleIntake());
   }
 
+  @Override
+  public void Spindexer() {
+    new TeleopDrive().schedule();
+
+    JoystickButton buttonB = new JoystickButton(controller1, Button.kB.value);
+    buttonB.whenHeld(new ToggleSpindexer());
+  }
+  
   @Override
   public void teleopPeriodic() {}
 
