@@ -78,15 +78,11 @@ jar {
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
 
+gradle.startParameter.excludedTaskNames << "verifyGoogleJavaFormat"
+
 /// Formatting ///
 task format(type: com.github.sherter.googlejavaformatgradleplugin.GoogleJavaFormat) {
-  source 'src/main/java/frc/robot'
+  source 'src/main'
   include '**/*.java'
 }
-
-task verifyFormatting(type: com.github.sherter.googlejavaformatgradleplugin.VerifyGoogleJavaFormat) {
-  source 'src/main/java/frc/robot'
-  include '**/*.java'
-}
-
 build.dependsOn "format" // format code on every build
