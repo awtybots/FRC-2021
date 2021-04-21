@@ -10,11 +10,11 @@ import frc.robot.Robot;
 public class ToggleIntake extends CommandBase {
   @Override
   public void initialize() {
-      Robot.intakeSubsystem.toggleIntake(true);
+    Robot.intakeSubsystem.toggleIntake(true);
   }
 
   @Override
   public void end(boolean interrupted) {
-      Robot.intakeSubsystem.toggleIntake(false);
+    Robot.intakeSubsystem.toggleIntake(false);
   }
 }

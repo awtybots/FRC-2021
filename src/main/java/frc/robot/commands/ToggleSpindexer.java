@@ -10,11 +10,11 @@ import frc.robot.Robot;
 public class ToggleSpindexer extends CommandBase {
   @Override
   public void initialize() {
-      Robot.spindexerSubsystem.toggleSpindexer(true);
+    Robot.spindexerSubsystem.toggleSpindexer(true);
   }
 
   @Override
   public void end(boolean interrupted) {
-      Robot.spindexerSubsystem.toggleSpindexer(false);
+    Robot.spindexerSubsystem.toggleSpindexer(false);
   }
 }
