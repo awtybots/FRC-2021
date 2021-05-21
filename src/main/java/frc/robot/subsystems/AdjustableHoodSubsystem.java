@@ -8,13 +8,15 @@ import org.awtybots.frc.botplus.motors.Pro775;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class TurretSubsystem extends SubsystemBase {
+public class AdjustableHoodSubsystem extends SubsystemBase {
 
-  // this configuration assumes the turret can go +/- 45 degrees from start
-  // position, try expanding the range to 0-360 if you think it's safe
-  private final double minAngle = 135;
-  private final double maxAngle = 225;
-  private double startAngle = 180;
+  /*
+   * Note that "angle" means how elevated the shot is from horizontal. An angle of
+   * 0 is a flat shot, 45 is a diagonal shot, and 90 is straight up.
+   */
+  private final double minAngle = 30;
+  private final double maxAngle = 60;
+  private double startAngle = 45;
   private double goalAngle = startAngle; // setpoint
   private double lastCurrentAngle = startAngle;
 
@@ -22,13 +24,12 @@ public class TurretSubsystem extends SubsystemBase {
   private double minimumPercentOutput = 0.2;
   private double maximumPercentOutput = 0.8;
 
-  private final double sensorGearRatio = 1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected
-                                                      // rotation
-  private Pro775 motor = new Pro775(RobotMap.CAN.turret, 1.0);
+  private final double sensorGearRatio = 1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected rotation
+  private Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
 
-  private Logger logger = new Logger("Turret");
+  private Logger logger = new Logger("AdjustableHood");
 
-  public TurretSubsystem() {
+  public AdjustableHoodSubsystem() {
     motor.getMotorController().configFactoryDefault();
     motor.getMotorController().setNeutralMode(NeutralMode.Brake);
 
@@ -39,27 +40,20 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   /**
-   * Returns true if the <i>relative</i> goal angle is reachable. Note that if the
-   * reachable range of the turret is 0 - 360 degrees, every angle is reachable.
-   * It may have to spin backwards like a ballerina though.
+   * Returns true if the goal angle is within bounds.
    * 
-   * @param newGoalAngle relative goal angle in degrees
+   * @param newGoalAngle absolute goal angle in degrees
    */
-  public boolean isRelativeAngleInBounds(double newGoalAngle) {
-    newGoalAngle += lastCurrentAngle;
-    newGoalAngle %= 360.0;
-
-    return minAngle <= newGoalAngle && newGoalAngle < maxAngle; // note that min is inclusive, max is exclusive
+  public boolean isAngleInBounds(double newGoalAngle) {
+    return minAngle <= newGoalAngle && newGoalAngle <= maxAngle;
   }
 
-  public void setRelativeGoalAngle(double newGoalAngle) {
-    if (!isRelativeAngleInBounds(newGoalAngle)) {
-      logger.error("Something tried to set the turret out of bounds! Next time, use isRelativeAngleInBounds() first.");
+  public void setGoalAngle(double newGoalAngle) {
+    if (!isAngleInBounds(newGoalAngle)) {
+      logger.error("Something tried to set the adjustable hood out of bounds! Next time, use isAngleInBounds() first.");
       return;
     }
 
-    newGoalAngle += lastCurrentAngle;
-    newGoalAngle %= 360.0;
     goalAngle = newGoalAngle;
   }
 
@@ -90,11 +84,11 @@ public class TurretSubsystem extends SubsystemBase {
     motor.setRawOutput(motorOutput);
   }
 
-  private static TurretSubsystem instance;
+  private static AdjustableHoodSubsystem instance;
 
-  public static TurretSubsystem getInstance() {
+  public static AdjustableHoodSubsystem getInstance() {
     if (instance == null)
-      instance = new TurretSubsystem();
+      instance = new AdjustableHoodSubsystem();
     return instance;
   }
 }
