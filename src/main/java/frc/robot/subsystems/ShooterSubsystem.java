@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.math.Flywheel;
@@ -18,10 +19,11 @@ public class ShooterSubsystem extends SubsystemBase {
           );
 
   private ShooterSubsystem() {
-    motor.setPIDF(0.0, 0.0, 0.0, 0.0);
+    motor.setPIDF(0.1, 0.0, 0.0, 0.0); // TODO tune this if it doesn't spin correctly
   }
 
   public void setFlywheelRevsPerSecond(double rps) {
+    SmartDashboard.putNumber("Shooter Goal RPS", rps);
     goalRevsPerSecond = rps;
     motor.setRevsPerSecond(rps);
   }
@@ -32,6 +34,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public boolean isFlywheelReady() {
     return Math.abs(goalRevsPerSecond - motor.getOutputRevsPerSecond()) < maxRevsPerSecondError;
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Shooter Actual RPS", motor.getOutputRevsPerSecond());
   }
 
   private static ShooterSubsystem instance;

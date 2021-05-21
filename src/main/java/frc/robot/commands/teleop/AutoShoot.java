@@ -1,5 +1,6 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.TowerSubsystem;
@@ -53,7 +54,8 @@ public class AutoShoot extends CommandBase {
     }
 
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
-    double angleDirectlyToPowerPort = Math.toDegrees(Math.atan2(powerPortOffset.getY(), powerPortOffset.getX()));
+    SmartDashboard.putNumber("Power Port Perceived Distance", powerPortOffset.getX());
+    double angleDirectlyToPowerPort = Math.toDegrees(Math.atan2(powerPort.getTargetHeight(), powerPortOffset.getX()));
     AdjustableHoodSubsystem.getInstance().setGoalAngle(15.0 + angleDirectlyToPowerPort); // TODO this is a rough estimate, please tune
 
     projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());

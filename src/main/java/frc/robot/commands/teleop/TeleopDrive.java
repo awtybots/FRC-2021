@@ -12,6 +12,8 @@ import org.awtybots.frc.botplus.commands.AnalogInputCommand;
 import org.awtybots.frc.botplus.commands.ControllerValues;
 import org.awtybots.frc.botplus.math.Vector2;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class TeleopDrive extends AnalogInputCommand {
 
   public TeleopDrive() {
@@ -22,6 +24,8 @@ public class TeleopDrive extends AnalogInputCommand {
   public void analogExecute(ControllerValues controllerValues) {
     Vector2 driveControlsInput = gtaDrive(controllerValues);
 
+    SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
+    SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
     DrivetrainSubsystem.getInstance()
         .setMotorVelocityOutput(driveControlsInput.getX(), driveControlsInput.getY());
   }
@@ -36,6 +40,10 @@ public class TeleopDrive extends AnalogInputCommand {
     double speed = controllerValues.getLeftStickY();
     double steer = controllerValues.getRightStickX();
 
+    if(speed < 0) {
+      steer *= -1;
+    }
+
     double left = speed + steer;
     double right = speed - steer;
 
@@ -45,6 +53,10 @@ public class TeleopDrive extends AnalogInputCommand {
   private Vector2 gtaDrive(ControllerValues controllerValues) {
     double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
     double steer = controllerValues.getLeftStickX();
+    
+    if(speed < 0) {
+      steer *= -1;
+    }
 
     double left = speed + steer;
     double right = speed - steer;
