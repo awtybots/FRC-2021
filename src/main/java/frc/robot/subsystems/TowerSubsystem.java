@@ -11,6 +11,8 @@ public class TowerSubsystem extends SubsystemBase {
   private final Bag tower = new Bag(RobotMap.CAN.tower, 1.0);
 
   private TowerSubsystem() {
+    tower.getMotorController().configFactoryDefault();
+    
     toggle(false);
   }
 

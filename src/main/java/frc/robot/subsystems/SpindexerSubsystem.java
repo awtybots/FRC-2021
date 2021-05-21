@@ -11,6 +11,8 @@ public class SpindexerSubsystem extends SubsystemBase {
   private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
 
   private SpindexerSubsystem() {
+    spindexer.getMotorController().configFactoryDefault();
+
     toggle(false);
   }
 
