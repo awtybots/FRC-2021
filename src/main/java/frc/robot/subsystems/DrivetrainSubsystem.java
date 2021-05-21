@@ -48,15 +48,6 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
     kill();
   }
 
-  @Override
-  public void periodic() {
-    super.periodic();
-    for (Falcon500 motor : getAllMotors().getMotorList()) {
-      motor.setPIDF(
-          driveConfig.getP(), driveConfig.getI(), driveConfig.getD(), driveConfig.getF());
-    }
-  }
-
   public static DrivetrainSubsystem getInstance() {
     if (instance == null) instance = new DrivetrainSubsystem();
     return instance;

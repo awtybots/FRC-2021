@@ -78,6 +78,10 @@ public class TurretSubsystem extends SubsystemBase {
     }
   }
 
+  public void relax() {
+    goalAngle = lastCurrentAngle;
+  }
+
   @Override
   public void periodic() {
     double angleError = goalAngle - getCurrentAngle();

@@ -3,6 +3,7 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.AdjustableHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
@@ -32,7 +33,7 @@ public class AutoShoot extends CommandBase {
             10, // simulation iterations
             0.178, // ball radius (m)
             0.142, // ball mass (kg)
-            45, // launch angle (degrees) - TODO fix
+            45, // launch angle (degrees), gets overwritten periodically so this doesn't matter
             ShooterSubsystem.getInstance().flywheel.getMaxBallVelocity(),
             false // debug mode
             );
@@ -51,7 +52,7 @@ public class AutoShoot extends CommandBase {
       return;
     }
 
-    projectileMotionSimulation.setLaunchAngle(45); // TODO update launch angle from adjustable hood
+    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
 
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
