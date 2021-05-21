@@ -19,7 +19,7 @@ public class AutoShoot extends CommandBase {
   private Simulation projectileMotionSimulation;
 
   public AutoShoot() {
-    addRequirements(ShooterSubsystem.getInstance());
+    addRequirements(ShooterSubsystem.getInstance(), TowerSubsystem.getInstance(), AdjustableHoodSubsystem.getInstance());
 
     powerPort =
         new VisionTarget(
@@ -52,9 +52,11 @@ public class AutoShoot extends CommandBase {
       return;
     }
 
-    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
-
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
+    double angleDirectlyToPowerPort = Math.toDegrees(Math.atan2(powerPortOffset.getY(), powerPortOffset.getX()));
+    AdjustableHoodSubsystem.getInstance().setGoalAngle(15.0 + angleDirectlyToPowerPort); // TODO this is a rough estimate, please tune
+
+    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
     if (velocity == null) {
