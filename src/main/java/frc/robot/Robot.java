@@ -5,9 +5,25 @@ import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
 import org.awtybots.frc.botplus.sensors.vision.Limelight;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 public class Robot extends CompetitionBot {
 
   public static Limelight limelight = new Limelight(0.8, 20); // TODO mounting height (meters), mounting angle (degrees)
+
+  private DigitalOutput ledOutput = new DigitalOutput(0);
+  private Compressor compressor = new Compressor();
+
+  @Override
+  public void robotInit() {
+    super.robotInit();
+
+    ledOutput.set(DriverStation.getInstance().getAlliance() == Alliance.Red);
+    compressor.setClosedLoopControl(true);
+  }
 
   @Override
   public void setTestMode() {
