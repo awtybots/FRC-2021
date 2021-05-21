@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.awtybots.frc.botplus.Logger;
@@ -71,7 +72,7 @@ public class AutoShoot extends CommandBase {
         ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
-    boolean readyToShoot = ShooterSubsystem.getInstance().isFlywheelReady();
+    boolean readyToShoot = ShooterSubsystem.getInstance().isFlywheelReady() && TurretSubsystem.getInstance().atGoalAngle();
     TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 
