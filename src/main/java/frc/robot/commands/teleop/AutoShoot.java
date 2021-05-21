@@ -2,7 +2,7 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.IndexerTowerSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
@@ -51,6 +51,8 @@ public class AutoShoot extends CommandBase {
       return;
     }
 
+    projectileMotionSimulation.setLaunchAngle(45); // TODO update launch angle from adjustable hood
+
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
@@ -65,12 +67,12 @@ public class AutoShoot extends CommandBase {
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
     boolean readyToShoot = ShooterSubsystem.getInstance().isFlywheelReady();
-    IndexerTowerSubsystem.getInstance().toggle(readyToShoot);
+    TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 
   @Override
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
-    IndexerTowerSubsystem.getInstance().toggle(false);
+    TowerSubsystem.getInstance().toggle(false);
   }
 }

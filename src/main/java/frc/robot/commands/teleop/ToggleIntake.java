@@ -1,39 +1,17 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import org.awtybots.frc.botplus.ToggleCommand;
 import frc.robot.subsystems.IntakeSubsystem;
+import kotlin.Unit;
 
-public class ToggleIntake extends CommandBase {
-  private boolean button;
-  private boolean on;
-
+public class ToggleIntake extends ToggleCommand {
+  
   public ToggleIntake() {
-    button = true;
+    super(IntakeSubsystem.getInstance(), t -> { IntakeSubsystem.getInstance().toggle(t); return Unit.INSTANCE; });
   }
 
   public ToggleIntake(boolean on) {
-    button = false;
-    this.on = on;
+    super(IntakeSubsystem.getInstance(), t -> { IntakeSubsystem.getInstance().toggle(t); return Unit.INSTANCE; }, on);
   }
 
-  @Override
-  public void execute() {
-    if (button) {
-      IntakeSubsystem.getInstance().toggle(true);
-    } else {
-      IntakeSubsystem.getInstance().toggle(on);
-    }
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-    if (button) {
-      IntakeSubsystem.getInstance().toggle(false);
-    }
-  }
-
-  @Override
-  public boolean isFinished() {
-    return !button;
-  }
 }

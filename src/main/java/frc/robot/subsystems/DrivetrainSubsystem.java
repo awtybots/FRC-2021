@@ -46,15 +46,15 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
         });
 
     kill();
+  }
 
-    driveConfig.setUpdateCallback(
-        () -> {
-          Falcon500[] motors = getAllMotors().getMotorList();
-          for (Falcon500 motor : motors) {
-            motor.setPIDF(
-                driveConfig.getP(), driveConfig.getI(), driveConfig.getD(), driveConfig.getF());
-          }
-        });
+  @Override
+  public void periodic() {
+    super.periodic();
+    for (Falcon500 motor : getAllMotors().getMotorList()) {
+      motor.setPIDF(
+          driveConfig.getP(), driveConfig.getI(), driveConfig.getD(), driveConfig.getF());
+    }
   }
 
   public static DrivetrainSubsystem getInstance() {

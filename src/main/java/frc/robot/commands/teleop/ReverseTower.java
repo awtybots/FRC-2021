@@ -1,21 +1,21 @@
 package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IndexerTowerSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 
 public class ReverseTower extends CommandBase {
   public ReverseTower() {
-    addRequirements(IndexerTowerSubsystem.getInstance());
+    addRequirements(TowerSubsystem.getInstance());
   }
 
   @Override
   public void initialize() {
-    IndexerTowerSubsystem.getInstance().reverse();
+    TowerSubsystem.getInstance().reverse();
   }
 
   @Override
   public void end(boolean interrupted) {
-    IndexerTowerSubsystem.getInstance().toggle(false);
+    TowerSubsystem.getInstance().toggle(false);
   }
 
   @Override

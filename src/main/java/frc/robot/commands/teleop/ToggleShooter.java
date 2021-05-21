@@ -1,7 +1,7 @@
 package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IndexerTowerSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ToggleShooter extends CommandBase {
@@ -20,12 +20,12 @@ public class ToggleShooter extends CommandBase {
 
   @Override
   public void execute() {
-    IndexerTowerSubsystem.getInstance().toggle(ShooterSubsystem.getInstance().isFlywheelReady());
+    TowerSubsystem.getInstance().toggle(ShooterSubsystem.getInstance().isFlywheelReady());
   }
 
   @Override
   public void end(boolean interrupted) {
-    IndexerTowerSubsystem.getInstance().toggle(false);
+    TowerSubsystem.getInstance().toggle(false);
     ShooterSubsystem.getInstance().stopFlywheel();
   }
 }
