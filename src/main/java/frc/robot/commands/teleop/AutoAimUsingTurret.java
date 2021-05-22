@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.TurretSubsystem;
-
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
@@ -37,8 +36,8 @@ public class AutoAimUsingTurret extends CommandBase {
       }
 
       double x = Robot.limelight.getXOffset();
-      
-      if(!TurretSubsystem.getInstance().isRelativeAngleInBounds(x)) {
+
+      if (!TurretSubsystem.getInstance().isRelativeAngleInBounds(x)) {
         logger.warn("Desired turret goal angle is out of bounds!");
         return;
       }

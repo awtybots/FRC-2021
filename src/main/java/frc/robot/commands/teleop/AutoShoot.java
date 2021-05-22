@@ -3,10 +3,10 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.TowerSubsystem;
-import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
 import org.awtybots.frc.botplus.math.Vector2;
@@ -21,7 +21,10 @@ public class AutoShoot extends CommandBase {
   private Simulation projectileMotionSimulation;
 
   public AutoShoot() {
-    addRequirements(ShooterSubsystem.getInstance(), TowerSubsystem.getInstance(), AdjustableHoodSubsystem.getInstance());
+    addRequirements(
+        ShooterSubsystem.getInstance(),
+        TowerSubsystem.getInstance(),
+        AdjustableHoodSubsystem.getInstance());
 
     powerPort =
         new VisionTarget(
@@ -56,10 +59,14 @@ public class AutoShoot extends CommandBase {
 
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     SmartDashboard.putNumber("Power Port Perceived Distance", powerPortOffset.getX());
-    double angleDirectlyToPowerPort = Math.toDegrees(Math.atan2(powerPort.getTargetHeight(), powerPortOffset.getX()));
-    AdjustableHoodSubsystem.getInstance().setGoalAngle(15.0 + angleDirectlyToPowerPort); // TODO this is a rough estimate, please tune
+    double angleDirectlyToPowerPort =
+        Math.toDegrees(Math.atan2(powerPort.getTargetHeight(), powerPortOffset.getX()));
+    AdjustableHoodSubsystem.getInstance()
+        .setGoalAngle(
+            15.0 + angleDirectlyToPowerPort); // TODO this is a rough estimate, please tune
 
-    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
+    projectileMotionSimulation.setLaunchAngle(
+        AdjustableHoodSubsystem.getInstance().getCurrentAngle());
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
     if (velocity == null) {
@@ -72,7 +79,9 @@ public class AutoShoot extends CommandBase {
         ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
-    boolean readyToShoot = ShooterSubsystem.getInstance().isFlywheelReady() && TurretSubsystem.getInstance().atGoalAngle();
+    boolean readyToShoot =
+        ShooterSubsystem.getInstance().isFlywheelReady()
+            && TurretSubsystem.getInstance().atGoalAngle();
     TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 

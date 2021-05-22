@@ -1,12 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-import org.awtybots.frc.botplus.motors.Pro775;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotMap;
+import org.awtybots.frc.botplus.motors.Pro775;
 
 public class AdjustableHoodSubsystem extends SubsystemBase {
 
@@ -24,7 +22,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   private double minimumPercentOutput = 0.2;
   private double maximumPercentOutput = 0.8;
 
-  private final double sensorGearRatio = 1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected rotation
+  private final double sensorGearRatio =
+      1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected rotation
   private Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
 
   public AdjustableHoodSubsystem() {
@@ -42,7 +41,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   }
 
   public boolean atGoalAngle() {
-    return Math.abs(goalAngle - lastCurrentAngle) < slowDownWithinThisAngleFromGoal * minimumPercentOutput;
+    return Math.abs(goalAngle - lastCurrentAngle)
+        < slowDownWithinThisAngleFromGoal * minimumPercentOutput;
   }
 
   public double getCurrentAngle() {
@@ -60,7 +60,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   public void periodic() {
     double angleError = goalAngle - getCurrentAngle();
 
-    double motorOutput = Math.min(angleError / slowDownWithinThisAngleFromGoal, maximumPercentOutput);
+    double motorOutput =
+        Math.min(angleError / slowDownWithinThisAngleFromGoal, maximumPercentOutput);
     if (motorOutput < minimumPercentOutput) {
       motorOutput = 0;
     }
@@ -71,8 +72,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   private static AdjustableHoodSubsystem instance;
 
   public static AdjustableHoodSubsystem getInstance() {
-    if (instance == null)
-      instance = new AdjustableHoodSubsystem();
+    if (instance == null) instance = new AdjustableHoodSubsystem();
     return instance;
   }
 }

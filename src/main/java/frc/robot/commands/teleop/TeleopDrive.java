@@ -7,12 +7,11 @@
 
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import org.awtybots.frc.botplus.commands.AnalogInputCommand;
 import org.awtybots.frc.botplus.commands.ControllerValues;
 import org.awtybots.frc.botplus.math.Vector2;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopDrive extends AnalogInputCommand {
 
@@ -40,7 +39,7 @@ public class TeleopDrive extends AnalogInputCommand {
     double speed = controllerValues.getLeftStickY();
     double steer = controllerValues.getRightStickX();
 
-    if(speed < 0) {
+    if (speed < 0) {
       steer *= -1;
     }
 
@@ -53,8 +52,8 @@ public class TeleopDrive extends AnalogInputCommand {
   private Vector2 gtaDrive(ControllerValues controllerValues) {
     double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
     double steer = controllerValues.getLeftStickX();
-    
-    if(speed < 0) {
+
+    if (speed < 0) {
       steer *= -1;
     }
 

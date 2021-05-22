@@ -12,7 +12,7 @@ public class TowerSubsystem extends SubsystemBase {
 
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
-    
+
     toggle(false);
   }
 
