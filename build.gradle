@@ -56,7 +56,7 @@ dependencies {
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
     simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
 
-    implementation files('libs/botplus-v0.2.0.jar')
+    implementation files('libs/botplus-v0.5.2.jar')
 
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
@@ -85,4 +85,10 @@ task format(type: com.github.sherter.googlejavaformatgradleplugin.GoogleJavaForm
   source 'src/main'
   include '**/*.java'
 }
+task syncGitHooks(type: Sync) {
+  from '.githooks'
+  into '.git/hooks'
+  include "*"
+}
+build.dependsOn "syncGitHooks"
 build.dependsOn "format" // format code on every build
