@@ -29,7 +29,7 @@ public class AutoShoot extends CommandBase {
     powerPort =
         new VisionTarget(
             Robot.limelight,
-            2.0, // power port height - TODO fix
+            2.49555, // inner port height
             0.5 // power port offset from vision target - TODO fix
             );
     projectileMotionSimulation =
