@@ -21,8 +21,13 @@ public class Robot extends CompetitionBot {
   public void robotInit() {
     super.robotInit();
 
-    ledOutput.set(DriverStation.getInstance().getAlliance() == Alliance.Red);
     compressor.setClosedLoopControl(true);
+  }
+
+  @Override
+  public void robotPeriodic() {
+    super.robotPeriodic();
+    ledOutput.set(DriverStation.getInstance().getAlliance() == Alliance.Red);
   }
 
   @Override
