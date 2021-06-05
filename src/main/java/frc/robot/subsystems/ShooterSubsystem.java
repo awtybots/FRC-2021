@@ -19,7 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
           );
 
   private ShooterSubsystem() {
-    motor.setPIDF(0.1, 0.0, 0.0, 0.0); // TODO tune this if it doesn't spin correctly
+    motor.setPIDF(0.02, 0.04, 0.0, 0.0); // TODO tune this if it doesn't spin correctly
   }
 
   public void setFlywheelRevsPerSecond(double rps) {
