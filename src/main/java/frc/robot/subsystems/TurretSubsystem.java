@@ -12,15 +12,16 @@ public class TurretSubsystem extends SubsystemBase {
 
   // this configuration assumes the turret can go +/- 45 degrees from start
   // position, try expanding the range to 0-360 if you think it's safe
-  private final double minAngle = 90;
-  private final double maxAngle = 270;
-  private double startAngle = 180;
+  public static final double minAngle = 90;
+  public static final double maxAngle = 270;
+  public static final double startAngle = 180;
   private double goalAngle = startAngle; // goalAngle is setpoint
   private double lastCurrentAngle = startAngle;
 
-  private double slowDownWithinThisAngleFromGoal = 5.0; // TODO tune please
-  private double minimumPercentOutput = 0.2;
-  private double maximumPercentOutput = 0.4;
+  private double slowDownWithinThisAngleFromGoal = 20.0; // TODO tune please
+  private double stopWithinThisAngleFromGoal = 4.0;
+  private double minimumPercentOutput = 0.13;
+  private double maximumPercentOutput = 0.23;
 
   private final double sensorGearRatio =
       22.0 / 240.0; // ratio between actual output rotation and encoder-detected
@@ -31,12 +32,13 @@ public class TurretSubsystem extends SubsystemBase {
 
   public TurretSubsystem() {
     motor.getMotorController().configFactoryDefault();
-    motor.getMotorController().setNeutralMode(NeutralMode.Brake);
+    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
     motor.setSensorGearRatio(sensorGearRatio);
     motor.resetSensorPosition();
 
     motor.getMotorController().setInverted(true);
+    motor.getMotorController().setSensorPhase(true);
   }
 
   /**
@@ -88,6 +90,10 @@ public class TurretSubsystem extends SubsystemBase {
     goalAngle = lastCurrentAngle;
   }
 
+  public void returnToStart() {
+    goalAngle = startAngle;
+  }
+
   @Override
   public void periodic() {
     double currentAngle = getCurrentAngle();
@@ -97,12 +103,14 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Turret Goal Angle", goalAngle);
     SmartDashboard.putNumber("Turret Error Angle", angleError);
 
-    double motorOutput =
-        Math.min(angleError / slowDownWithinThisAngleFromGoal, maximumPercentOutput);
+    double x = Math.min((Math.abs(angleError) - stopWithinThisAngleFromGoal) / (slowDownWithinThisAngleFromGoal - stopWithinThisAngleFromGoal), 1.0);
+    double motorOutput = (x * maximumPercentOutput) + ((1 - x) * minimumPercentOutput);
     if (motorOutput < minimumPercentOutput) {
       motorOutput = 0;
     }
+    motorOutput *= Math.signum(angleError);
 
+    SmartDashboard.putNumber("Turret Motor Output", motorOutput);
     motor.setRawOutput(motorOutput);
   }
 

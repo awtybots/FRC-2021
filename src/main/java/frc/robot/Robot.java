@@ -3,16 +3,21 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.commands.teleop.*;
+import frc.robot.subsystems.*;
+
 import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
 import org.awtybots.frc.botplus.sensors.vision.Limelight;
-import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class Robot extends CompetitionBot {
 
-  public static Limelight limelight = new Limelight(0.8, 20); // TODO mounting height (meters), mounting angle (degrees)
+  public static Limelight limelight = new Limelight(0.533, 28);
+  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   private DigitalOutput ledOutput = new DigitalOutput(0);
   private Compressor compressor = new Compressor();
@@ -21,14 +26,23 @@ public class Robot extends CompetitionBot {
   public void robotInit() {
     super.robotInit();
 
+    // forcibly instantiates all of them
+    AdjustableHoodSubsystem.getInstance();
+    DrivetrainSubsystem.getInstance();
+    IntakeSubsystem.getInstance();
+    ShooterSubsystem.getInstance();
+    SpindexerSubsystem.getInstance();
+    TowerSubsystem.getInstance();
+    TurretSubsystem.getInstance();
+
     compressor.setClosedLoopControl(true);
     new Thread(() -> {
         try {
-          Thread.sleep(30000);
+          Thread.sleep(5000);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        limelight.setLedMode(LEDMode.Off);
+        Robot.limelight.setPipeline(LimelightPipelines.idle);
     }).start();
   }
 
@@ -67,13 +81,16 @@ public class Robot extends CompetitionBot {
     Controller controller2 = new Controller(1);
 
     controller1.streamAnalogInputTo(new TeleopDrive());
+    controller1.getBtnY().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().returnToStart(), TurretSubsystem.getInstance()));
+    // controller1.getBtnX().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
+    // controller1.getBtnB().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
     controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());
     controller1.getBmpR().whenHeld(new ToggleIntake());
 
     controller2.getBtnA().whenHeld(new ToggleShooter(4000.0));
     controller2.getBtnB().whenHeld(new ToggleShooter(5000.0));
     controller2.getBtnX().whenHeld(new ToggleShooter(6000.0));
-    controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
+    controller2.getBtnY().whenHeld(new AutoAimUsingTurret());//.alongWith(new AutoShoot()));
     controller2.getBmpL().whenHeld(new ReverseIntake());
     controller2.getBmpR().whenHeld(new ToggleTower());
     controller2.getTrgL().whenHeld(new ReverseSpindexer());

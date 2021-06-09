@@ -3,9 +3,9 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.commands.auton.RotateAngle;
 import org.awtybots.frc.botplus.Logger;
-import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class AutoAimUsingDrive extends CommandBase {
 
@@ -19,8 +19,7 @@ public class AutoAimUsingDrive extends CommandBase {
 
   @Override
   public void initialize() {
-    Robot.limelight.setPipeline(0);
-    Robot.limelight.setLedMode(LEDMode.On);
+    Robot.limelight.setPipeline(LimelightPipelines.powerPort);
 
     rotateCommand = null;
 
@@ -54,6 +53,6 @@ public class AutoAimUsingDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) rotateCommand.cancel();
-    Robot.limelight.setLedMode(LEDMode.Off);
+    Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 }

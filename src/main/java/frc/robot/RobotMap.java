@@ -22,4 +22,9 @@ public abstract class RobotMap {
     public static final int intakeFwd = 4;
     public static final int intakeRev = 5;
   }
+
+  public abstract static class LimelightPipelines {
+    public static final int powerPort = 0;
+    public static final int idle = 1;
+  }
 }

@@ -3,6 +3,7 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
@@ -11,7 +12,6 @@ import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
 import org.awtybots.frc.botplus.math.Vector2;
 import org.awtybots.frc.botplus.math.VisionTarget;
-import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class AutoShoot extends CommandBase {
 
@@ -46,8 +46,7 @@ public class AutoShoot extends CommandBase {
 
   @Override
   public void initialize() {
-    Robot.limelight.setPipeline(0);
-    Robot.limelight.setLedMode(LEDMode.On);
+    Robot.limelight.setPipeline(LimelightPipelines.powerPort);
   }
 
   @Override
@@ -89,5 +88,7 @@ public class AutoShoot extends CommandBase {
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
     TowerSubsystem.getInstance().toggle(false);
+    
+    Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 }
