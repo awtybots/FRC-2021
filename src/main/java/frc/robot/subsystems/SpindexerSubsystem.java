@@ -6,7 +6,7 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class SpindexerSubsystem extends SubsystemBase {
 
-  private static final double spindexerPerecentOutput = 0.5;
+  private static final double spindexerPerecentOutput = 0.2;
 
   private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
 

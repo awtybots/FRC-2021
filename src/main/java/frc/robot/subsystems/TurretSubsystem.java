@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.Logger;
@@ -10,18 +12,18 @@ public class TurretSubsystem extends SubsystemBase {
 
   // this configuration assumes the turret can go +/- 45 degrees from start
   // position, try expanding the range to 0-360 if you think it's safe
-  private final double minAngle = 135;
-  private final double maxAngle = 225;
+  private final double minAngle = 90;
+  private final double maxAngle = 270;
   private double startAngle = 180;
-  private double goalAngle = startAngle; // setpoint
+  private double goalAngle = startAngle; // goalAngle is setpoint
   private double lastCurrentAngle = startAngle;
 
   private double slowDownWithinThisAngleFromGoal = 5.0; // TODO tune please
   private double minimumPercentOutput = 0.2;
-  private double maximumPercentOutput = 0.8;
+  private double maximumPercentOutput = 0.4;
 
   private final double sensorGearRatio =
-      1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected
+      22.0 / 240.0; // ratio between actual output rotation and encoder-detected
   // rotation
   private Pro775 motor = new Pro775(RobotMap.CAN.turret, 1.0);
 
@@ -34,7 +36,7 @@ public class TurretSubsystem extends SubsystemBase {
     motor.setSensorGearRatio(sensorGearRatio);
     motor.resetSensorPosition();
 
-    // motor.getMotorController().setInverted(true); // here if you need it
+    motor.getMotorController().setInverted(true);
   }
 
   /**
@@ -73,9 +75,11 @@ public class TurretSubsystem extends SubsystemBase {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
     if (tentativeCurrentAngle < minAngle - 3 * slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxAngle + 3 * slowDownWithinThisAngleFromGoal) {
+      SmartDashboard.putBoolean("Turret In Bounds", false);
       return lastCurrentAngle;
     } else {
       lastCurrentAngle = tentativeCurrentAngle;
+      SmartDashboard.putBoolean("Turret In Bounds", true);
       return lastCurrentAngle;
     }
   }
@@ -86,7 +90,12 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double angleError = goalAngle - getCurrentAngle();
+    double currentAngle = getCurrentAngle();
+    double angleError = goalAngle - currentAngle;
+
+    SmartDashboard.putNumber("Turret Current Angle", currentAngle);
+    SmartDashboard.putNumber("Turret Goal Angle", goalAngle);
+    SmartDashboard.putNumber("Turret Error Angle", angleError);
 
     double motorOutput =
         Math.min(angleError / slowDownWithinThisAngleFromGoal, maximumPercentOutput);

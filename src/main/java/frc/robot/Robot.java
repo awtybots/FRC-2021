@@ -8,11 +8,11 @@ import frc.robot.commands.teleop.*;
 import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
 import org.awtybots.frc.botplus.sensors.vision.Limelight;
+import org.awtybots.frc.botplus.sensors.vision.Limelight.LEDMode;
 
 public class Robot extends CompetitionBot {
 
-  public static Limelight limelight =
-      new Limelight(0.8, 20); // TODO mounting height (meters), mounting angle (degrees)
+  public static Limelight limelight = new Limelight(0.8, 20); // TODO mounting height (meters), mounting angle (degrees)
 
   private DigitalOutput ledOutput = new DigitalOutput(0);
   private Compressor compressor = new Compressor();
@@ -22,6 +22,14 @@ public class Robot extends CompetitionBot {
     super.robotInit();
 
     compressor.setClosedLoopControl(true);
+    new Thread(() -> {
+        try {
+          Thread.sleep(30000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        limelight.setLedMode(LEDMode.Off);
+    }).start();
   }
 
   @Override
@@ -66,7 +74,9 @@ public class Robot extends CompetitionBot {
     controller2.getBtnB().whenHeld(new ToggleShooter(5000.0));
     controller2.getBtnX().whenHeld(new ToggleShooter(6000.0));
     controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
-    controller2.getBmpL().whenHeld(new ReverseTower());
+    controller2.getBmpL().whenHeld(new ReverseIntake());
     controller2.getBmpR().whenHeld(new ToggleTower());
+    controller2.getTrgL().whenHeld(new ReverseSpindexer());
+    controller2.getTrgR().whenHeld(new ToggleSpindexer());
   }
 }

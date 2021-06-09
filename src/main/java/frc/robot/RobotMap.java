@@ -7,15 +7,15 @@ public abstract class RobotMap {
     public static final int rightDrive1 = 11;
     public static final int rightDrive2 = 12;
 
-    public static final int intake = 5; // TODO
-    public static final int spindexer = 6; // TODO
-    public static final int tower = 7; // TODO
+    public static final int intake = 5;
+    public static final int spindexer = 7;
+    public static final int tower = 9;
 
     public static final int turret = 8;
-    public static final int adjustableHood = 9; // TODO
+    public static final int adjustableHood = 10;
     public static final int shooter = 15;
 
-    public static final int controlPanelSpinner = 10; // lmao
+    public static final int controlPanelSpinner = 6; // lmao
   }
 
   public abstract static class PCM {
