@@ -31,4 +31,8 @@ public abstract class RobotMap {
     public static final int powerPort = 0;
     public static final int idle = 1;
   }
+
+  public abstract static class PWM {
+    public static final int towerServo = 0;
+  }
 }
