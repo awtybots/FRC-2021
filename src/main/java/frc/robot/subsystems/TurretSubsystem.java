@@ -18,8 +18,8 @@ public class TurretSubsystem extends SubsystemBase {
   private double goalAngle = startAngle; // goalAngle is setpoint
   private double lastCurrentAngle = startAngle;
 
-  private double slowDownWithinThisAngleFromGoal = 20.0; // TODO tune please
-  private double stopWithinThisAngleFromGoal = 4.0;
+  private double slowDownWithinThisAngleFromGoal = 20.0;
+  private double stopWithinThisAngleFromGoal = 3.0;
   private double minimumPercentOutput = 0.13;
   private double maximumPercentOutput = 0.23;
 
@@ -75,13 +75,14 @@ public class TurretSubsystem extends SubsystemBase {
 
   public double getCurrentAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
-    if (tentativeCurrentAngle < minAngle - 3 * slowDownWithinThisAngleFromGoal
-        || tentativeCurrentAngle > maxAngle + 3 * slowDownWithinThisAngleFromGoal) {
-      SmartDashboard.putBoolean("Turret In Bounds", false);
+
+    SmartDashboard.putBoolean("Turret In Bounds", tentativeCurrentAngle >= minAngle && tentativeCurrentAngle <= maxAngle);
+
+    if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
+        || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {
       return lastCurrentAngle;
     } else {
       lastCurrentAngle = tentativeCurrentAngle;
-      SmartDashboard.putBoolean("Turret In Bounds", true);
       return lastCurrentAngle;
     }
   }

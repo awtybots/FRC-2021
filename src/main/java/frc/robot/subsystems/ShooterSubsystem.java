@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -28,14 +29,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private ShooterSubsystem() {
     motor.getMotorController().setSensorPhase(true);
-    motor.getMotorController().configClosedloopRamp(3.0);
+    motor.getMotorController().configClosedloopRamp(2.0);
     motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
     motor.setPIDF(kP, kI, kD, kF);
-    SmartDashboard.putNumber("Shooter PID P", kP);
-    SmartDashboard.putNumber("Shooter PID I", kI);
-    SmartDashboard.putNumber("Shooter PID D", kD);
-    SmartDashboard.putNumber("Shooter PID F", kF);
+
+    if(Robot.Companion.getTestMode()) {
+      SmartDashboard.putNumber("Shooter PID P", kP);
+      SmartDashboard.putNumber("Shooter PID I", kI);
+      SmartDashboard.putNumber("Shooter PID D", kD);
+      SmartDashboard.putNumber("Shooter PID F", kF);
+    }
   }
 
   public void setFlywheelRevsPerSecond(double rps) {
@@ -54,11 +58,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    kP = SmartDashboard.getNumber("Shooter PID P", kP);
-    kI = SmartDashboard.getNumber("Shooter PID I", kI);
-    kD = SmartDashboard.getNumber("Shooter PID D", kD);
-    kF = SmartDashboard.getNumber("Shooter PID F", kF);
-    motor.setPIDF(kP, kI, kD, kF);
+    if(Robot.Companion.getTestMode()) {
+      kP = SmartDashboard.getNumber("Shooter PID P", kP);
+      kI = SmartDashboard.getNumber("Shooter PID I", kI);
+      kD = SmartDashboard.getNumber("Shooter PID D", kD);
+      kF = SmartDashboard.getNumber("Shooter PID F", kF);
+      motor.setPIDF(kP, kI, kD, kF);
+    }
 
     double outputRpm = motor.getOutputRevsPerSecond() * 60.0;
 

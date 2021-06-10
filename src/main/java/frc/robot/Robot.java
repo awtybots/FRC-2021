@@ -16,7 +16,7 @@ import org.awtybots.frc.botplus.sensors.vision.Limelight;
 
 public class Robot extends CompetitionBot {
 
-  public static Limelight limelight = new Limelight(0.533, 28);
+  public static Limelight limelight = new Limelight(0.533, 21);
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   private DigitalOutput ledOutput = new DigitalOutput(0);
@@ -38,7 +38,7 @@ public class Robot extends CompetitionBot {
     compressor.setClosedLoopControl(true);
     new Thread(() -> {
         try {
-          Thread.sleep(5000);
+          Thread.sleep(10000);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -68,11 +68,21 @@ public class Robot extends CompetitionBot {
   @Override
   public void teleopInit() {
     super.teleopInit();
+
+    SpindexerSubsystem.getInstance().toggle(true);
+    Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 
   @Override
   public void teleopPeriodic() {
     super.teleopPeriodic();
+  }
+
+  @Override
+  public void disabledInit() {
+    super.disabledInit();
+
+    Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 
   @Override

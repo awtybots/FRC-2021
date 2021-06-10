@@ -15,7 +15,7 @@ public class ReverseSpindexer extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    SpindexerSubsystem.getInstance().toggle(false);
+    SpindexerSubsystem.getInstance().toggle(true);
   }
 
   @Override

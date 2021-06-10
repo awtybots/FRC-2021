@@ -18,6 +18,10 @@ public abstract class RobotMap {
     public static final int controlPanelSpinner = 6; // lmao
   }
 
+  public abstract static class PDP {
+    public static final int spindexer = 4;
+  }
+
   public abstract static class PCM {
     public static final int intakeFwd = 4;
     public static final int intakeRev = 5;

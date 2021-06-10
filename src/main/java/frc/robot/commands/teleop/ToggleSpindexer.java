@@ -10,7 +10,7 @@ public class ToggleSpindexer extends ToggleCommand {
     super(
         SpindexerSubsystem.getInstance(),
         t -> {
-          SpindexerSubsystem.getInstance().toggle(t);
+          SpindexerSubsystem.getInstance().toggle(!t);
           return Unit.INSTANCE;
         });
   }
