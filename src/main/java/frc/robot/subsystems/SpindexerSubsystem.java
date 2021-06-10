@@ -10,10 +10,9 @@ import org.awtybots.frc.botplus.motors.Pro775;
 public class SpindexerSubsystem extends SubsystemBase {
 
   private boolean spindexerCurrentLimiting = true;
-
-  private static final double spindexerPerecentOutput = 0.2;
+  private static final double spindexerPerecentOutput = 0.15;
   private static final double spindexerStuckCurrent = 20.0;
-  private static final double spindexerUnstuckReverseTime = 0.7; // seconds
+  private static final double spindexerUnstuckReverseTime = 0.5; // seconds
   private static final double spindexerUnstuckPauseTime = 0.3; // seconds
 
   private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
