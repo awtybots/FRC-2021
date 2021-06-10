@@ -22,10 +22,12 @@ public class ShooterSubsystem extends SubsystemBase {
           0.90 // efficiency factor
           );
   
-  private double kP = 0.05; // TODO tune
+  private double kP = 0.05;
   private double kI = 0;
   private double kD = 0;
   private double kF = 0.055;
+
+  private boolean pidfChanged = false;
 
   private ShooterSubsystem() {
     motor.getMotorController().setSensorPhase(true);
@@ -35,10 +37,10 @@ public class ShooterSubsystem extends SubsystemBase {
     motor.setPIDF(kP, kI, kD, kF);
 
     if(Robot.Companion.getTestMode()) {
-      SmartDashboard.putNumber("Shooter PID P", kP);
-      SmartDashboard.putNumber("Shooter PID I", kI);
-      SmartDashboard.putNumber("Shooter PID D", kD);
-      SmartDashboard.putNumber("Shooter PID F", kF);
+      SmartDashboard.putNumber("Shooter PID - P", kP);
+      SmartDashboard.putNumber("Shooter PID - I", kI);
+      SmartDashboard.putNumber("Shooter PID - D", kD);
+      SmartDashboard.putNumber("Shooter PID - F", kF);
     }
   }
 
@@ -59,17 +61,28 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if(Robot.Companion.getTestMode()) {
-      kP = SmartDashboard.getNumber("Shooter PID P", kP);
-      kI = SmartDashboard.getNumber("Shooter PID I", kI);
-      kD = SmartDashboard.getNumber("Shooter PID D", kD);
-      kF = SmartDashboard.getNumber("Shooter PID F", kF);
-      motor.setPIDF(kP, kI, kD, kF);
+      pidfChanged = false;
+
+      kP = getNumberFromSmartDashboard("Shooter PID - P", kP);
+      kI = getNumberFromSmartDashboard("Shooter PID - I", kI);
+      kD = getNumberFromSmartDashboard("Shooter PID - D", kD);
+      kF = getNumberFromSmartDashboard("Shooter PID - F", kF);
+      
+      if(pidfChanged) motor.setPIDF(kP, kI, kD, kF);
     }
 
     double outputRpm = motor.getOutputRevsPerSecond() * 60.0;
 
     SmartDashboard.putNumber("Shooter Actual RPM",  outputRpm);
     SmartDashboard.putNumber("Shooter Error RPM", Math.abs(outputRpm - (goalRevsPerSecond * 60.0)));
+  }
+
+  private double getNumberFromSmartDashboard(String name, double previousValue) {
+    double newValue = SmartDashboard.getNumber(name, previousValue);
+    if(newValue != previousValue) {
+      pidfChanged = true;
+    }
+    return newValue;
   }
 
   private static ShooterSubsystem instance;

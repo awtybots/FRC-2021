@@ -9,6 +9,8 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class SpindexerSubsystem extends SubsystemBase {
 
+  private boolean spindexerCurrentLimiting = true;
+
   private static final double spindexerPerecentOutput = 0.2;
   private static final double spindexerStuckCurrent = 20.0;
   private static final double spindexerUnstuckReverseTime = 0.7; // seconds
@@ -21,6 +23,7 @@ public class SpindexerSubsystem extends SubsystemBase {
 
   private SpindexerSubsystem() {
     spindexer.getMotorController().configFactoryDefault();
+    SmartDashboard.putBoolean("Spindexer Current Limiting", spindexerCurrentLimiting);
 
     toggle(false);
   }
@@ -35,7 +38,9 @@ public class SpindexerSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    boolean spindexerStuck = Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > spindexerStuckCurrent * spindexerPerecentOutput;
+    spindexerCurrentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", spindexerCurrentLimiting);
+    boolean spindexerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > spindexerStuckCurrent * spindexerPerecentOutput) && spindexerCurrentLimiting;
+
     SmartDashboard.putBoolean("Spindexer Not Stuck", !spindexerStuck);
 
     if(currentlyGettingUnstuck) {
