@@ -76,7 +76,7 @@ public class TurretSubsystem extends SubsystemBase {
   public double getCurrentAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
-    SmartDashboard.putBoolean("Turret In Bounds", tentativeCurrentAngle >= minAngle && tentativeCurrentAngle <= maxAngle);
+    SmartDashboard.putBoolean("Turret In Bounds", tentativeCurrentAngle >= (minAngle - stopWithinThisAngleFromGoal) && tentativeCurrentAngle <= (maxAngle + stopWithinThisAngleFromGoal));
 
     if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {

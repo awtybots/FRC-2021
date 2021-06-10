@@ -69,7 +69,7 @@ public class Robot extends CompetitionBot {
   public void teleopInit() {
     super.teleopInit();
 
-    SpindexerSubsystem.getInstance().toggle(true);
+    // SpindexerSubsystem.getInstance().toggle(true); // TODO put back
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 

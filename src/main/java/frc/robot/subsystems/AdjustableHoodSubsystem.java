@@ -16,27 +16,27 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
    */
   private final double minAngle = 57;
   private final double maxAngle = 76;
-  private double startAngle = minAngle;
+  private double startAngle = maxAngle;
   private double goalAngle = startAngle; // setpoint
   private double lastCurrentAngle = startAngle;
 
-  private double slowDownWithinThisAngleFromGoal = 10.0; // TODO tune please
-  private double stopWithinThisAngleFromGoal = 3.0;
-  private double minimumPercentOutput = 0.1;
+  private double slowDownWithinThisAngleFromGoal = 6.0;
+  private double stopWithinThisAngleFromGoal = 1.0;
+  private double minimumPercentOutput = 0.15;
   private double maximumPercentOutput = 0.2;
+  private double workingWithGravityAdjustment = 0.75;
 
-  private final double sensorGearRatio =
-      1.0 / 400.0; // TODO ratio between actual output rotation and encoder-detected rotation
+  private final double sensorGearRatio = 15.0 / 72.0;
   private Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
 
   public AdjustableHoodSubsystem() {
     motor.getMotorController().configFactoryDefault();
-    motor.getMotorController().setNeutralMode(NeutralMode.Brake);
+    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
     motor.setSensorGearRatio(sensorGearRatio);
     motor.resetSensorPosition();
 
-    // motor.getMotorController().setInverted(true); // here if you need it
+    // SmartDashboard.putNumber("Hood Goal Angle", startAngle); // for setting
   }
 
   public void setGoalAngle(double newGoalAngle) {
@@ -51,7 +51,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   public double getCurrentAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
-    SmartDashboard.putBoolean("Hood In Bounds", tentativeCurrentAngle >= minAngle && tentativeCurrentAngle <= maxAngle);
+    SmartDashboard.putBoolean("Hood In Bounds", tentativeCurrentAngle >= (minAngle - stopWithinThisAngleFromGoal) && tentativeCurrentAngle <= (maxAngle + stopWithinThisAngleFromGoal));
 
     if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {
@@ -64,6 +64,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // goalAngle = SmartDashboard.getNumber("Hood Goal Angle", goalAngle); // for setting
+
     double currentAngle = getCurrentAngle();
     double angleError = goalAngle - currentAngle;
 
@@ -78,8 +80,12 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
     }
     motorOutput *= Math.signum(angleError);
 
+    if(angleError > 0) {
+      motorOutput *= workingWithGravityAdjustment;
+    }
+
     SmartDashboard.putNumber("Hood Motor Output", motorOutput);
-    // motor.setRawOutput(motorOutput);
+    motor.setRawOutput(motorOutput);
   }
 
   private static AdjustableHoodSubsystem instance;
