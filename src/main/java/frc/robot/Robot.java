@@ -16,7 +16,7 @@ import org.awtybots.frc.botplus.sensors.vision.Limelight;
 
 public class Robot extends CompetitionBot {
 
-  public static Limelight limelight = new Limelight(0.533, 21);
+  public static Limelight limelight = new Limelight(RobotMap.Dimensions.limelightMountingHeight, RobotMap.Dimensions.limelightMountingAngle);
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   private DigitalOutput ledOutput = new DigitalOutput(0);
@@ -54,7 +54,7 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void setTestMode() {
-    Companion.setTestMode(true); // TODO make it false, this is for tuning only
+    Companion.setTestMode(true); // TODO make it false, this is for tuning and practice only
   }
 
   @Override
@@ -69,7 +69,7 @@ public class Robot extends CompetitionBot {
   public void teleopInit() {
     super.teleopInit();
 
-    // SpindexerSubsystem.getInstance().toggle(true); // TODO put back
+    SpindexerSubsystem.getInstance().toggle(false); // TODO change to true
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 
@@ -97,10 +97,11 @@ public class Robot extends CompetitionBot {
     controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());
     controller1.getBmpR().whenHeld(new ToggleIntake());
 
-    controller2.getBtnA().whenHeld(new ToggleShooter(4000.0));
-    controller2.getBtnB().whenHeld(new ToggleShooter(5000.0));
-    controller2.getBtnX().whenHeld(new ToggleShooter(6000.0));
+    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new SetHoodAngle(76.0)));
+    controller2.getBtnX().whenHeld(new ToggleShooter(4000.0));
+    controller2.getBtnB().whenHeld(new ToggleShooter(4500.0));
     controller2.getBtnY().whenHeld(new AutoAimUsingTurret());//.alongWith(new AutoShoot()));
+    controller2.getBtnStart().whenHeld(new AutoShoot());
     controller2.getBmpL().whenHeld(new ReverseIntake());
     controller2.getBmpR().whenHeld(new ToggleTower());
     controller2.getTrgL().whenHeld(new ReverseSpindexer());

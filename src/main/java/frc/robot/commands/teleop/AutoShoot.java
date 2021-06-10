@@ -26,11 +26,13 @@ public class AutoShoot extends CommandBase {
         TowerSubsystem.getInstance(),
         AdjustableHoodSubsystem.getInstance());
 
+    SmartDashboard.putBoolean("Projectile Motion Solution", true);
+
     powerPort =
         new VisionTarget(
             Robot.limelight,
-            2.49555, // inner port height
-            0.5 // power port offset from vision target - TODO fix
+            2.496 - 0.216, // vision target height
+            0.216 // offset from vision target to center of power port
             );
     projectileMotionSimulation =
         new Simulation(
@@ -58,30 +60,30 @@ public class AutoShoot extends CommandBase {
 
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     SmartDashboard.putNumber("Power Port Perceived Distance", powerPortOffset.getX());
-    double angleDirectlyToPowerPort =
-        Math.toDegrees(Math.atan2(powerPort.getTargetHeight(), powerPortOffset.getX()));
-    AdjustableHoodSubsystem.getInstance()
-        .setGoalAngle(
-            15.0 + angleDirectlyToPowerPort); // TODO this is a rough estimate, please tune
 
-    projectileMotionSimulation.setLaunchAngle(
-        AdjustableHoodSubsystem.getInstance().getCurrentAngle());
+    double adjustableHoodGoalAngle = Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
+    
+    AdjustableHoodSubsystem.getInstance().setGoalAngle(adjustableHoodGoalAngle);
+
+    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
     if (velocity == null) {
-      logger.error(
-          "Projectile motion simulation found no solution! Move the robot to a better shooting position.");
+      SmartDashboard.putBoolean("Projectile Motion Solution", false);
+      logger.error("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
       return;
     }
+
+    SmartDashboard.putBoolean("Projectile Motion Solution", true);
 
     double goalRevsPerSecond =
         ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
-    boolean readyToShoot =
-        ShooterSubsystem.getInstance().isFlywheelReady()
-            && TurretSubsystem.getInstance().atGoalAngle();
-    TowerSubsystem.getInstance().toggle(readyToShoot);
+    // boolean readyToShoot =
+    //     ShooterSubsystem.getInstance().isFlywheelReady()
+    //         && TurretSubsystem.getInstance().atGoalAngle();
+    // TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 
   @Override

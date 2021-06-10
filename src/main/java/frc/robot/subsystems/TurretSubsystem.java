@@ -103,6 +103,7 @@ public class TurretSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Turret Current Angle", currentAngle);
     SmartDashboard.putNumber("Turret Goal Angle", goalAngle);
     SmartDashboard.putNumber("Turret Error Angle", angleError);
+    SmartDashboard.putBoolean("Turret At Goal", atGoalAngle());
 
     double x = Math.min((Math.abs(angleError) - stopWithinThisAngleFromGoal) / (slowDownWithinThisAngleFromGoal - stopWithinThisAngleFromGoal), 1.0);
     double motorOutput = (x * maximumPercentOutput) + ((1 - x) * minimumPercentOutput);

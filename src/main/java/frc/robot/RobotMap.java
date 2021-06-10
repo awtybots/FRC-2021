@@ -35,4 +35,12 @@ public abstract class RobotMap {
   public abstract static class PWM {
     public static final int towerServo = 0;
   }
+
+  public abstract static class Dimensions {
+    public static final double limelightMountingAngle = 23; // degrees
+    public static final double limelightMountingHeight = 0.533; // meters
+
+    public static final double powerPortHeight = 2.496; // meters
+    public static final double powerPortVisionTargetOffset = 0.216; // meters
+  }
 }

@@ -72,6 +72,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Hood Current Angle", currentAngle);
     SmartDashboard.putNumber("Hood Goal Angle", goalAngle);
     SmartDashboard.putNumber("Hood Error Angle", angleError);
+    SmartDashboard.putBoolean("Hood At Goal", atGoalAngle());
 
     double x = Math.min((Math.abs(angleError) - stopWithinThisAngleFromGoal) / (slowDownWithinThisAngleFromGoal - stopWithinThisAngleFromGoal), 1.0);
     double motorOutput = (x * maximumPercentOutput) + ((1 - x) * minimumPercentOutput);
