@@ -100,7 +100,7 @@ public class Robot extends CompetitionBot {
     controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new SetHoodAngle(76.0)));
     controller2.getBtnX().whenHeld(new ToggleShooter(4000.0));
     controller2.getBtnB().whenHeld(new ToggleShooter(4500.0));
-    controller2.getBtnY().whenHeld(new AutoAimUsingTurret());//.alongWith(new AutoShoot()));
+    controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
     controller2.getBtnStart().whenHeld(new AutoShoot());
     controller2.getBmpL().whenHeld(new ReverseIntake());
     controller2.getBmpR().whenHeld(new ToggleTower());

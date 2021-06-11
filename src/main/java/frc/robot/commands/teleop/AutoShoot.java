@@ -6,7 +6,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
+// import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.math.Simulation;
@@ -23,7 +23,7 @@ public class AutoShoot extends CommandBase {
   public AutoShoot() {
     addRequirements(
         ShooterSubsystem.getInstance(),
-        TowerSubsystem.getInstance(),
+        // TowerSubsystem.getInstance(),
         AdjustableHoodSubsystem.getInstance());
 
     SmartDashboard.putBoolean("Projectile Motion Solution", true);
@@ -80,16 +80,16 @@ public class AutoShoot extends CommandBase {
         ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
-    // boolean readyToShoot =
-    //     ShooterSubsystem.getInstance().isFlywheelReady()
-    //         && TurretSubsystem.getInstance().atGoalAngle();
+    boolean readyToShoot =
+        ShooterSubsystem.getInstance().isFlywheelReady()
+            && TurretSubsystem.getInstance().atGoalAngle();
     // TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 
   @Override
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
-    TowerSubsystem.getInstance().toggle(false);
+    // TowerSubsystem.getInstance().toggle(false);
     
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }

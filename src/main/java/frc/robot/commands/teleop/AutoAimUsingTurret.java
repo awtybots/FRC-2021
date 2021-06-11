@@ -50,10 +50,10 @@ public class AutoAimUsingTurret extends CommandBase {
     }
   }
 
-  @Override
-  public boolean isFinished() {
-    return started && TurretSubsystem.getInstance().atGoalAngle();
-  }
+  // @Override
+  // public boolean isFinished() {
+  //   return started && TurretSubsystem.getInstance().atGoalAngle();
+  // }
 
   @Override
   public void end(boolean interrupted) {
