@@ -23,7 +23,7 @@ public class AutoShoot extends CommandBase {
   public AutoShoot() {
     addRequirements(
         ShooterSubsystem.getInstance(),
-        TowerSubsystem.getInstance(),
+        // TowerSubsystem.getInstance(),
         AdjustableHoodSubsystem.getInstance());
 
     SmartDashboard.putBoolean("Projectile Motion Solution", true);
