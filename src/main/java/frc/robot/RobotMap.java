@@ -20,6 +20,7 @@ public abstract class RobotMap {
 
   public abstract static class PDP {
     public static final int spindexer = 4;
+    public static final int tower = 13;
   }
 
   public abstract static class PCM {
@@ -30,10 +31,6 @@ public abstract class RobotMap {
   public abstract static class LimelightPipelines {
     public static final int powerPort = 0;
     public static final int idle = 1;
-  }
-
-  public abstract static class PWM {
-    public static final int towerServo = 0;
   }
 
   public abstract static class Dimensions {

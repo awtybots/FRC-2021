@@ -9,44 +9,44 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class SpindexerSubsystem extends SubsystemBase {
 
-  private boolean spindexerCurrentLimiting = true;
-
-  private static final double spindexerPerecentOutput = 0.2;
-  private static final double spindexerStuckCurrent = 20.0;
-  private static final double spindexerUnstuckReverseTime = 0.7; // seconds
-  private static final double spindexerUnstuckPauseTime = 0.3; // seconds
+  private boolean currentLimiting = true;
 
   private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
+
+  private static final double percentOutput = 0.2;
+  private static final double stuckCurrent = 20.0;
+  private static final double unstuckReverseTime = 0.7; // seconds
+  private static final double unstuckPauseTime = 0.3; // seconds
 
   private boolean currentlyGettingUnstuck = false;
   private Timer stuckTimer = new Timer();
 
   private SpindexerSubsystem() {
     spindexer.getMotorController().configFactoryDefault();
-    SmartDashboard.putBoolean("Spindexer Current Limiting", spindexerCurrentLimiting);
+    SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
     toggle(false);
   }
 
   public void toggle(boolean on) {
-    spindexer.setRawOutput(on ? spindexerPerecentOutput : 0.0);
+    spindexer.setRawOutput(on ? percentOutput : 0.0);
   }
 
   public void reverse() {
-    spindexer.setRawOutput(-spindexerPerecentOutput);
+    spindexer.setRawOutput(-percentOutput);
   }
 
   @Override
   public void periodic() {
-    spindexerCurrentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", spindexerCurrentLimiting);
-    boolean spindexerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > spindexerStuckCurrent * spindexerPerecentOutput) && spindexerCurrentLimiting;
+    currentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", currentLimiting);
+    boolean spindexerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput) && currentLimiting;
 
     SmartDashboard.putBoolean("Spindexer Not Stuck", !spindexerStuck);
 
     if(currentlyGettingUnstuck) {
-      if(stuckTimer.get() > spindexerUnstuckReverseTime) {
+      if(stuckTimer.get() > unstuckReverseTime) {
         toggle(false);
-        if(stuckTimer.get() > spindexerUnstuckReverseTime + spindexerUnstuckPauseTime) {
+        if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
           toggle(true);
           currentlyGettingUnstuck = false;
         }

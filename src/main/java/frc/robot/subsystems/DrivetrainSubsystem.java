@@ -26,7 +26,7 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
           0.0, // p
           0.0, // i
           0.0, // d
-          0.0, // f
+          0.1, // f
           0.4, // percentRamp
           1.0, // percentPeak
           0.05, // percentNominal

@@ -91,17 +91,18 @@ public class Robot extends CompetitionBot {
     Controller controller2 = new Controller(1);
 
     controller1.streamAnalogInputTo(new TeleopDrive());
-    controller1.getBtnY().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().returnToStart(), TurretSubsystem.getInstance()));
-    // controller1.getBtnX().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
-    // controller1.getBtnB().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
+    controller1.getBtnY().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().returnToStart(), TurretSubsystem.getInstance())
+        .alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
     controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());
     controller1.getBmpR().whenHeld(new ToggleIntake());
 
-    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new SetHoodAngle(76.0)));
+    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle))); // TODO reset turret
     controller2.getBtnX().whenHeld(new ToggleShooter(4000.0));
     controller2.getBtnB().whenHeld(new ToggleShooter(4500.0));
-    controller2.getBtnY().whenHeld(new AutoAimUsingTurret());//.alongWith(new AutoShoot()));
-    controller2.getBtnStart().whenHeld(new AutoShoot());
+    controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
+    controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
+    controller2.getDpadLeft().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
+    controller2.getDpadRight().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
     controller2.getBmpL().whenHeld(new ReverseIntake());
     controller2.getBmpR().whenHeld(new ToggleTower());
     controller2.getTrgL().whenHeld(new ReverseSpindexer());

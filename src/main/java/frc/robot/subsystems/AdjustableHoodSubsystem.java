@@ -14,8 +14,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
    * Note that "angle" means how elevated the shot is from horizontal. An angle of
    * 0 is a flat shot, 45 is a diagonal shot, and 90 is straight up.
    */
-  private final double minAngle = 57;
-  private final double maxAngle = 76;
+  public static final double minAngle = 57;
+  public static final double maxAngle = 76;
   private double startAngle = maxAngle;
   private double goalAngle = startAngle; // setpoint
   private double lastCurrentAngle = startAngle;

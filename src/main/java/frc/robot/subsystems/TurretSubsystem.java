@@ -4,15 +4,15 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.Logger;
 import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TurretSubsystem extends SubsystemBase {
 
   // this configuration assumes the turret can go +/- 45 degrees from start
   // position, try expanding the range to 0-360 if you think it's safe
-  public static final double minAngle = 90;
+  public static final double minAngle = 100;
   public static final double maxAngle = 270;
   public static final double startAngle = 180;
   private double goalAngle = startAngle; // goalAngle is setpoint
@@ -28,8 +28,6 @@ public class TurretSubsystem extends SubsystemBase {
   // rotation
   private Pro775 motor = new Pro775(RobotMap.CAN.turret, 1.0);
 
-  private Logger logger = new Logger("Turret");
-
   public TurretSubsystem() {
     motor.getMotorController().configFactoryDefault();
     motor.getMotorController().setNeutralMode(NeutralMode.Coast);
@@ -41,36 +39,21 @@ public class TurretSubsystem extends SubsystemBase {
     motor.getMotorController().setSensorPhase(true);
   }
 
-  /**
-   * Returns true if the <i>relative</i> goal angle is reachable. Note that if the reachable range
-   * of the turret is 0 - 360 degrees, every angle is reachable. It may have to spin backwards like
-   * a ballerina though.
-   *
-   * @param newGoalAngle relative goal angle in degrees
-   */
-  public boolean isRelativeAngleInBounds(double newGoalAngle) {
-    newGoalAngle += lastCurrentAngle;
+  public void setAbsoluteGoalAngle(double newGoalAngle) {
     newGoalAngle %= 360.0;
-
-    return minAngle <= newGoalAngle
-        && newGoalAngle < maxAngle; // note that min is inclusive, max is exclusive
+    goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
+    
+    boolean goalReachable = newGoalAngle < minAngle || newGoalAngle > maxAngle;
+    SmartDashboard.putBoolean("Turret Goal Reachable", goalReachable);
   }
 
   public void setRelativeGoalAngle(double newGoalAngle) {
-    if (!isRelativeAngleInBounds(newGoalAngle)) {
-      logger.error(
-          "Something tried to set the turret out of bounds! Next time, use isRelativeAngleInBounds() first.");
-      return;
-    }
-
-    newGoalAngle += lastCurrentAngle;
-    newGoalAngle %= 360.0;
-    goalAngle = newGoalAngle;
+    setAbsoluteGoalAngle(lastCurrentAngle + newGoalAngle);
   }
 
   public boolean atGoalAngle() {
     return Math.abs(goalAngle - lastCurrentAngle)
-        < slowDownWithinThisAngleFromGoal * minimumPercentOutput;
+        < stopWithinThisAngleFromGoal;
   }
 
   public double getCurrentAngle() {

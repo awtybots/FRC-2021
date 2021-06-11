@@ -54,7 +54,7 @@ public class AutoShoot extends CommandBase {
   @Override
   public void execute() {
     if (!Robot.limelight.getHasVisibleTarget()) {
-      logger.error("Cannot auto-shoot without visible target!");
+      logger.warn("Cannot auto-shoot without visible target!");
       return;
     }
 
@@ -70,7 +70,7 @@ public class AutoShoot extends CommandBase {
 
     if (velocity == null) {
       SmartDashboard.putBoolean("Projectile Motion Solution", false);
-      logger.error("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
+      logger.warn("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
       return;
     }
 
@@ -80,10 +80,10 @@ public class AutoShoot extends CommandBase {
         ShooterSubsystem.getInstance().flywheel.ballVelocityToMotorRpm(velocity) / 60.0;
     ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(goalRevsPerSecond);
 
-    // boolean readyToShoot =
-    //     ShooterSubsystem.getInstance().isFlywheelReady()
-    //         && TurretSubsystem.getInstance().atGoalAngle();
-    // TowerSubsystem.getInstance().toggle(readyToShoot);
+    boolean readyToShoot =
+        ShooterSubsystem.getInstance().isFlywheelReady()
+            && TurretSubsystem.getInstance().atGoalAngle();
+    TowerSubsystem.getInstance().toggle(readyToShoot);
   }
 
   @Override
