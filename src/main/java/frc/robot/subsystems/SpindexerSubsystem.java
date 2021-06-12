@@ -27,8 +27,6 @@ public class SpindexerSubsystem extends SubsystemBase {
     spindexer.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
-    spindexer.getMotorController().setInverted(true); // TODO temp
-
     toggle(false);
     set(false);
   }
@@ -48,9 +46,11 @@ public class SpindexerSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     currentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", currentLimiting);
-    boolean spindexerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput) && currentLimiting;
+    boolean spindexerStuck = Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput;
 
     SmartDashboard.putBoolean("Spindexer Not Stuck", (!spindexerStuck) && (!currentlyGettingUnstuck));
+
+    spindexerStuck = spindexerStuck && currentLimiting;
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {

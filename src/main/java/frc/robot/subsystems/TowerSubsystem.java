@@ -9,7 +9,7 @@ import org.awtybots.frc.botplus.motors.Bag;
 
 public class TowerSubsystem extends SubsystemBase {
 
-  private boolean currentLimiting = true;
+  private boolean currentLimiting = false;
 
   private static final double percentOutput = 0.65;
   private static final double reversePercentOutput = -0.3;
@@ -48,9 +48,11 @@ public class TowerSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     currentLimiting = SmartDashboard.getBoolean("Tower Current Limiting", currentLimiting);
-    boolean towerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.tower) > stuckCurrent * percentOutput) && currentLimiting;
+    boolean towerStuck = Robot.pdp.getCurrent(RobotMap.PDP.tower) > stuckCurrent * percentOutput;
 
     SmartDashboard.putBoolean("Tower Not Stuck", (!towerStuck) && (!currentlyGettingUnstuck));
+
+    towerStuck = towerStuck && currentLimiting;
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {

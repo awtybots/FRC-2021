@@ -110,6 +110,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
         if(Robot.pdp.getCurrent(RobotMap.PDP.adjustableHood) > stallCurrent * maximumPercentOutput) {
           motor.setRawOutput(0);
           postEncoderBrokenResetComplete = true;
+          encoderBroken = false;
+          motor.resetSensorPosition();
         }
       }
     }
