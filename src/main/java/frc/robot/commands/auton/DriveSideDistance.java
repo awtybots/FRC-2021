@@ -41,8 +41,9 @@ class DriveSideDistance {
           timeToAccelerate * 2.0 + (distanceGoal - distanceWhileAccelerating) / maxVelocity;
       decelerationStartTime = plannedTime - timeToAccelerate;
     } else {
-      plannedTime = 2.0 * Math.sqrt(distanceGoal / maxAcceleration); // TODO double check this math
+      plannedTime = 2.0 * Math.sqrt(distanceGoal / maxAcceleration);
       decelerationStartTime = plannedTime / 2.0;
+      maxVelocity = maxAcceleration * decelerationStartTime;
     }
   }
 

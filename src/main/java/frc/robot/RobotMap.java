@@ -39,5 +39,7 @@ public abstract class RobotMap {
 
     public static final double powerPortHeight = 2.496; // meters
     public static final double powerPortVisionTargetOffset = 0.216; // meters
+
+    public static final double trackWidth = 0.66; // distance between the left and right wheels, meters
   }
 }

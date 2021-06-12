@@ -37,14 +37,6 @@ public class Robot extends CompetitionBot {
     TurretSubsystem.getInstance();
 
     compressor.setClosedLoopControl(true);
-    new Thread(() -> {
-        try {
-          Thread.sleep(10000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        Robot.limelight.setPipeline(LimelightPipelines.idle);
-    }).start();
   }
 
   @Override
@@ -54,8 +46,8 @@ public class Robot extends CompetitionBot {
   }
 
   @Override
-  public void setTestMode() {
-    Companion.setTestMode(true); // TODO make it false, this is for tuning and practice only
+  public boolean isTestMode() {
+    return true; // TODO make it false, this is for tuning and practice only
   }
 
   @Override

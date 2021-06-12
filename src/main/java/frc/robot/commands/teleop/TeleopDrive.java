@@ -29,11 +29,6 @@ public class TeleopDrive extends AnalogInputCommand {
         .setMotorVelocityOutput(driveControlsInput.getX(), driveControlsInput.getY());
   }
 
-  @Override
-  public void cancel() {
-    DrivetrainSubsystem.getInstance().kill();
-  }
-
   private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
     double speed = controllerValues.getLeftStickY();
     double steer = controllerValues.getRightStickX();
@@ -61,5 +56,10 @@ public class TeleopDrive extends AnalogInputCommand {
     double right = speed - steer;
 
     return new Vector2(left, right);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    DrivetrainSubsystem.getInstance().kill();
   }
 }
