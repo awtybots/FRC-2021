@@ -3,8 +3,8 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 class DriveSideDistance {
-  private static final double defaultMaxVelocity = 2.0; // meters per second
-  private static final double defaultMaxAcceleration = 2.0; // meters per second per second
+  private static final double defaultMaxVelocity = 0.5; // meters per second
+  private static final double defaultMaxAcceleration = 0.25; // meters per second per second
 
   private double maxVelocity;
   private double maxAcceleration;
