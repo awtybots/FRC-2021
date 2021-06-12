@@ -10,6 +10,8 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TurretSubsystem extends SubsystemBase {
 
+  public static final boolean isThereEvenATurretOnTheRobot = false;
+
   // this configuration assumes the turret can go +/- 45 degrees from start
   // position, try expanding the range to 0-360 if you think it's safe
   public static final double minAngle = 100;
@@ -29,17 +31,21 @@ public class TurretSubsystem extends SubsystemBase {
   private Pro775 motor = new Pro775(RobotMap.CAN.turret, 1.0);
 
   public TurretSubsystem() {
-    motor.getMotorController().configFactoryDefault();
-    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
+    if(isThereEvenATurretOnTheRobot) {
+      motor.getMotorController().configFactoryDefault();
+      motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
-    motor.setSensorGearRatio(sensorGearRatio);
-    motor.resetSensorPosition();
+      motor.setSensorGearRatio(sensorGearRatio);
+      motor.resetSensorPosition();
 
-    motor.getMotorController().setInverted(true);
-    motor.getMotorController().setSensorPhase(true);
+      motor.getMotorController().setInverted(true);
+      motor.getMotorController().setSensorPhase(true);
+    }
   }
 
   public void setAbsoluteGoalAngle(double newGoalAngle) {
+    if(!isThereEvenATurretOnTheRobot) return;
+
     newGoalAngle %= 360.0;
     goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
     
@@ -52,11 +58,12 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public boolean atGoalAngle() {
-    return Math.abs(goalAngle - lastCurrentAngle)
-        < stopWithinThisAngleFromGoal;
+    return Math.abs(goalAngle - lastCurrentAngle) < stopWithinThisAngleFromGoal || !isThereEvenATurretOnTheRobot;
   }
 
   public double getCurrentAngle() {
+    if(!isThereEvenATurretOnTheRobot) return startAngle;
+
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
     SmartDashboard.putBoolean("Turret In Bounds", tentativeCurrentAngle >= (minAngle - stopWithinThisAngleFromGoal) && tentativeCurrentAngle <= (maxAngle + stopWithinThisAngleFromGoal));
@@ -80,6 +87,8 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(!isThereEvenATurretOnTheRobot) return;
+
     double currentAngle = getCurrentAngle();
     double angleError = goalAngle - currentAngle;
 
