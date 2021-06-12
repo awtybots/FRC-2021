@@ -27,6 +27,8 @@ public class SpindexerSubsystem extends SubsystemBase {
     spindexer.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
+    spindexer.getMotorController().setInverted(true); // TODO temp
+
     toggle(false);
     set(false);
   }
@@ -59,13 +61,17 @@ public class SpindexerSubsystem extends SubsystemBase {
         }
       }
     } else if(spindexerStuck) {
-      currentlyGettingUnstuck = true;
-      stuckTimer.reset();
-      stuckTimer.start();
-      reverse();
+      unstuck();
     } else {
       set(toggled);
     }
+  }
+
+  public void unstuck() {
+    currentlyGettingUnstuck = true;
+    stuckTimer.reset();
+    stuckTimer.start();
+    reverse();
   }
 
   private static SpindexerSubsystem instance;

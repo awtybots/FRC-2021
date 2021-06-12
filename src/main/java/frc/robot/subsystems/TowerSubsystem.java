@@ -9,9 +9,9 @@ import org.awtybots.frc.botplus.motors.Bag;
 
 public class TowerSubsystem extends SubsystemBase {
 
-  private boolean currentLimiting = false;
+  private boolean currentLimiting = true;
 
-  private static final double percentOutput = 0.85;
+  private static final double percentOutput = 0.65;
   private static final double reversePercentOutput = -0.3;
 
   private static final double stuckCurrent = 65;
@@ -57,7 +57,6 @@ public class TowerSubsystem extends SubsystemBase {
         set(false);
         if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
           set(toggled);
-          SpindexerSubsystem.getInstance().toggle(true);
           currentlyGettingUnstuck = false;
         }
       }
@@ -66,8 +65,9 @@ public class TowerSubsystem extends SubsystemBase {
       stuckTimer.reset();
       stuckTimer.start();
 
-      SpindexerSubsystem.getInstance().toggle(false);
       reverse();
+
+      SpindexerSubsystem.getInstance().unstuck();
     } else {
       set(toggled);
     }

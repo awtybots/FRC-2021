@@ -21,7 +21,7 @@ public class TeleopDrive extends AnalogInputCommand {
 
   @Override
   public void analogExecute(ControllerValues controllerValues) {
-    Vector2 driveControlsInput = gtaDrive(controllerValues);
+    Vector2 driveControlsInput = splitArcadeDrive(controllerValues);
 
     SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
     SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
@@ -34,7 +34,6 @@ public class TeleopDrive extends AnalogInputCommand {
     DrivetrainSubsystem.getInstance().kill();
   }
 
-  @SuppressWarnings("unused")
   private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
     double speed = controllerValues.getLeftStickY();
     double steer = controllerValues.getRightStickX();
@@ -49,6 +48,7 @@ public class TeleopDrive extends AnalogInputCommand {
     return new Vector2(left, right);
   }
 
+  @SuppressWarnings("unused")
   private Vector2 gtaDrive(ControllerValues controllerValues) {
     double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
     double steer = controllerValues.getLeftStickX();
