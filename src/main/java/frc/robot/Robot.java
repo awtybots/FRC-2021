@@ -73,17 +73,17 @@ public class Robot extends CompetitionBot {
     Controller controller2 = new Controller(1);
 
     controller1.streamAnalogInputTo(new TeleopDrive());
-    controller1.getBtnY().whenHeld(new ResetTurret().alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
-    controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());
-    controller1.getBmpR().whenHeld(new ToggleIntake());
+    controller1.getTrgL().whenHeld(new ToggleIntakeMotorOnly());
+    controller1.getTrgR().whenHeld(new ToggleIntake());
 
-    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new ResetTurret(), new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
-    controller2.getBtnX().whenHeld(new ToggleShooter(4000.0));
-    controller2.getBtnB().whenHeld(new ToggleShooter(4500.0));
+    controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76));
+    controller2.getBtnX().whenHeld(new ManualShootingPreset(4000.0, 65));
+    controller2.getBtnB().whenHeld(new ManualShootingPreset(4500.0, 50));
     controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
+    controller2.getBtnBack().whenPressed(new ResetTurret().alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
     controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
-    controller2.getDpadLeft().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
-    controller2.getDpadRight().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
+    controller2.getDpadLeft().whenPressed(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
+    controller2.getDpadRight().whenPressed(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
     controller2.getBmpL().whenHeld(new ReverseTower());
     controller2.getBmpR().whenHeld(new ToggleTower());
     controller2.getTrgL().whenHeld(new ReverseSpindexer());
