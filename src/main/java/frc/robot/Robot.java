@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotMap.LimelightPipelines;
+import frc.robot.commands.auton.sequences.*;
 import frc.robot.commands.teleop.*;
 import frc.robot.subsystems.*;
 
@@ -59,10 +60,7 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void addAutonOptions() {
-    // addAutonDefault("name", command);
-    // addAutonOption("name", command);
-    // addAutonOption("name", command);
-    // addAutonOption("name", command);
+    addAutonDefault("Shoot 3 and Reverse", new Shoot3AndReverse());
   }
 
   @Override

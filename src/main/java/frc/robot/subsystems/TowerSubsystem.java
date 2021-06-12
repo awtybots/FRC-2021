@@ -9,7 +9,7 @@ import org.awtybots.frc.botplus.motors.Bag;
 
 public class TowerSubsystem extends SubsystemBase {
 
-  private boolean currentLimiting = true;
+  private boolean currentLimiting = false;
 
   private static final double percentOutput = 0.85;
   private static final double reversePercentOutput = -0.3;
@@ -50,13 +50,14 @@ public class TowerSubsystem extends SubsystemBase {
     currentLimiting = SmartDashboard.getBoolean("Tower Current Limiting", currentLimiting);
     boolean towerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.tower) > stuckCurrent * percentOutput) && currentLimiting;
 
-    SmartDashboard.putBoolean("Tower Not Stuck", !towerStuck);
+    SmartDashboard.putBoolean("Tower Not Stuck", (!towerStuck) && (!currentlyGettingUnstuck));
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {
         set(false);
         if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
           set(toggled);
+          SpindexerSubsystem.getInstance().toggle(true);
           currentlyGettingUnstuck = false;
         }
       }
@@ -64,6 +65,8 @@ public class TowerSubsystem extends SubsystemBase {
       currentlyGettingUnstuck = true;
       stuckTimer.reset();
       stuckTimer.start();
+
+      SpindexerSubsystem.getInstance().toggle(false);
       reverse();
     } else {
       set(toggled);

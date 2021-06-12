@@ -21,14 +21,21 @@ public class SpindexerSubsystem extends SubsystemBase {
   private boolean currentlyGettingUnstuck = false;
   private Timer stuckTimer = new Timer();
 
+  private boolean toggled = false;
+
   private SpindexerSubsystem() {
     spindexer.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
     toggle(false);
+    set(false);
   }
 
   public void toggle(boolean on) {
+    toggled = on;
+  }
+
+  public void set(boolean on) {
     spindexer.setRawOutput(on ? percentOutput : 0.0);
   }
 
@@ -41,13 +48,13 @@ public class SpindexerSubsystem extends SubsystemBase {
     currentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", currentLimiting);
     boolean spindexerStuck = (Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput) && currentLimiting;
 
-    SmartDashboard.putBoolean("Spindexer Not Stuck", !spindexerStuck);
+    SmartDashboard.putBoolean("Spindexer Not Stuck", (!spindexerStuck) && (!currentlyGettingUnstuck));
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {
-        toggle(false);
+        set(false);
         if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
-          toggle(true);
+          set(toggled);
           currentlyGettingUnstuck = false;
         }
       }
@@ -56,6 +63,8 @@ public class SpindexerSubsystem extends SubsystemBase {
       stuckTimer.reset();
       stuckTimer.start();
       reverse();
+    } else {
+      set(toggled);
     }
   }
 
