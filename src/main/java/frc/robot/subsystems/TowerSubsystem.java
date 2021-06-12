@@ -41,7 +41,7 @@ public class TowerSubsystem extends SubsystemBase {
     tower.setRawOutput(on ? percentOutput : 0.0);
   }
 
-  private void reverse() {
+  public void reverse() {
     tower.setRawOutput(reversePercentOutput);
   }
 

@@ -27,6 +27,8 @@ public class SpindexerSubsystem extends SubsystemBase {
     spindexer.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
+    spindexer.getMotorController().setInverted(true);
+
     toggle(false);
     set(false);
   }

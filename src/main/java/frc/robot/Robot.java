@@ -84,7 +84,7 @@ public class Robot extends CompetitionBot {
     controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
     controller2.getDpadLeft().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10), TurretSubsystem.getInstance()));
     controller2.getDpadRight().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(10), TurretSubsystem.getInstance()));
-    controller2.getBmpL().whenHeld(new ReverseIntake());
+    controller2.getBmpL().whenHeld(new ReverseTower());
     controller2.getBmpR().whenHeld(new ToggleTower());
     controller2.getTrgL().whenHeld(new ReverseSpindexer());
     controller2.getTrgR().whenHeld(new ToggleSpindexer());
