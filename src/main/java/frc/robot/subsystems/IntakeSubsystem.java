@@ -33,10 +33,9 @@ public class IntakeSubsystem extends SubsystemBase {
     motor.getMotorController().set(ControlMode.PercentOutput, -motorPercentOutput);
   }
 
-  private static IntakeSubsystem instance;
+  private static IntakeSubsystem instance = new IntakeSubsystem();
 
   public static IntakeSubsystem getInstance() {
-    if (instance == null) instance = new IntakeSubsystem();
     return instance;
   }
 }

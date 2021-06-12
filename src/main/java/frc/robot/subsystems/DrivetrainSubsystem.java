@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
 
-  private static DrivetrainSubsystem instance;
-
   private static double gearRatio = 12.0 / 40.0 * 14.0 / 44.0;
   private static DriveConfig driveConfig =
       new DriveConfig(
@@ -56,8 +54,9 @@ public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
     SmartDashboard.putNumber("Drive Output", getLeftMotors().getWheelVelocity());
   }
 
+  private static DrivetrainSubsystem instance = new DrivetrainSubsystem();
+
   public static DrivetrainSubsystem getInstance() {
-    if (instance == null) instance = new DrivetrainSubsystem();
     return instance;
   }
 }

@@ -75,10 +75,9 @@ public class TowerSubsystem extends SubsystemBase {
     }
   }
 
-  private static TowerSubsystem instance;
+  private static TowerSubsystem instance = new TowerSubsystem();
 
   public static TowerSubsystem getInstance() {
-    if (instance == null) instance = new TowerSubsystem();
     return instance;
   }
 }

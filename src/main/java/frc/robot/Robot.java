@@ -27,15 +27,6 @@ public class Robot extends CompetitionBot {
   public void robotInit() {
     super.robotInit();
 
-    // forcibly instantiates all of them
-    AdjustableHoodSubsystem.getInstance();
-    DrivetrainSubsystem.getInstance();
-    IntakeSubsystem.getInstance();
-    ShooterSubsystem.getInstance();
-    SpindexerSubsystem.getInstance();
-    TowerSubsystem.getInstance();
-    TurretSubsystem.getInstance();
-
     compressor.setClosedLoopControl(true);
   }
 

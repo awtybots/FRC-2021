@@ -91,10 +91,9 @@ public class ShooterSubsystem extends SubsystemBase {
     return newValue;
   }
 
-  private static ShooterSubsystem instance;
+  private static ShooterSubsystem instance = new ShooterSubsystem();
 
   public static ShooterSubsystem getInstance() {
-    if (instance == null) instance = new ShooterSubsystem();
     return instance;
   }
 }

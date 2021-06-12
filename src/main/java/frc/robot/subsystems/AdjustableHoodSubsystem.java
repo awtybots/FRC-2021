@@ -126,10 +126,9 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
     if(!encoderBroken) motor.setRawOutput(motorOutput);
   }
 
-  private static AdjustableHoodSubsystem instance;
+  private static AdjustableHoodSubsystem instance = new AdjustableHoodSubsystem();
 
   public static AdjustableHoodSubsystem getInstance() {
-    if (instance == null) instance = new AdjustableHoodSubsystem();
     return instance;
   }
 }

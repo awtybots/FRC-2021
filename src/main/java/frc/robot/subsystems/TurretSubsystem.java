@@ -10,10 +10,8 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TurretSubsystem extends SubsystemBase {
 
-  public static final boolean isThereEvenATurretOnTheRobot = false;
+  public static final boolean exists = false; // is there even a turret on the robot
 
-  // this configuration assumes the turret can go +/- 45 degrees from start
-  // position, try expanding the range to 0-360 if you think it's safe
   public static final double minAngle = 100;
   public static final double maxAngle = 270;
   public static final double startAngle = 180;
@@ -28,10 +26,12 @@ public class TurretSubsystem extends SubsystemBase {
   private final double sensorGearRatio =
       22.0 / 240.0; // ratio between actual output rotation and encoder-detected
   // rotation
-  private Pro775 motor = new Pro775(RobotMap.CAN.turret, 1.0);
+  private Pro775 motor;
 
   public TurretSubsystem() {
-    if(isThereEvenATurretOnTheRobot) {
+    if(exists) {
+      motor = new Pro775(RobotMap.CAN.turret, 1.0);
+
       motor.getMotorController().configFactoryDefault();
       motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
@@ -44,7 +44,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public void setAbsoluteGoalAngle(double newGoalAngle) {
-    if(!isThereEvenATurretOnTheRobot) return;
+    if(!exists) return;
 
     newGoalAngle %= 360.0;
     goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
@@ -58,11 +58,11 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public boolean atGoalAngle() {
-    return Math.abs(goalAngle - lastCurrentAngle) < stopWithinThisAngleFromGoal || !isThereEvenATurretOnTheRobot;
+    return Math.abs(goalAngle - lastCurrentAngle) < stopWithinThisAngleFromGoal || !exists;
   }
 
   public double getCurrentAngle() {
-    if(!isThereEvenATurretOnTheRobot) return startAngle;
+    if(!exists) return startAngle;
 
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
@@ -87,7 +87,7 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(!isThereEvenATurretOnTheRobot) return;
+    if(!exists) return;
 
     double currentAngle = getCurrentAngle();
     double angleError = goalAngle - currentAngle;
@@ -108,10 +108,9 @@ public class TurretSubsystem extends SubsystemBase {
     motor.setRawOutput(motorOutput);
   }
 
-  private static TurretSubsystem instance;
+  private static TurretSubsystem instance = new TurretSubsystem();
 
   public static TurretSubsystem getInstance() {
-    if (instance == null) instance = new TurretSubsystem();
     return instance;
   }
 }

@@ -74,10 +74,9 @@ public class SpindexerSubsystem extends SubsystemBase {
     reverse();
   }
 
-  private static SpindexerSubsystem instance;
+  private static SpindexerSubsystem instance = new SpindexerSubsystem();
 
   public static SpindexerSubsystem getInstance() {
-    if (instance == null) instance = new SpindexerSubsystem();
     return instance;
   }
 }
