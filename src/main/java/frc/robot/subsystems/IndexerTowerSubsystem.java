@@ -18,25 +18,21 @@ public class IndexerTowerSubsystem extends SubsystemBase {
 
   private Bag indexerL;
   private Bag indexerR;
-  private Bag tower1;
-  private Bag tower2;
+  private Bag tower;
 
   public IndexerTowerSubsystem() {
     if(exists) {
       indexerL = new Bag(RobotMap.CAN.indexerL, 1.0);
       indexerR = new Bag(RobotMap.CAN.indexerR, 1.0);
-      tower1 = new Bag(RobotMap.CAN.tower1, 1.0);
-      tower2 = new Bag(RobotMap.CAN.tower2, 1.0);
+      tower = new Bag(RobotMap.CAN.tower, 1.0);
 
       indexerL.getMotorController().configFactoryDefault();
       indexerR.getMotorController().configFactoryDefault();
-      tower1.getMotorController().configFactoryDefault();
-      tower2.getMotorController().configFactoryDefault();
+      tower.getMotorController().configFactoryDefault();
 
       indexerL.getMotorController().setInverted(false);
       indexerR.getMotorController().setInverted(true);
-      tower1.getMotorController().setInverted(true);
-      tower2.getMotorController().setInverted(true);
+      tower.getMotorController().setInverted(true);
 
       toggle(false);
     }
@@ -46,15 +42,13 @@ public class IndexerTowerSubsystem extends SubsystemBase {
     if(exists) {
       indexerL.setRawOutput(on ? indexerLPercentOutput : 0.0);
       indexerR.setRawOutput(on ? indexerRPercentOutput : 0.0);
-      tower1.setRawOutput(on ? towerPercentOutput : 0.0);
-      tower2.setRawOutput(on ? towerPercentOutput : 0.0);
+      tower.setRawOutput(on ? towerPercentOutput : 0.0);
     }
   }
 
   public void reverse() {
     if(exists) {
-      tower1.setRawOutput(-towerPercentOutput);
-      tower2.setRawOutput(-towerPercentOutput);
+      tower.setRawOutput(-towerPercentOutput);
     }
   }
 

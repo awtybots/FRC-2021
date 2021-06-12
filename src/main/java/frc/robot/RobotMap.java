@@ -19,8 +19,6 @@ public abstract class RobotMap {
 
     public static final int indexerL = -1;
     public static final int indexerR = -1;
-    public static final int tower1 = -1;
-    public static final int tower2 = -1;
   }
 
   public abstract static class PDP {
