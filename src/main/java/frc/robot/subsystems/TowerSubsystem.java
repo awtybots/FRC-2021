@@ -23,26 +23,36 @@ public class TowerSubsystem extends SubsystemBase {
 
   private final Bag tower = new Bag(RobotMap.CAN.tower, 1.0);
 
-  private boolean toggled = false;
+  private int desiredState = 0;
 
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Tower Current Limiting", currentLimiting);
 
     toggle(false);
-    set(false);
+    set(0);
   }
 
   public void toggle(boolean on) {
-    toggled = on;
+    desiredState = on ? 1 : 0;
   }
 
-  private void set(boolean on) {
-    tower.setRawOutput(on ? percentOutput : 0.0);
+  private void set(int p) {
+    switch(p) {
+      case -1:
+        tower.setRawOutput(reversePercentOutput);
+        break;
+      case 0:
+        tower.setRawOutput(0.0);
+        break;
+      case 1:
+        tower.setRawOutput(percentOutput);
+        break;
+    }
   }
 
   public void reverse() {
-    tower.setRawOutput(reversePercentOutput);
+    desiredState = -1;
   }
 
   @Override
@@ -52,13 +62,13 @@ public class TowerSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Tower Not Stuck", (!towerStuck) && (!currentlyGettingUnstuck));
 
-    towerStuck = towerStuck && currentLimiting;
+    towerStuck = desiredState == 1 && towerStuck && currentLimiting;
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {
-        set(false);
+        set(0);
         if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
-          set(toggled);
+          set(desiredState);
           currentlyGettingUnstuck = false;
         }
       }
@@ -67,11 +77,13 @@ public class TowerSubsystem extends SubsystemBase {
       stuckTimer.reset();
       stuckTimer.start();
 
-      reverse();
+      set(-desiredState);
 
       SpindexerSubsystem.getInstance().unstuck();
+    // } else if(SpindexerSubsystem.getInstance().currentlyGettingUnstuck) {
+    //   set(0);
     } else {
-      set(toggled);
+      set(desiredState);
     }
   }
 

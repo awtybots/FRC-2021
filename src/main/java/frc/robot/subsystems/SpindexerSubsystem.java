@@ -13,36 +13,39 @@ public class SpindexerSubsystem extends SubsystemBase {
 
   private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
 
-  private static final double percentOutput = 0.2;
+  private static final double percentOutput = 0.15;
   private static final double stuckCurrent = 20.0;
+  private static final double stuckTime = 0.75; // seconds
   private static final double unstuckReverseTime = 0.7; // seconds
   private static final double unstuckPauseTime = 0.3; // seconds
 
-  private boolean currentlyGettingUnstuck = false;
+  public boolean currentlyGettingUnstuck = false;
   private Timer stuckTimer = new Timer();
 
-  private boolean toggled = false;
+  private int desiredState = 0;
 
   private SpindexerSubsystem() {
     spindexer.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
-    spindexer.getMotorController().setInverted(true);
+    // spindexer.getMotorController().setInverted(true);
+
+    stuckTimer.start();
 
     toggle(false);
-    set(false);
+    set(0);
   }
 
   public void toggle(boolean on) {
-    toggled = on;
+    desiredState = on ? 1 : 0;
   }
 
-  public void set(boolean on) {
-    spindexer.setRawOutput(on ? percentOutput : 0.0);
+  public void set(int p) {
+    spindexer.setRawOutput(p * percentOutput);
   }
 
   public void reverse() {
-    spindexer.setRawOutput(-percentOutput);
+    desiredState = -1;
   }
 
   @Override
@@ -56,24 +59,24 @@ public class SpindexerSubsystem extends SubsystemBase {
 
     if(currentlyGettingUnstuck) {
       if(stuckTimer.get() > unstuckReverseTime) {
-        set(false);
+        set(0);
         if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
-          set(toggled);
+          set(desiredState);
           currentlyGettingUnstuck = false;
         }
       }
     } else if(spindexerStuck) {
-      unstuck();
+      if(stuckTimer.get() > stuckTime) unstuck();
     } else {
-      set(toggled);
+      stuckTimer.reset();
+      set(desiredState);
     }
   }
 
   public void unstuck() {
     currentlyGettingUnstuck = true;
     stuckTimer.reset();
-    stuckTimer.start();
-    reverse();
+    set(-desiredState);
   }
 
   private static SpindexerSubsystem instance = new SpindexerSubsystem();
