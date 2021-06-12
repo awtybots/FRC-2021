@@ -26,7 +26,7 @@ public abstract class RobotMap {
   public abstract static class PDP {
     public static final int spindexer = 4;
     public static final int tower = 13;
-    public static final int adjustableHood = -1; // TODO
+    public static final int adjustableHood = 12;
   }
 
   public abstract static class PCM {

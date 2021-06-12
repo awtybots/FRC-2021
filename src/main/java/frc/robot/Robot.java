@@ -73,12 +73,11 @@ public class Robot extends CompetitionBot {
     Controller controller2 = new Controller(1);
 
     controller1.streamAnalogInputTo(new TeleopDrive());
-    controller1.getBtnY().whenHeld(new InstantCommand(() -> TurretSubsystem.getInstance().returnToStart(), TurretSubsystem.getInstance())
-        .alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
+    controller1.getBtnY().whenHeld(new ResetTurret().alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
     controller1.getBmpL().whenHeld(new ToggleIntakeMotorOnly());
     controller1.getBmpR().whenHeld(new ToggleIntake());
 
-    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new SetHoodAngle(AdjustableHoodSubsystem.maxAngle))); // TODO reset turret
+    controller2.getBtnA().whenHeld(new ToggleShooter(3700.0).alongWith(new ResetTurret(), new SetHoodAngle(AdjustableHoodSubsystem.maxAngle)));
     controller2.getBtnX().whenHeld(new ToggleShooter(4000.0));
     controller2.getBtnB().whenHeld(new ToggleShooter(4500.0));
     controller2.getBtnY().whenHeld(new AutoAimUsingTurret().alongWith(new AutoShoot()));
