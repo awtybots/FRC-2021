@@ -9,9 +9,11 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class SpindexerSubsystem extends SubsystemBase {
 
+  private final boolean exists = true;
+
   private boolean currentLimiting = true;
 
-  private final Pro775 spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
+  private final Pro775 spindexer;
 
   private static final double percentOutput = 0.15;
   private static final double stuckCurrent = 20.0;
@@ -25,31 +27,36 @@ public class SpindexerSubsystem extends SubsystemBase {
   private int desiredState = 0;
 
   private SpindexerSubsystem() {
-    spindexer.getMotorController().configFactoryDefault();
-    SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
+    if(exists) {
+      spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
+      spindexer.getMotorController().configFactoryDefault();
+      SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
 
-    // spindexer.getMotorController().setInverted(true);
+      // spindexer.getMotorController().setInverted(true);
 
-    stuckTimer.start();
+      stuckTimer.start();
 
-    toggle(false);
-    set(0);
+      toggle(false);
+      set(0);
+    }
   }
 
   public void toggle(boolean on) {
-    desiredState = on ? 1 : 0;
+    if(exists) desiredState = on ? 1 : 0;
   }
 
   public void set(int p) {
-    spindexer.setRawOutput(p * percentOutput);
+    if(exists) spindexer.setRawOutput(p * percentOutput);
   }
 
   public void reverse() {
-    desiredState = -1;
+    if(exists) desiredState = -1;
   }
 
   @Override
   public void periodic() {
+    if(!exists) return;
+
     currentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", currentLimiting);
     boolean spindexerStuck = Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput;
 
@@ -74,6 +81,8 @@ public class SpindexerSubsystem extends SubsystemBase {
   }
 
   public void unstuck() {
+    if(!exists) return;
+
     currentlyGettingUnstuck = true;
     stuckTimer.reset();
     set(-desiredState);
