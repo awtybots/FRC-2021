@@ -1,6 +1,7 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 class DriveSideDistance {
   private static final double defaultMaxVelocity = 0.5; // meters per second
@@ -64,6 +65,6 @@ class DriveSideDistance {
       newVelocity = Math.min(maxAcceleration * currentTime, maxVelocity);
     }
 
-    return MathUtil.clamp(newVelocity, 0.0, maxVelocity) * outputFactor;
+    return MathUtil.clamp(newVelocity, 0.0, maxVelocity) * outputFactor / DrivetrainSubsystem.getInstance().getConfig().getVelocityPeak();
   }
 }

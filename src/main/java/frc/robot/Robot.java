@@ -43,8 +43,9 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void addAutonOptions() {
-    addAutonDefault("Shoot 3 and Reverse", new Shoot3AndReverse());
-    addAutonOption("Drive Forward", new DriveForward());
+    addAutonDefault("Drive Forward Time", new DriveForwardTime());
+    addAutonOption("Drive Forward Distance", new DriveForwardDistance());
+    addAutonOption("Shoot 3 and Reverse", new Shoot3AndDriveForward());
   }
 
   @Override
