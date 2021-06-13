@@ -15,12 +15,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private ClimbSubsystem() {
     climber.getMotorController().configFactoryDefault();
-    climber.getMotorController().setInverted(true);
+    // climber.getMotorController().setInverted(true);
     climber.getMotorController().setNeutralMode(NeutralMode.Brake);
   }
 
-  public void toggle(boolean on) {
-    climber.setRawOutput(on ? percentOutput : 0.0);
+  public void set(int d) {
+    climber.setRawOutput(percentOutput * d);
   }
 
   private static ClimbSubsystem instance = new ClimbSubsystem();

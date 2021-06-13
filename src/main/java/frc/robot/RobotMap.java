@@ -20,7 +20,7 @@ public abstract class RobotMap {
     public static final int indexerL = -1; // TODO
     public static final int indexerR = -1;
 
-    public static final int climber = -1; // TODO
+    public static final int climber = 16;
   }
 
   public abstract static class PDP {

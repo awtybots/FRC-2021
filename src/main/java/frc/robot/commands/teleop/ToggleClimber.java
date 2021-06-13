@@ -1,22 +1,24 @@
 package frc.robot.commands.teleop;
 
 import frc.robot.subsystems.ClimbSubsystem;
-import kotlin.Unit;
-import org.awtybots.frc.botplus.ToggleCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ToggleClimber extends ToggleCommand {
+public class ToggleClimber extends CommandBase {
 
-  public ToggleClimber() {
-    super(ClimbSubsystem.getInstance(), t -> {
-      ClimbSubsystem.getInstance().toggle(t);
-      return Unit.INSTANCE;
-    });
+  private final int dir;
+
+  public ToggleClimber(int dir) {
+    this.dir = dir;
+    addRequirements(ClimbSubsystem.getInstance());
   }
 
-  public ToggleClimber(boolean on) {
-    super(ClimbSubsystem.getInstance(), t -> {
-      ClimbSubsystem.getInstance().toggle(t);
-      return Unit.INSTANCE;
-    }, on);
+  @Override
+  public void initialize() {
+    ClimbSubsystem.getInstance().set(dir);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    ClimbSubsystem.getInstance().set(0);
   }
 }

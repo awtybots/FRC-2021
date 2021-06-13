@@ -76,7 +76,8 @@ public class Robot extends CompetitionBot {
     controller1.streamAnalogInputTo(new TeleopDrive());
     controller1.getTrgL().whenHeld(new ToggleIntakeMotorOnly());
     controller1.getTrgR().whenHeld(new ToggleIntake());
-    controller1.getBtnA().whenHeld(new ToggleClimber());
+    controller1.getBtnBack().whenHeld(new ToggleClimber(-1));
+    controller1.getBtnA().whenHeld(new ToggleClimber(1));
 
     controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76));
     controller2.getBtnX().whenHeld(new ManualShootingPreset(4000.0, 65));
