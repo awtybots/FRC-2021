@@ -20,7 +20,7 @@ public class IndexerTowerSubsystem extends SubsystemBase {
   private Bag indexerR;
   private Bag tower;
 
-  public IndexerTowerSubsystem() {
+  private IndexerTowerSubsystem() {
     if(exists) {
       indexerL = new Bag(RobotMap.CAN.indexerL, 1.0);
       indexerR = new Bag(RobotMap.CAN.indexerR, 1.0);

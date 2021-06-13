@@ -17,8 +17,10 @@ public abstract class RobotMap {
 
     public static final int controlPanelSpinner = 6; // lmao
 
-    public static final int indexerL = -1;
+    public static final int indexerL = -1; // TODO
     public static final int indexerR = -1;
+
+    public static final int climber = -1; // TODO
   }
 
   public abstract static class PDP {
@@ -28,8 +30,8 @@ public abstract class RobotMap {
   }
 
   public abstract static class PCM {
-    public static final int intakeFwd = 4;
-    public static final int intakeRev = 5;
+    public static final int intakeFwd = 5;
+    public static final int intakeRev = 4;
   }
 
   public abstract static class LimelightPipelines {

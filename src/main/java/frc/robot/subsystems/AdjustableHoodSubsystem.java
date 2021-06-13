@@ -40,7 +40,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   private boolean postEncoderBrokenResetComplete = false;
   private final double stallCurrent = 50;
 
-  public AdjustableHoodSubsystem() {
+  private AdjustableHoodSubsystem() {
     motor.getMotorController().configFactoryDefault();
     motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 

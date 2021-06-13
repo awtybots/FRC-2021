@@ -28,7 +28,7 @@ public class TurretSubsystem extends SubsystemBase {
   // rotation
   private Pro775 motor;
 
-  public TurretSubsystem() {
+  private TurretSubsystem() {
     if(exists) {
       motor = new Pro775(RobotMap.CAN.turret, 1.0);
 
