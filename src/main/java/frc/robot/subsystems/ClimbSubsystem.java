@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import org.awtybots.frc.botplus.motors.Falcon500;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,6 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
   private ClimbSubsystem() {
     climber.getMotorController().configFactoryDefault();
     climber.getMotorController().setInverted(true);
+    climber.getMotorController().setNeutralMode(NeutralMode.Brake);
   }
 
   public void toggle(boolean on) {
