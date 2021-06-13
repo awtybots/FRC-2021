@@ -11,7 +11,7 @@ public class DriveForwardTime extends SequentialCommandGroup {
         () -> DrivetrainSubsystem.getInstance().setMotorVelocityOutput(0.3, 0.3),
         () -> DrivetrainSubsystem.getInstance().kill(),
         DrivetrainSubsystem.getInstance()
-      ).withTimeout(0.5)
+      ).withTimeout(0.3)
     );
   }
 }
