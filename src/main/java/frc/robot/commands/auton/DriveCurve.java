@@ -7,6 +7,7 @@ public class DriveCurve extends SequentialCommandGroup {
 
   /**
    * a smooth arc path for the robot to follow
+   *
    * @param arcRadius radius of arc drawn by path of robot
    * @param degrees degrees of circle to make arc from (positive means curve right)
    */

@@ -7,11 +7,10 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveForwardTime extends SequentialCommandGroup {
   public DriveForwardTime() {
     addCommands(
-      new StartEndCommand(
-        () -> DrivetrainSubsystem.getInstance().setMotorVelocityOutput(0.3, 0.3),
-        () -> DrivetrainSubsystem.getInstance().kill(),
-        DrivetrainSubsystem.getInstance()
-      ).withTimeout(0.3)
-    );
+        new StartEndCommand(
+                () -> DrivetrainSubsystem.getInstance().setMotorVelocityOutput(0.3, 0.3),
+                () -> DrivetrainSubsystem.getInstance().kill(),
+                DrivetrainSubsystem.getInstance())
+            .withTimeout(0.3));
   }
 }

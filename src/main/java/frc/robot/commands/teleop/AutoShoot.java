@@ -61,16 +61,19 @@ public class AutoShoot extends CommandBase {
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     SmartDashboard.putNumber("Power Port Perceived Distance", powerPortOffset.getX());
 
-    double adjustableHoodGoalAngle = Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
-    
-    AdjustableHoodSubsystem.getInstance().setGoalAngle(adjustableHoodGoalAngle);
+    double adjustableHoodGoalLaunchAngle =
+        Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
 
-    projectileMotionSimulation.setLaunchAngle(AdjustableHoodSubsystem.getInstance().getCurrentAngle());
+    AdjustableHoodSubsystem.getInstance().setGoalLaunchAngle(adjustableHoodGoalLaunchAngle);
+
+    projectileMotionSimulation.setLaunchAngle(
+        AdjustableHoodSubsystem.getInstance().getCurrentLaunchAngle());
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
 
     if (velocity == null) {
       SmartDashboard.putBoolean("Projectile Motion Solution", false);
-      logger.warn("Projectile motion simulation found no solution! Move the robot to a better shooting position.");
+      logger.warn(
+          "Projectile motion simulation found no solution! Move the robot to a better shooting position.");
       return;
     }
 
@@ -90,7 +93,7 @@ public class AutoShoot extends CommandBase {
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
     TowerSubsystem.getInstance().toggle(false);
-    
+
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 }

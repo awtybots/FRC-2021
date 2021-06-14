@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,10 +15,10 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
    * Note that "angle" means how elevated the shot is from horizontal. An angle of
    * 0 is a flat shot, 45 is a diagonal shot, and 90 is straight up.
    */
-  public static final double minAngle = 57;
-  public static final double maxAngle = 76;
-  private double startAngle = maxAngle;
-  private double goalAngle = startAngle; // setpoint
+  public static final double minLaunchAngle = 57;
+  public static final double maxLaunchAngle = 76;
+  private double startAngle = maxLaunchAngle;
+  private double goalLaunchAngle = startAngle; // setpoint
   private double lastCurrentAngle = startAngle;
 
   private final boolean encoderGlitchDetection = true;
@@ -52,22 +51,25 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
     constantAngleTimer.start();
   }
 
-  public void setGoalAngle(double newGoalAngle) {
-    goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
+  public void setGoalLaunchAngle(double newGoalLaunchAngle) {
+    goalLaunchAngle = MathUtil.clamp(newGoalLaunchAngle, minLaunchAngle, maxLaunchAngle);
   }
 
-  public boolean atGoalAngle() {
-    return Math.abs(goalAngle - lastCurrentAngle)
+  public boolean atGoalLaunchAngle() {
+    return Math.abs(goalLaunchAngle - lastCurrentAngle)
         < slowDownWithinThisAngleFromGoal * minimumPercentOutput;
   }
 
-  public double getCurrentAngle() {
+  public double getCurrentLaunchAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
-    SmartDashboard.putBoolean("Hood In Bounds", tentativeCurrentAngle >= (minAngle - stopWithinThisAngleFromGoal) && tentativeCurrentAngle <= (maxAngle + stopWithinThisAngleFromGoal));
+    SmartDashboard.putBoolean(
+        "Hood In Bounds",
+        tentativeCurrentAngle >= (minLaunchAngle - stopWithinThisAngleFromGoal)
+            && tentativeCurrentAngle <= (maxLaunchAngle + stopWithinThisAngleFromGoal));
 
-    if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
-        || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {
+    if (tentativeCurrentAngle < minLaunchAngle - slowDownWithinThisAngleFromGoal
+        || tentativeCurrentAngle > maxLaunchAngle + slowDownWithinThisAngleFromGoal) {
       return lastCurrentAngle;
     } else {
       lastCurrentAngle = tentativeCurrentAngle;
@@ -77,26 +79,31 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // goalAngle = SmartDashboard.getNumber("Hood Goal Angle", goalAngle); // for setting
+    // goalLaunchAngle = SmartDashboard.getNumber("Hood Goal Launch Angle", goalLaunchAngle); // for
+    // setting
 
-    double currentAngle = getCurrentAngle();
-    double angleError = goalAngle - currentAngle;
+    double currentLaunchAngle = getCurrentLaunchAngle();
+    double angleError = goalLaunchAngle - currentLaunchAngle;
 
-    double x = Math.min((Math.abs(angleError) - stopWithinThisAngleFromGoal) / (slowDownWithinThisAngleFromGoal - stopWithinThisAngleFromGoal), 1.0);
+    double x =
+        Math.min(
+            (Math.abs(angleError) - stopWithinThisAngleFromGoal)
+                / (slowDownWithinThisAngleFromGoal - stopWithinThisAngleFromGoal),
+            1.0);
     double motorOutput = (x * maximumPercentOutput) + ((1 - x) * minimumPercentOutput);
     if (motorOutput < minimumPercentOutput) {
       motorOutput = 0;
     }
     motorOutput *= Math.signum(angleError);
 
-    if(angleError > 0) {
+    if (angleError > 0) {
       motorOutput *= workingWithGravityAdjustment;
     }
 
-    if(encoderGlitchDetection) {
-      if(!encoderBroken) {
-        if(Math.abs(motorOutput) > 0) {
-          if(lastCurrentAngle != beforeLastCurrentAngle) {
+    if (encoderGlitchDetection) {
+      if (!encoderBroken) {
+        if (Math.abs(motorOutput) > 0) {
+          if (lastCurrentAngle != beforeLastCurrentAngle) {
             beforeLastCurrentAngle = lastCurrentAngle;
             constantAngleTimer.reset();
           } else if (constantAngleTimer.get() > encoderBrokenTime) {
@@ -107,7 +114,8 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
           constantAngleTimer.reset();
         }
       } else if (!postEncoderBrokenResetComplete) {
-        if(Robot.pdp.getCurrent(RobotMap.PDP.adjustableHood) > stallCurrent * maximumPercentOutput) {
+        if (Robot.pdp.getCurrent(RobotMap.PDP.adjustableHood)
+            > stallCurrent * maximumPercentOutput) {
           motor.setRawOutput(0);
           postEncoderBrokenResetComplete = true;
           encoderBroken = false;
@@ -116,14 +124,14 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
       }
     }
 
-    SmartDashboard.putNumber("Hood Current Angle", currentAngle);
-    SmartDashboard.putNumber("Hood Goal Angle", goalAngle);
+    SmartDashboard.putNumber("Hood Current Angle", currentLaunchAngle);
+    SmartDashboard.putNumber("Hood Goal Angle", goalLaunchAngle);
     SmartDashboard.putNumber("Hood Error Angle", angleError);
-    SmartDashboard.putBoolean("Hood At Goal", atGoalAngle());
+    SmartDashboard.putBoolean("Hood At Goal", atGoalLaunchAngle());
     SmartDashboard.putNumber("Hood Motor Output", motorOutput);
     SmartDashboard.putBoolean("Hood Encoder Working", !encoderBroken);
 
-    if(!encoderBroken) motor.setRawOutput(motorOutput);
+    if (!encoderBroken) motor.setRawOutput(motorOutput);
   }
 
   private static AdjustableHoodSubsystem instance = new AdjustableHoodSubsystem();

@@ -28,14 +28,16 @@ public class AutoAimUsingTurret extends CommandBase {
     SmartDashboard.putBoolean("Limelight Target Visible", hasVisibleTarget);
 
     if (hasVisibleTarget) {
-      if(hunting) {
+      if (hunting) {
         hunting = false;
       }
     } else {
-      if(hunting) {
-        if(TurretSubsystem.getInstance().atGoalAngle()) {
+      if (hunting) {
+        if (TurretSubsystem.getInstance().atGoalAngle()) {
           huntingToMax = !huntingToMax;
-          TurretSubsystem.getInstance().setAbsoluteGoalAngle(huntingToMax ? TurretSubsystem.maxAngle : TurretSubsystem.minAngle) ;
+          TurretSubsystem.getInstance()
+              .setAbsoluteGoalAngle(
+                  huntingToMax ? TurretSubsystem.maxAngle : TurretSubsystem.minAngle);
         }
       } else {
         hunting = true;

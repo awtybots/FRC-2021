@@ -5,8 +5,6 @@ import frc.robot.commands.auton.DriveDistance;
 
 public class DriveForwardDistance extends SequentialCommandGroup {
   public DriveForwardDistance() {
-    addCommands(
-      new DriveDistance(0.5)
-    );
+    addCommands(new DriveDistance(0.5));
   }
 }

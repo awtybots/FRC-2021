@@ -26,7 +26,7 @@ public class ToggleShooter extends CommandBase {
 
   @Override
   public void execute() {
-    if(timer.get() > 0.5 && !startedTower && ShooterSubsystem.getInstance().isFlywheelReady()) {
+    if (timer.get() > 0.5 && !startedTower && ShooterSubsystem.getInstance().isFlywheelReady()) {
       TowerSubsystem.getInstance().toggle(true);
       startedTower = true;
     }

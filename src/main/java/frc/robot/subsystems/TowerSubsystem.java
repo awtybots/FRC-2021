@@ -39,7 +39,7 @@ public class TowerSubsystem extends SubsystemBase {
   }
 
   private void set(int p) {
-    switch(p) {
+    switch (p) {
       case -1:
         tower.setRawOutput(reversePercentOutput);
         break;
@@ -65,15 +65,15 @@ public class TowerSubsystem extends SubsystemBase {
 
     towerStuck = desiredState == 1 && towerStuck && currentLimiting;
 
-    if(currentlyGettingUnstuck) {
-      if(stuckTimer.get() > unstuckReverseTime) {
+    if (currentlyGettingUnstuck) {
+      if (stuckTimer.get() > unstuckReverseTime) {
         set(0);
-        if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
+        if (stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
           set(desiredState);
           currentlyGettingUnstuck = false;
         }
       }
-    } else if(towerStuck) {
+    } else if (towerStuck) {
       currentlyGettingUnstuck = true;
       stuckTimer.reset();
       stuckTimer.start();
@@ -81,8 +81,8 @@ public class TowerSubsystem extends SubsystemBase {
       set(-desiredState);
 
       SpindexerSubsystem.getInstance().unstuck();
-    // } else if(SpindexerSubsystem.getInstance().currentlyGettingUnstuck) {
-    //   set(0);
+      // } else if(SpindexerSubsystem.getInstance().currentlyGettingUnstuck) {
+      //   set(0);
     } else {
       set(desiredState);
     }

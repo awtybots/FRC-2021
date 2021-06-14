@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -26,11 +25,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void toggleMotorOnly(boolean on) {
-    motor.getMotorController().set(ControlMode.PercentOutput, on ? motorPercentOutput : 0);
+    motor.setRawOutput(on ? motorPercentOutput : 0);
   }
 
   public void reverse() {
-    motor.getMotorController().set(ControlMode.PercentOutput, -motorPercentOutput);
+    motor.setRawOutput(-motorPercentOutput);
   }
 
   private static IntakeSubsystem instance = new IntakeSubsystem();

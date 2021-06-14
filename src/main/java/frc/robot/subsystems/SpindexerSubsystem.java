@@ -27,7 +27,7 @@ public class SpindexerSubsystem extends SubsystemBase {
   private int desiredState = 0;
 
   private SpindexerSubsystem() {
-    if(exists) {
+    if (exists) {
       spindexer = new Pro775(RobotMap.CAN.spindexer, 1.0);
       spindexer.getMotorController().configFactoryDefault();
       SmartDashboard.putBoolean("Spindexer Current Limiting", currentLimiting);
@@ -42,38 +42,40 @@ public class SpindexerSubsystem extends SubsystemBase {
   }
 
   public void toggle(boolean on) {
-    if(exists) desiredState = on ? 1 : 0;
+    if (exists) desiredState = on ? 1 : 0;
   }
 
   public void set(int p) {
-    if(exists) spindexer.setRawOutput(p * percentOutput);
+    if (exists) spindexer.setRawOutput(p * percentOutput);
   }
 
   public void reverse() {
-    if(exists) desiredState = -1;
+    if (exists) desiredState = -1;
   }
 
   @Override
   public void periodic() {
-    if(!exists) return;
+    if (!exists) return;
 
     currentLimiting = SmartDashboard.getBoolean("Spindexer Current Limiting", currentLimiting);
-    boolean spindexerStuck = Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput;
+    boolean spindexerStuck =
+        Robot.pdp.getCurrent(RobotMap.PDP.spindexer) > stuckCurrent * percentOutput;
 
-    SmartDashboard.putBoolean("Spindexer Not Stuck", (!spindexerStuck) && (!currentlyGettingUnstuck));
+    SmartDashboard.putBoolean(
+        "Spindexer Not Stuck", (!spindexerStuck) && (!currentlyGettingUnstuck));
 
     spindexerStuck = spindexerStuck && currentLimiting;
 
-    if(currentlyGettingUnstuck) {
-      if(stuckTimer.get() > unstuckReverseTime) {
+    if (currentlyGettingUnstuck) {
+      if (stuckTimer.get() > unstuckReverseTime) {
         set(0);
-        if(stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
+        if (stuckTimer.get() > unstuckReverseTime + unstuckPauseTime) {
           set(desiredState);
           currentlyGettingUnstuck = false;
         }
       }
-    } else if(spindexerStuck) {
-      if(stuckTimer.get() > stuckTime) unstuck();
+    } else if (spindexerStuck) {
+      if (stuckTimer.get() > stuckTime) unstuck();
     } else {
       stuckTimer.reset();
       set(desiredState);
@@ -81,7 +83,7 @@ public class SpindexerSubsystem extends SubsystemBase {
   }
 
   public void unstuck() {
-    if(!exists) return;
+    if (!exists) return;
 
     currentlyGettingUnstuck = true;
     stuckTimer.reset();

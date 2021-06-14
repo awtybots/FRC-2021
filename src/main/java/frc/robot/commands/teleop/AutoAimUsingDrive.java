@@ -28,7 +28,7 @@ public class AutoAimUsingDrive extends CommandBase {
 
   @Override
   public void execute() {
-    if(rotateCommand.isFinished()) rotateCommand = null;
+    if (rotateCommand.isFinished()) rotateCommand = null;
 
     if (rotateCommand != null) return;
 
@@ -38,7 +38,7 @@ public class AutoAimUsingDrive extends CommandBase {
       boolean hasVisibleTarget = Robot.limelight.getHasVisibleTarget();
       SmartDashboard.putBoolean("Limelight Target Visible", hasVisibleTarget);
 
-      if(hasVisibleTarget) {
+      if (hasVisibleTarget) {
         double x = Robot.limelight.getXOffset();
         SmartDashboard.putNumber("Limelight Target X Offset", x);
 

@@ -7,12 +7,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.config.DriveConfig;
 import org.awtybots.frc.botplus.motors.Falcon500;
 import org.awtybots.frc.botplus.subsystems.Drivetrain;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
 

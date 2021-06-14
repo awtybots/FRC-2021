@@ -26,7 +26,9 @@ public class TeleopDrive extends AnalogInputCommand {
     SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
     SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
     DrivetrainSubsystem.getInstance()
-        .setMotorVelocityOutput(driveControlsInput.getX(), driveControlsInput.getY());
+        // .setMotorRawOutput( // uncomment this for no PID drive
+        .setMotorVelocityOutput( // comment this for no PID drive
+            driveControlsInput.getX(), driveControlsInput.getY());
   }
 
   private Vector2 splitArcadeDrive(ControllerValues controllerValues) {

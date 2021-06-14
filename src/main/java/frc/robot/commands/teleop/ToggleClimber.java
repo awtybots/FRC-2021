@@ -1,9 +1,12 @@
 package frc.robot.commands.teleop;
 
-import frc.robot.subsystems.ClimbSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ClimbSubsystem;
 
 public class ToggleClimber extends CommandBase {
+
+  public static final int Forward = 1;
+  public static final int Reverse = -1;
 
   private final int dir;
 

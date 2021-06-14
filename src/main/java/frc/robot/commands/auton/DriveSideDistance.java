@@ -65,6 +65,8 @@ class DriveSideDistance {
       newVelocity = Math.min(maxAcceleration * currentTime, maxVelocity);
     }
 
-    return MathUtil.clamp(newVelocity, 0.0, maxVelocity) * outputFactor / DrivetrainSubsystem.getInstance().getConfig().getVelocityPeak();
+    return MathUtil.clamp(newVelocity, 0.0, maxVelocity)
+        * outputFactor
+        / DrivetrainSubsystem.getInstance().getConfig().getVelocityPeak();
   }
 }

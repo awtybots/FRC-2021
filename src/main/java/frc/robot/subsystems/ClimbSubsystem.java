@@ -2,13 +2,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-import org.awtybots.frc.botplus.motors.Falcon500;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import org.awtybots.frc.botplus.motors.Falcon500;
 
 public class ClimbSubsystem extends SubsystemBase {
 
@@ -44,5 +42,4 @@ public class ClimbSubsystem extends SubsystemBase {
   public static ClimbSubsystem getInstance() {
     return instance;
   }
-  
 }
