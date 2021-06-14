@@ -52,7 +52,8 @@ public class TeleopDrive extends AnalogInputCommand {
 
   @SuppressWarnings("unused")
   private Vector2 gtaDrive(ControllerValues controllerValues) {
-    double speed = smoothingFunction(controllerValues.getRightTrigger() - controllerValues.getLeftTrigger());
+    double speed =
+        smoothingFunction(controllerValues.getRightTrigger() - controllerValues.getLeftTrigger());
     double steer = smoothingFunction(controllerValues.getLeftStickX());
 
     if (speed < 0) {

@@ -1,4 +1,4 @@
-package frc.robot.commands.teleop;
+package frc.robot.commands.teleop.automatic;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -86,8 +86,8 @@ public class AutoShoot extends CommandBase {
     boolean readyToShoot =
         ShooterSubsystem.getInstance().isFlywheelReady()
             && TurretSubsystem.getInstance().atGoalAngle();
-    
-    if(readyToShoot) {
+
+    if (readyToShoot) {
       TowerSubsystem.getInstance().enableForShooting();
     } else {
       TowerSubsystem.getInstance().stop();

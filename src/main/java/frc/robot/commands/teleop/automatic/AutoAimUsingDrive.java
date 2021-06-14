@@ -1,4 +1,4 @@
-package frc.robot.commands.teleop;
+package frc.robot.commands.teleop.automatic;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

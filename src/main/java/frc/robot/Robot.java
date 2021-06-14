@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.commands.auton.sequences.*;
 import frc.robot.commands.teleop.*;
+import frc.robot.commands.teleop.automatic.*;
 import frc.robot.subsystems.*;
 import org.awtybots.frc.botplus.CompetitionBot;
 import org.awtybots.frc.botplus.commands.Controller;
@@ -45,7 +46,7 @@ public class Robot extends CompetitionBot {
   public void addAutonOptions() {
     addAutonDefault("Drive Forward Time", new DriveForwardTime());
     addAutonOption("Drive Forward Distance", new DriveForwardDistance());
-    addAutonOption("Shoot 3 and Reverse", new Shoot3AndDriveForward());
+    addAutonOption("Shoot 3 and Drive Forward", new Shoot3AndDriveForward());
   }
 
   @Override
@@ -81,12 +82,16 @@ public class Robot extends CompetitionBot {
     controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76, false)); // against wall
     controller2.getBtnX().whenHeld(new ManualShootingPreset(4500.0, 65, true)); // mid range
     controller2.getBtnB().whenHeld(new ManualShootingPreset(6000.0, 57, true)); // long range
-    controller2.getBtnY().whenHeld(
+    controller2
+        .getBtnY()
+        .whenHeld(
             new AutoAimUsingTurret()
                 .alongWith(new AutoShoot())); // fancy pants shot w/limelight, turret, physics math
 
-    controller2.getBtnBack().whenPressed( // hood all the way back, turret dead center
-            new ResetTurret()
+    controller2
+        .getBtnBack()
+        .whenPressed(
+            new ResetTurret() // hood all the way back, turret dead center
                 .alongWith(new SetHoodLaunchAngle(AdjustableHoodSubsystem.maxLaunchAngle)));
     controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
     // controller2.getDpadLeft().whenPressed( // manually move turret left 10 degrees

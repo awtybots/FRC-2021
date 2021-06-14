@@ -15,9 +15,7 @@ public class ToggleTower extends ToggleCommand {
 
   @Override
   public void toggle(boolean b) {
-    if (b)
-      TowerSubsystem.getInstance().enableForShooting();
-    else
-      TowerSubsystem.getInstance().stop();
+    if (b) TowerSubsystem.getInstance().enableForShooting();
+    else TowerSubsystem.getInstance().stop();
   }
 }

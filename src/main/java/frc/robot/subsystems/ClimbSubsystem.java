@@ -29,7 +29,8 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double current = Robot.pdp.getCurrent(RobotMap.PDP.climber);
-    double encoderPos = climber.getOutputRevsCompleted() * RobotMap.Dimensions.climberWinchCircumference;
+    double encoderPos =
+        climber.getOutputRevsCompleted() * RobotMap.Dimensions.climberWinchCircumference;
 
     SmartDashboard.putNumber("Climber Current", current);
     SmartDashboard.putNumber("Climber Position", encoderPos);
