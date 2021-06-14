@@ -8,17 +8,15 @@ public abstract class RobotMap {
     public static final int rightDrive2 = 12;
 
     public static final int intake = 5;
-    public static final int spindexer = 7;
+    // public static final int spindexer = 7; // rip
     public static final int tower = 9;
 
     public static final int turret = 8;
     public static final int adjustableHood = 10;
     public static final int shooter = 15;
 
-    public static final int controlPanelSpinner = 6; // lmao
-
-    public static final int indexerL = -1; // TODO
-    public static final int indexerR = -1;
+    public static final int indexerL = 6;
+    public static final int indexerR = 7;
 
     public static final int climber = 16;
   }
@@ -33,6 +31,11 @@ public abstract class RobotMap {
   public abstract static class PCM {
     public static final int intakeFwd = 5;
     public static final int intakeRev = 4;
+  }
+
+  public abstract static class DIO {
+    public static final int allianceColorLEDs = 0;
+    public static final int towerLimitSwitch = 1;
   }
 
   public abstract static class LimelightPipelines {

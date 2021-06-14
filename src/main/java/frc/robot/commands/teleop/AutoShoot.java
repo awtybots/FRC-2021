@@ -86,13 +86,13 @@ public class AutoShoot extends CommandBase {
     boolean readyToShoot =
         ShooterSubsystem.getInstance().isFlywheelReady()
             && TurretSubsystem.getInstance().atGoalAngle();
-    TowerSubsystem.getInstance().toggle(readyToShoot);
+    TowerSubsystem.getInstance().set(readyToShoot ? 1 : 0);
   }
 
   @Override
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
-    TowerSubsystem.getInstance().toggle(false);
+    TowerSubsystem.getInstance().set(0);
 
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }

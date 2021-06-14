@@ -9,8 +9,6 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TurretSubsystem extends SubsystemBase {
 
-  public static final boolean exists = false; // is there even a turret on the robot
-
   public static final double minAngle = 135;
   public static final double maxAngle = 225;
   public static final double startAngle = 180;
@@ -28,23 +26,19 @@ public class TurretSubsystem extends SubsystemBase {
   private Pro775 motor;
 
   private TurretSubsystem() {
-    if (exists) {
-      motor = new Pro775(RobotMap.CAN.turret, 1.0);
+    motor = new Pro775(RobotMap.CAN.turret, 1.0);
 
-      motor.getMotorController().configFactoryDefault();
-      motor.getMotorController().setNeutralMode(NeutralMode.Coast);
+    motor.getMotorController().configFactoryDefault();
+    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
 
-      motor.setSensorGearRatio(sensorGearRatio);
-      motor.resetSensorPosition();
+    motor.setSensorGearRatio(sensorGearRatio);
+    motor.resetSensorPosition();
 
-      motor.getMotorController().setInverted(true);
-      motor.getMotorController().setSensorPhase(true);
-    }
+    motor.getMotorController().setInverted(true);
+    motor.getMotorController().setSensorPhase(true);
   }
 
   public void setAbsoluteGoalAngle(double newGoalAngle) {
-    if (!exists) return;
-
     newGoalAngle %= 360.0;
     goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
 
@@ -57,12 +51,10 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public boolean atGoalAngle() {
-    return Math.abs(goalAngle - lastCurrentAngle) < stopWithinThisAngleFromGoal || !exists;
+    return Math.abs(goalAngle - lastCurrentAngle) < stopWithinThisAngleFromGoal;
   }
 
   public double getCurrentAngle() {
-    if (!exists) return startAngle;
-
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
     SmartDashboard.putBoolean(
@@ -89,8 +81,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (!exists) return;
-
     double currentAngle = getCurrentAngle();
     double angleError = goalAngle - currentAngle;
 

@@ -10,12 +10,12 @@ public class ReverseTower extends CommandBase {
 
   @Override
   public void initialize() {
-    TowerSubsystem.getInstance().reverse();
+    TowerSubsystem.getInstance().set(-1);
   }
 
   @Override
   public void end(boolean interrupted) {
-    TowerSubsystem.getInstance().toggle(false);
+    TowerSubsystem.getInstance().set(0);
   }
 
   @Override

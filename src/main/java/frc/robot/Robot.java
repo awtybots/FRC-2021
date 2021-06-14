@@ -20,7 +20,7 @@ public class Robot extends CompetitionBot {
           RobotMap.Dimensions.limelightMountingHeight, RobotMap.Dimensions.limelightMountingAngle);
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  private DigitalOutput ledOutput = new DigitalOutput(0);
+  private DigitalOutput ledOutput = new DigitalOutput(RobotMap.DIO.allianceColorLEDs);
   private Compressor compressor = new Compressor();
 
   @Override
@@ -52,7 +52,6 @@ public class Robot extends CompetitionBot {
   public void teleopInit() {
     super.teleopInit();
 
-    SpindexerSubsystem.getInstance().toggle(false); // TODO change to true
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
 
@@ -82,14 +81,11 @@ public class Robot extends CompetitionBot {
     controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76));
     controller2.getBtnX().whenHeld(new ManualShootingPreset(4000.0, 65));
     controller2.getBtnB().whenHeld(new ManualShootingPreset(4500.0, 50));
-    controller2
-        .getBtnY()
-        .whenHeld(
+    controller2.getBtnY().whenHeld(
             new AutoAimUsingTurret()
-                .alongWith(new AutoShoot())); // fancy pants shot w/limelight,turret,physicsmath
-    controller2
-        .getBtnBack()
-        .whenPressed( // hood all the way back, turret dead centerS
+                .alongWith(new AutoShoot())); // fancy pants shot w/limelight, turret, physics math
+
+    controller2.getBtnBack().whenPressed( // hood all the way back, turret dead center
             new ResetTurret()
                 .alongWith(new SetHoodLaunchAngle(AdjustableHoodSubsystem.maxLaunchAngle)));
     controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
@@ -103,7 +99,7 @@ public class Robot extends CompetitionBot {
     //   ));
     controller2.getBmpL().whenHeld(new ReverseTower());
     controller2.getBmpR().whenHeld(new ToggleTower());
-    controller2.getTrgL().whenHeld(new ReverseSpindexer());
-    controller2.getTrgR().whenHeld(new ToggleSpindexer());
+    controller2.getTrgL().whenHeld(new ReverseIndexer());
+    controller2.getTrgR().whenHeld(new ToggleIndexer());
   }
 }
