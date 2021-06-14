@@ -38,7 +38,7 @@ public class Robot extends CompetitionBot {
 
   @Override
   public boolean isTestMode() {
-    return true; // TODO make it false, this is for tuning and practice only
+    return false;
   }
 
   @Override
