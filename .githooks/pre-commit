@@ -2,4 +2,6 @@
 exec 1>&2
 chmod +x gradlew
 echo "Formatting code before commit..."
-exec ./gradlew -q syncGitHooks format
+./gradlew -q syncGitHooks format
+[[ $? != 0 ]] && exit 1 # exit if formatter failed
+exec git add -A ./src/main/java/frc/robot
