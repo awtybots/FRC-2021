@@ -28,6 +28,7 @@ public class TowerSubsystem extends SubsystemBase {
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
     SmartDashboard.putBoolean("Tower Current Limiting", currentLimiting);
+    tower.getMotorController().setInverted(true);
 
     toggle(false);
     set(0);
