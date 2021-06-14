@@ -12,8 +12,8 @@ public class TurretSubsystem extends SubsystemBase {
 
   public static final boolean exists = false; // is there even a turret on the robot
 
-  public static final double minAngle = 100;
-  public static final double maxAngle = 270;
+  public static final double minAngle = 135;
+  public static final double maxAngle = 225;
   public static final double startAngle = 180;
   private double goalAngle = startAngle; // goalAngle is setpoint
   private double lastCurrentAngle = startAngle;
