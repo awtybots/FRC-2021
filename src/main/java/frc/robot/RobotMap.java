@@ -44,12 +44,27 @@ public abstract class RobotMap {
   }
 
   public abstract static class Dimensions {
-    public static final double limelightMountingAngle = 23; // degrees
-    public static final double limelightMountingHeight = 0.533; // meters
+    public static final double limelightMountingAngle = 23; // degrees TODO tune
+    public static final double limelightMountingHeight = feetInchesMeters(20.9); // TODO doublecheck
 
-    public static final double powerPortHeight = 2.496; // meters
-    public static final double powerPortVisionTargetOffset = 0.216; // meters
+    public static final double powerPortHeight = feetInchesMeters(8, 2.25);
+    public static final double powerPortVisionTargetOffset =
+        feetInchesMeters(8.5); // TODO remove this is a fudge number
 
-    public static final double trackWidth = 0.66; // distance between the left and right wheels, meters
+    public static final double trackWidth =
+        feetInchesMeters(26.755); // distance between the left and right wheels, meters
+  }
+
+  public static double feetInchesMeters(int feet, double inches) {
+    inches += feet * 12.0;
+    double centimeters = inches * 2.54;
+    double meters = centimeters / 100.0;
+    return meters;
+  }
+
+  public static double feetInchesMeters(double inches) {
+    double centimeters = inches * 2.54;
+    double meters = centimeters / 100.0;
+    return meters;
   }
 }
