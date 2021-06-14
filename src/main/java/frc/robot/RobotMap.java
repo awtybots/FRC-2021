@@ -53,6 +53,8 @@ public abstract class RobotMap {
 
     public static final double trackWidth =
         feetInchesMeters(26.755); // distance between the left and right wheels, meters
+
+    public static final double climberWinchCircumference = 3; // this one is actually in inches believe it or not
   }
 
   public static double feetInchesMeters(int feet, double inches) {

@@ -6,14 +6,15 @@ import org.awtybots.frc.botplus.ToggleCommand;
 public class ToggleIntake extends ToggleCommand {
 
   public ToggleIntake() {
-    super(IntakeSubsystem.getInstance(), t -> {
-      IntakeSubsystem.getInstance().toggle(t);
-    });
+    super(IntakeSubsystem.getInstance());
   }
 
   public ToggleIntake(boolean on) {
-    super(IntakeSubsystem.getInstance(), t -> {
-      IntakeSubsystem.getInstance().toggle(t);
-    }, on);
+    super(on, IntakeSubsystem.getInstance());
+  }
+
+  @Override
+  public void toggle(boolean b) {
+    IntakeSubsystem.getInstance().toggle(b);
   }
 }

@@ -7,35 +7,57 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TowerSubsystem extends SubsystemBase {
 
-  private static final double percentOutput = 0.65; // might want to go slower if using limit switch
+  private static final double loadingPercentOutput = 0.25; // slow while loading balls
+  private static final double shootingPercentOutput = 0.65; // fast while shooting
   private static final double reversePercentOutput = -0.3;
 
   private final Pro775 tower = new Pro775(RobotMap.CAN.tower, 1.0);
   private final DigitalInput limitSwitch = new DigitalInput(RobotMap.DIO.towerLimitSwitch);
 
+  private boolean stopIfLimitSwitchPressed; // this is not a setting, this is just a flag for internal use
+
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
     tower.getMotorController().setInverted(true);
 
-    set(0);
+    stop();
   }
 
-  public void set(int p) {
-    switch (p) {
-      case -1:
-        tower.setRawOutput(reversePercentOutput);
-        break;
-      case 0:
-        tower.setRawOutput(0.0);
-        break;
-      case 1:
-        tower.setRawOutput(percentOutput);
-        break;
-    }
+  public void enableForLoading() {
+    if(isFull()) return;
+
+    tower.setRawOutput(loadingPercentOutput);
+    stopIfLimitSwitchPressed = true;
   }
 
-  public boolean isFull() {
+  public void enableForShooting() {
+    tower.setRawOutput(shootingPercentOutput);
+    stopIfLimitSwitchPressed = false;
+  }
+
+  public void reverse() {
+    tower.setRawOutput(reversePercentOutput);
+    stopIfLimitSwitchPressed = false;
+  }
+
+  public void stop() {
+    tower.setRawOutput(0.0);
+    stopIfLimitSwitchPressed = false;
+  }
+
+  /**
+   * is a ball pressing the limit switch
+   * @return
+   */
+  private boolean isFull() {
     return limitSwitch.get();
+  }
+
+  @Override
+  public void periodic() {
+    if(stopIfLimitSwitchPressed && isFull()) {
+      stop();
+    }
   }
 
   private static TowerSubsystem instance = new TowerSubsystem();

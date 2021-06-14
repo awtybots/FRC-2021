@@ -12,8 +12,6 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private final double percentOutput = 0.75;
 
-  private final double winchCircumference = 3; // inches
-
   private final Falcon500 climber = new Falcon500(RobotMap.CAN.climber, 8.0 / 72.0 * 18.0 / 84.0);
 
   private ClimbSubsystem() {
@@ -31,7 +29,7 @@ public class ClimbSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     double current = Robot.pdp.getCurrent(RobotMap.PDP.climber);
-    double encoderPos = climber.getOutputRevsCompleted() * winchCircumference;
+    double encoderPos = climber.getOutputRevsCompleted() * RobotMap.Dimensions.climberWinchCircumference;
 
     SmartDashboard.putNumber("Climber Current", current);
     SmartDashboard.putNumber("Climber Position", encoderPos);

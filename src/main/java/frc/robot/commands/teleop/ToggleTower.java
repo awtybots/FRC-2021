@@ -6,14 +6,18 @@ import org.awtybots.frc.botplus.ToggleCommand;
 public class ToggleTower extends ToggleCommand {
 
   public ToggleTower() {
-    super(TowerSubsystem.getInstance(), t -> {
-      TowerSubsystem.getInstance().set(t ? 1 : 0);
-    });
+    super(TowerSubsystem.getInstance());
   }
 
   public ToggleTower(boolean on) {
-    super(TowerSubsystem.getInstance(), t -> {
-      TowerSubsystem.getInstance().set(t ? 1 : 0);
-    }, on);
+    super(on, TowerSubsystem.getInstance());
+  }
+
+  @Override
+  public void toggle(boolean b) {
+    if (b)
+      TowerSubsystem.getInstance().enableForShooting();
+    else
+      TowerSubsystem.getInstance().stop();
   }
 }

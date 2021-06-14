@@ -78,9 +78,9 @@ public class Robot extends CompetitionBot {
     controller1.getBtnA().whenHeld(new ToggleClimber(ToggleClimber.Forward));
     controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
-    controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76));
-    controller2.getBtnX().whenHeld(new ManualShootingPreset(4000.0, 65));
-    controller2.getBtnB().whenHeld(new ManualShootingPreset(4500.0, 50));
+    controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76, false)); // against wall
+    controller2.getBtnX().whenHeld(new ManualShootingPreset(4500.0, 65, true)); // mid range
+    controller2.getBtnB().whenHeld(new ManualShootingPreset(6000.0, 57, true)); // long range
     controller2.getBtnY().whenHeld(
             new AutoAimUsingTurret()
                 .alongWith(new AutoShoot())); // fancy pants shot w/limelight, turret, physics math

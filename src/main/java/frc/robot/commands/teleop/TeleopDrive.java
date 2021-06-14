@@ -31,9 +31,14 @@ public class TeleopDrive extends AnalogInputCommand {
             driveControlsInput.getX(), driveControlsInput.getY());
   }
 
+  private double smoothingFunction(double x) {
+    // return x; // simple passthrough
+    return (x * 0.3) + (Math.pow(x, 7) * 0.7); // joe drive
+  }
+
   private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
-    double speed = controllerValues.getLeftStickY();
-    double steer = controllerValues.getRightStickX();
+    double speed = smoothingFunction(controllerValues.getLeftStickY());
+    double steer = smoothingFunction(controllerValues.getRightStickX());
 
     if (speed < 0) {
       steer *= -1;
@@ -47,8 +52,8 @@ public class TeleopDrive extends AnalogInputCommand {
 
   @SuppressWarnings("unused")
   private Vector2 gtaDrive(ControllerValues controllerValues) {
-    double speed = controllerValues.getRightTrigger() - controllerValues.getLeftTrigger();
-    double steer = controllerValues.getLeftStickX();
+    double speed = smoothingFunction(controllerValues.getRightTrigger() - controllerValues.getLeftTrigger());
+    double steer = smoothingFunction(controllerValues.getLeftStickX());
 
     if (speed < 0) {
       steer *= -1;
