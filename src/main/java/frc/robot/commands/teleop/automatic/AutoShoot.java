@@ -83,7 +83,7 @@ public class AutoShoot extends CommandBase {
       // shooting
       // position.");
       // return;
-      ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(5000.0 / 60.0);
+      ShooterSubsystem.getInstance().setFlywheelRevsPerSecond(4400.0 / 60.0);
       AdjustableHoodSubsystem.getInstance().setGoalLaunchAngle(55);
     } else { // TODO cleanup
       SmartDashboard.putBoolean("Projectile Motion Solution", true);
