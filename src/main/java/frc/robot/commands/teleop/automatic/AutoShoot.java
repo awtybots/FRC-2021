@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotMap.LimelightPipelines;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -23,7 +24,8 @@ public class AutoShoot extends CommandBase {
   public AutoShoot() {
     addRequirements(
         ShooterSubsystem.getInstance(),
-        // TowerSubsystem.getInstance(),
+        TowerSubsystem.getInstance(),
+        IndexerSubsystem.getInstance(),
         AdjustableHoodSubsystem.getInstance());
 
     SmartDashboard.putBoolean("Projectile Motion Solution", true);
@@ -89,8 +91,10 @@ public class AutoShoot extends CommandBase {
 
     if (readyToShoot) {
       TowerSubsystem.getInstance().enableForShooting();
+      IndexerSubsystem.getInstance().set(1);
     } else {
       TowerSubsystem.getInstance().stop();
+      IndexerSubsystem.getInstance().set(0);
     }
   }
 
@@ -98,6 +102,7 @@ public class AutoShoot extends CommandBase {
   public void end(boolean interrupted) {
     ShooterSubsystem.getInstance().stopFlywheel();
     TowerSubsystem.getInstance().stop();
+    IndexerSubsystem.getInstance().set(0);
 
     Robot.limelight.setPipeline(LimelightPipelines.idle);
   }
