@@ -42,7 +42,7 @@ public class TurretSubsystem extends SubsystemBase {
     newGoalAngle %= 360.0;
     goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
 
-    boolean goalReachable = newGoalAngle < minAngle || newGoalAngle > maxAngle;
+    boolean goalReachable = newGoalAngle >= minAngle && newGoalAngle < maxAngle;
     SmartDashboard.putBoolean("Turret Goal Reachable", goalReachable);
   }
 
