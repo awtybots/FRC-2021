@@ -14,7 +14,8 @@ public class TowerSubsystem extends SubsystemBase {
   private final Pro775 tower = new Pro775(RobotMap.CAN.tower, 1.0);
   private final DigitalInput limitSwitch = new DigitalInput(RobotMap.DIO.towerLimitSwitch);
 
-  private boolean stopIfLimitSwitchPressed; // this is not a setting, this is just a flag for internal use
+  private boolean
+      stopIfLimitSwitchPressed; // this is not a setting, this is just a flag for internal use
 
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
@@ -24,7 +25,7 @@ public class TowerSubsystem extends SubsystemBase {
   }
 
   public void enableForLoading() {
-    if(isFull()) return;
+    if (isFull()) return;
 
     tower.setRawOutput(loadingPercentOutput);
     stopIfLimitSwitchPressed = true;
@@ -45,17 +46,14 @@ public class TowerSubsystem extends SubsystemBase {
     stopIfLimitSwitchPressed = false;
   }
 
-  /**
-   * is a ball pressing the limit switch
-   * @return
-   */
+  /** Determine if a ball pressing the limit switch, indicating if the tower is full. */
   private boolean isFull() {
     return limitSwitch.get();
   }
 
   @Override
   public void periodic() {
-    if(stopIfLimitSwitchPressed && isFull()) {
+    if (stopIfLimitSwitchPressed && isFull()) {
       stop();
     }
   }
