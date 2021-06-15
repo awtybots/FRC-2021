@@ -7,6 +7,7 @@ import frc.robot.commands.teleop.automatic.AutoShoot;
 public class Shoot3AndDriveForwardDistance extends SequentialCommandGroup {
   public Shoot3AndDriveForwardDistance() {
     addCommands(
-        new AutoShoot().alongWith(new AutoAimUsingTurret()).withTimeout(8), new DriveForwardDistance());
+        new AutoShoot().alongWith(new AutoAimUsingTurret()).withTimeout(8),
+        new DriveForwardDistance());
   }
 }
