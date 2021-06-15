@@ -44,8 +44,8 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void addAutonOptions() {
-    addAutonOption("Drive Forward Time", new DriveForwardTime(0.3));
-    addAutonDefault("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(0.3));
+    // addAutonDefault("Drive Forward Time", new DriveForwardTime(1.5));
+    addAutonDefault("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(0.4));
     // addAutonOption("Drive Forward Distance", new DriveForwardDistance());
     // addAutonOption("Shoot 3 and Drive Forward Distance", new Shoot3AndDriveForwardDistance());
   }
@@ -81,8 +81,8 @@ public class Robot extends CompetitionBot {
     controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
     controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76, false)); // against wall
-    controller2.getBtnX().whenHeld(new ManualShootingPreset(4500.0, 65, true)); // mid range?
-    controller2.getBtnB().whenHeld(new ManualShootingPreset(6000.0, 57, true)); // long range
+    controller2.getBtnX().whenHeld(new ManualShootingPreset(4500.0, 58, true)); // mid range?
+    controller2.getBtnB().whenHeld(new ManualShootingPreset(5700.0, 57, true)); // long range
     controller2
         .getBtnY()
         .whenHeld(
