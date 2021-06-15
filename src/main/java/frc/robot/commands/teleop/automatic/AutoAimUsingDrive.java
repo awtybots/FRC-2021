@@ -28,9 +28,12 @@ public class AutoAimUsingDrive extends CommandBase {
 
   @Override
   public void execute() {
-    if (rotateCommand.isFinished()) rotateCommand = null;
-
-    if (rotateCommand != null) return;
+    if (rotateCommand != null) {
+      if (rotateCommand.isFinished())
+        rotateCommand = null;
+      else
+        return;
+    }
 
     if (timer.get() > startupTime) {
       timer = null;
