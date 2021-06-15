@@ -15,8 +15,8 @@ public abstract class RobotMap {
     public static final int adjustableHood = 10;
     public static final int shooter = 15;
 
-    public static final int indexerL = 6;
-    public static final int indexerR = 7;
+    public static final int indexerL = 7;
+    public static final int indexerR = 6;
 
     public static final int climber = 16;
   }

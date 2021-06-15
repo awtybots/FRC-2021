@@ -19,7 +19,7 @@ public class TowerSubsystem extends SubsystemBase {
 
   private TowerSubsystem() {
     tower.getMotorController().configFactoryDefault();
-    tower.getMotorController().setInverted(true);
+    tower.getMotorController().setInverted(false);
 
     stop();
   }

@@ -10,9 +10,9 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class AdjustableHoodSubsystem extends SubsystemBase {
 
-  private final boolean encoderGlitchDetection = true;
+  private final boolean encoderGlitchDetection = false;
   private final boolean encoderGlitchRecovery =
-      true; // resets the encoder and pretends like nothing ever happened, may
+      false; // resets the encoder and pretends like nothing ever happened, may
   // work first try, may destroy robot idk
 
   /*
