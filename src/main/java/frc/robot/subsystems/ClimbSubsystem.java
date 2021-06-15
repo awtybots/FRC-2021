@@ -16,7 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private ClimbSubsystem() {
     climber.getMotorController().configFactoryDefault();
-    // climber.getMotorController().setInverted(true);
+    climber.getMotorController().setInverted(true);
     climber.getMotorController().setNeutralMode(NeutralMode.Brake);
     climber.getMotorController().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     climber.resetSensorPosition();

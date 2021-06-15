@@ -14,10 +14,9 @@ public class ToggleShooter extends CommandBase {
 
   public ToggleShooter(double rpm) {
     addRequirements(
-      ShooterSubsystem.getInstance(),
-      TowerSubsystem.getInstance(),
-      IndexerSubsystem.getInstance()
-    );
+        ShooterSubsystem.getInstance(),
+        TowerSubsystem.getInstance(),
+        IndexerSubsystem.getInstance());
     rps = rpm / 60.0;
   }
 
