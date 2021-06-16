@@ -7,6 +7,6 @@ import frc.robot.commands.teleop.automatic.ManualShootingPreset;
 
 public class DriveForwardTimeAndShoot3 extends SequentialCommandGroup {
   public DriveForwardTimeAndShoot3(double time) {
-    addCommands(new DriveForwardTime(time), new ManualShootingPreset(3700, 76, false));
+    addCommands(new DriveForwardTime(time), new ManualShootingPreset(4000, 76, false));
   }
 }
