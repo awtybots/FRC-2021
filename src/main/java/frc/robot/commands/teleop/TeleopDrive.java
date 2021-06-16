@@ -26,8 +26,8 @@ public class TeleopDrive extends AnalogInputCommand {
     SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
     SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
     DrivetrainSubsystem.getInstance()
-        // .setMotorRawOutput( // uncomment this for no PID drive
-        .setMotorVelocityOutput( // comment this for no PID drive
+        .setMotorRawOutput( // uncomment this for no PID drive
+            // .setMotorVelocityOutput( // comment this for no PID drive
             driveControlsInput.getX(), driveControlsInput.getY());
   }
 
