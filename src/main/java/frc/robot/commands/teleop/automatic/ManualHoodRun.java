@@ -12,14 +12,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.AdjustableHoodSubsystem;
 
-public class ResetHoodDumb extends SequentialCommandGroup {
-  public ResetHoodDumb() { // TODO this shouldnt be a thing i think
+public class ManualHoodRun extends SequentialCommandGroup {
+  public ManualHoodRun(boolean forwards) { // TODO fix
+    // double output = forwards ? 0.15 : -0.15;
     addCommands(
         new StartEndCommand(
                 () -> AdjustableHoodSubsystem.getInstance(),
                 // .motor
                 // .getMotorController()
-                // .set(ControlMode.PercentOutput, 0.15),
+                // .set(ControlMode.PercentOutput, output),
                 () -> AdjustableHoodSubsystem.getInstance(),
                 // .motor
                 // .getMotorController()

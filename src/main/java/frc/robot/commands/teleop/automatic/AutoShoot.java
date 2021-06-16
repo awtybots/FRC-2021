@@ -68,10 +68,11 @@ public class AutoShoot extends CommandBase {
     double adjustableHoodGoalLaunchAngle =
         Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
 
-    AdjustableHoodSubsystem.getInstance().setGoalLaunchAngle(adjustableHoodGoalLaunchAngle);
+    // AdjustableHoodSubsystem.getInstance().setGoalLaunchAngle(adjustableHoodGoalLaunchAngle); //
+    // TODO fix
 
-    projectileMotionSimulation.setLaunchAngle(
-        AdjustableHoodSubsystem.getInstance().getCurrentLaunchAngle());
+    projectileMotionSimulation.setLaunchAngle(45); // TODO fix
+    // AdjustableHoodSubsystem.getInstance().getCurrentLaunchAngle());
     Vector2 velocity = projectileMotionSimulation.findOptimalLaunchVelocity(powerPortOffset);
     // Vector2 velocity = null; // TODO remove and uncomment lines above
     if (velocity == null) {
@@ -87,7 +88,7 @@ public class AutoShoot extends CommandBase {
 
     boolean readyToShoot =
         TurretSubsystem.getInstance().atGoalAngle()
-            && AdjustableHoodSubsystem.getInstance().atGoalLaunchAngle()
+            // && AdjustableHoodSubsystem.getInstance().atGoalLaunchAngle() // TODO fix
             && ShooterSubsystem.getInstance().isFlywheelReady();
 
     if (readyToShoot) {
@@ -105,6 +106,6 @@ public class AutoShoot extends CommandBase {
     TowerSubsystem.getInstance().stop();
     IndexerSubsystem.getInstance().set(0);
 
-    Robot.limelight.setPipeline(LimelightPipelines.idle);
+    Robot.limelight.setDriverMode(true);
   }
 }
