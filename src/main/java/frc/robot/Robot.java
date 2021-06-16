@@ -44,10 +44,10 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void addAutonOptions() {
+    addAutonDefault("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(1.5));
+    // addAutonDefault("Drive Forward Time and Shoot 3", new DriveForwardTimeAndShoot3(0.75));
+    // addAutonDefault("Shoot 3 from the Line", new Shoot3FromLine());
     // addAutonDefault("Drive Forward Time", new DriveForwardTime(1.5));
-    addAutonDefault("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(0.75));
-    // addAutonOption("Drive Forward Distance", new DriveForwardDistance());
-    // addAutonOption("Shoot 3 and Drive Forward Distance", new Shoot3AndDriveForwardDistance());
   }
 
   @Override
@@ -80,21 +80,20 @@ public class Robot extends CompetitionBot {
     controller1.getBtnA().whenHeld(new ToggleClimber(ToggleClimber.Forward));
     controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
-    controller2.getBtnA().whenHeld(new ManualShootingPreset(3700.0, 76, false)); // against wall
-    controller2.getBtnX().whenHeld(new ManualShootingPreset(4500.0, 58, true)); // mid range?
+    controller2.getBtnA().whenHeld(new ManualShootingPreset(4500.0, 76, false)); // against wall
+    controller2.getBtnX().whenHeld(new ManualShootingPreset(5000.0, 58, true)); // mid range?
     controller2.getBtnB().whenHeld(new ManualShootingPreset(5700.0, 57, true)); // long range
-    controller2
-        .getBtnY()
-        .whenHeld(
-            new AutoAimUsingTurret()
-                .alongWith(new AutoShoot())); // fancy pants shot w/limelight, turret, physics math
+    // controller2
+    //     .getBtnY()
+    //     .whenHeld(
+    //         new AutoAimUsingTurret()
+    //             .alongWith(new AutoShoot())); // fancy pants shot w/limelight, turret, physics
+    // math
 
-    controller2
-        .getBtnBack()
-        .whenPressed(
-            new ResetTurret() // hood all the way back, turret dead center
-                .alongWith(new SetHoodLaunchAngle(AdjustableHoodSubsystem.maxLaunchAngle)));
-    controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
+    controller2.getBtnBack().whenPressed(new ResetHoodDumb());
+    //         new ResetTurret() // hood all the way back, turret dead center
+    //             .alongWith(new SetHoodLaunchAngle(AdjustableHoodSubsystem.maxLaunchAngle)));
+    // controller2.getBtnStart().whenHeld(new AutoAimUsingTurret());
     // controller2.getDpadLeft().whenPressed( // manually move turret left 10 degrees
     //   new InstantCommand(() -> TurretSubsystem.getInstance().setRelativeGoalAngle(-10),
     //     TurretSubsystem.getInstance()

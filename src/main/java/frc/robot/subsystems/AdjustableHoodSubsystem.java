@@ -37,7 +37,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   // on the way down
 
   private final double sensorGearRatio = 15.0 / 72.0;
-  private Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
+  public Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
 
   private final Timer constantAngleTimer = new Timer();
   private double beforeLastCurrentAngle = lastCurrentAngle;

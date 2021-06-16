@@ -1,15 +1,11 @@
 package frc.robot.commands.auton.sequences;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// import frc.robot.commands.teleop.automatic.AutoAimUsingTurret;
-import frc.robot.commands.teleop.automatic.AutoShoot;
+import frc.robot.commands.teleop.automatic.ManualShootingPreset;
 
 public class Shoot3AndDriveForwardTime extends SequentialCommandGroup {
   public Shoot3AndDriveForwardTime(double time) {
     addCommands(
-        new AutoShoot().withTimeout(8), new DriveForwardTime(time) // TODO replace with line above
-        );
-    // new AutoShoot().alongWith(new AutoAimUsingTurret()).withTimeout(8), new
-    // DriveForwardTime(time));
+        new ManualShootingPreset(4800, 56, false).withTimeout(10), new DriveForwardTime(time));
   }
 }
