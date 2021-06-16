@@ -1,11 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import frc.robot.RobotMap.LimelightPipelines;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auton.sequences.*;
 import frc.robot.commands.teleop.*;
 import frc.robot.commands.teleop.automatic.*;
@@ -21,20 +18,17 @@ public class Robot extends CompetitionBot {
           RobotMap.Dimensions.limelightMountingHeight, RobotMap.Dimensions.limelightMountingAngle);
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  private DigitalOutput ledOutput = new DigitalOutput(RobotMap.DIO.allianceColorLEDs);
   private Compressor compressor = new Compressor();
 
   @Override
   public void robotInit() {
     super.robotInit();
-
     compressor.setClosedLoopControl(true);
   }
 
   @Override
   public void robotPeriodic() {
-    super.robotPeriodic();
-    ledOutput.set(DriverStation.getInstance().getAlliance() == Alliance.Red);
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -44,17 +38,16 @@ public class Robot extends CompetitionBot {
 
   @Override
   public void addAutonOptions() {
-    addAutonDefault("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(1.5));
-    // addAutonDefault("Drive Forward Time and Shoot 3", new DriveForwardTimeAndShoot3(0.75));
-    // addAutonDefault("Shoot 3 from the Line", new Shoot3FromLine());
-    // addAutonDefault("Drive Forward Time", new DriveForwardTime(1.5));
+    addAutonDefault("Drive Forward Time and Shoot 3", new DriveForwardTimeAndShoot3(0.75));
+    // addAutonOption("Shoot 3 and Drive Forward Time", new Shoot3AndDriveForwardTime(1.5));
+    // addAutonOption("Shoot 3 from the Line", new Shoot3FromLine());
+    // addAutonOption("Drive Forward Time", new DriveForwardTime(1.5));
   }
 
   @Override
   public void teleopInit() {
     super.teleopInit();
-
-    Robot.limelight.setPipeline(LimelightPipelines.idle);
+    Robot.limelight.setDriverMode(true);
   }
 
   @Override
@@ -65,8 +58,7 @@ public class Robot extends CompetitionBot {
   @Override
   public void disabledInit() {
     super.disabledInit();
-
-    Robot.limelight.setPipeline(LimelightPipelines.idle);
+    Robot.limelight.setDriverMode(true);
   }
 
   @Override
@@ -80,7 +72,10 @@ public class Robot extends CompetitionBot {
     controller1.getBtnA().whenHeld(new ToggleClimber(ToggleClimber.Forward));
     controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
-    controller2.getBtnA().whenHeld(new ManualShootingPreset(4500.0, 76, false)); // against wall
+    // controller1.getBtnX().whenHeld(new ManualHoodRun(true));
+    // controller1.getBtnB().whenHeld(new ManualHoodRun(false));
+
+    controller2.getBtnA().whenHeld(new ManualShootingPreset(4000.0, 76, false)); // against wall
     controller2.getBtnX().whenHeld(new ManualShootingPreset(5000.0, 58, true)); // mid range?
     controller2.getBtnB().whenHeld(new ManualShootingPreset(5700.0, 57, true)); // long range
     // controller2

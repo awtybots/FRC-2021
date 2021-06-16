@@ -56,6 +56,6 @@ public class AutoAimUsingDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) rotateCommand.cancel();
-    Robot.limelight.setPipeline(LimelightPipelines.idle);
+    Robot.limelight.setDriverMode(true);
   }
 }

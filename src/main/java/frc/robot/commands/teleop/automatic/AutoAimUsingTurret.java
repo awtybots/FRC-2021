@@ -61,7 +61,7 @@ public class AutoAimUsingTurret extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    Robot.limelight.setPipeline(LimelightPipelines.idle);
+    Robot.limelight.setDriverMode(true);
     TurretSubsystem.getInstance().returnToStart();
   }
 }
