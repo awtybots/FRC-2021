@@ -17,9 +17,4 @@ public class ReverseIndexer extends CommandBase {
   public void end(boolean interrupted) {
     IndexerSubsystem.getInstance().set(0);
   }
-
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

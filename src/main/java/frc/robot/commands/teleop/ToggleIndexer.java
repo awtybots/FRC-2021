@@ -1,22 +1,23 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
-import org.awtybots.frc.botplus.ToggleCommand;
 
-public class ToggleIndexer extends ToggleCommand {
+public class ToggleIndexer extends CommandBase {
   public ToggleIndexer() {
-    super(IndexerSubsystem.getInstance(), TowerSubsystem.getInstance());
-  }
-
-  public ToggleIndexer(boolean on) {
-    super(on, IndexerSubsystem.getInstance(), TowerSubsystem.getInstance());
+    addRequirements(IndexerSubsystem.getInstance(), TowerSubsystem.getInstance());
   }
 
   @Override
-  public void toggle(boolean b) {
-    IndexerSubsystem.getInstance().set(b ? 1 : 0);
-    if (b) TowerSubsystem.getInstance().enableForLoading();
-    else TowerSubsystem.getInstance().stop();
+  public void initialize() {
+    IndexerSubsystem.getInstance().set(1);
+    TowerSubsystem.getInstance().enableForLoading();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    IndexerSubsystem.getInstance().set(0);
+    TowerSubsystem.getInstance().stop();
   }
 }

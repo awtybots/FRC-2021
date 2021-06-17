@@ -1,20 +1,21 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
-import org.awtybots.frc.botplus.ToggleCommand;
 
-public class ToggleIntake extends ToggleCommand {
+public class ToggleIntake extends CommandBase {
 
   public ToggleIntake() {
-    super(IntakeSubsystem.getInstance());
-  }
-
-  public ToggleIntake(boolean on) {
-    super(on, IntakeSubsystem.getInstance());
+    addRequirements(IntakeSubsystem.getInstance());
   }
 
   @Override
-  public void toggle(boolean b) {
-    IntakeSubsystem.getInstance().toggle(b);
+  public void initialize() {
+    IntakeSubsystem.getInstance().toggle(true);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    IntakeSubsystem.getInstance().toggle(false);
   }
 }

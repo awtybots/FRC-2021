@@ -26,35 +26,18 @@ public class TeleopDrive extends AnalogInputCommand {
     SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
     SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
     DrivetrainSubsystem.getInstance()
-        .setMotorRawOutput( // uncomment this for no PID drive
-            // .setMotorVelocityOutput( // comment this for no PID drive
-            driveControlsInput.getX(), driveControlsInput.getY());
+        .setMotorRawOutput(driveControlsInput.getX(), driveControlsInput.getY());
   }
 
   private double smoothingFunction(double x) {
-    // return x; // simple passthrough
-    return (x * 0.3) + (Math.pow(x, 7) * 0.7); // joe drive
+    // return x; // uncomment for no controller input ramping
+    return (x * 0.3)
+        + (Math.pow(x, 7) * 0.7); // ramping function: https://www.desmos.com/calculator/uoq5ezjnlv
   }
 
   private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
     double speed = smoothingFunction(controllerValues.getLeftStickY());
     double steer = smoothingFunction(controllerValues.getRightStickX());
-
-    if (speed < 0) {
-      steer *= -1;
-    }
-
-    double left = speed + steer;
-    double right = speed - steer;
-
-    return new Vector2(left, right);
-  }
-
-  @SuppressWarnings("unused")
-  private Vector2 gtaDrive(ControllerValues controllerValues) {
-    double speed =
-        smoothingFunction(controllerValues.getRightTrigger() - controllerValues.getLeftTrigger());
-    double steer = smoothingFunction(controllerValues.getLeftStickX());
 
     if (speed < 0) {
       steer *= -1;

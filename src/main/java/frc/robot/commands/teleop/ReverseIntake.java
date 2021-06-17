@@ -17,9 +17,4 @@ public class ReverseIntake extends CommandBase {
   public void end(boolean interrupted) {
     IntakeSubsystem.getInstance().toggle(false);
   }
-
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

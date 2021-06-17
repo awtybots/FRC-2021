@@ -1,21 +1,21 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TowerSubsystem;
-import org.awtybots.frc.botplus.ToggleCommand;
 
-public class ToggleTower extends ToggleCommand {
+public class ToggleTower extends CommandBase {
 
   public ToggleTower() {
-    super(TowerSubsystem.getInstance());
-  }
-
-  public ToggleTower(boolean on) {
-    super(on, TowerSubsystem.getInstance());
+    addRequirements(TowerSubsystem.getInstance());
   }
 
   @Override
-  public void toggle(boolean b) {
-    if (b) TowerSubsystem.getInstance().enableForShooting();
-    else TowerSubsystem.getInstance().stop();
+  public void initialize() {
+    TowerSubsystem.getInstance().enableForShooting();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    TowerSubsystem.getInstance().stop();
   }
 }
