@@ -37,7 +37,7 @@ public class AutoShoot extends CommandBase {
             2.496 - 0.216, // vision target height
             0.216 // offset from vision target to center of power port
             );
-    projectileMotionSimulation =
+    projectileMotionSimulation = // TODO rethink this
         new Simulation(
             0.01, // simulation step (seconds)
             10, // simulation iterations
@@ -61,12 +61,11 @@ public class AutoShoot extends CommandBase {
       // return;
     }
 
-    // TODO uncomment this once everything else is working
     Vector2 powerPortOffset = powerPort.getTargetDisplacement();
     SmartDashboard.putNumber("Power Port Perceived Distance", powerPortOffset.getX());
 
-    double adjustableHoodGoalLaunchAngle =
-        Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
+    // double adjustableHoodGoalLaunchAngle =
+    //     Math.toDegrees(Math.atan2(powerPortOffset.getX(), powerPortOffset.getY() + 1.0));
 
     // AdjustableHoodSubsystem.getInstance().setGoalLaunchAngle(adjustableHoodGoalLaunchAngle); //
     // TODO fix
