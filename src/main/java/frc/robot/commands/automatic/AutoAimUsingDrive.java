@@ -1,4 +1,4 @@
-package frc.robot.commands.teleop.automatic;
+package frc.robot.commands.automatic;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,10 +29,8 @@ public class AutoAimUsingDrive extends CommandBase {
   @Override
   public void execute() {
     if (rotateCommand != null) {
-      if (rotateCommand.isFinished())
-        rotateCommand = null;
-      else
-        return;
+      if (rotateCommand.isFinished()) rotateCommand = null;
+      else return;
     }
 
     if (timer.get() > startupTime) {

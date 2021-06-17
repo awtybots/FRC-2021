@@ -8,7 +8,7 @@ import org.awtybots.frc.botplus.motors.Pro775;
 
 public class AdjustableHoodSubsystem
     extends SubsystemBase { // TODO hood is completely broken in some way, come back to this after
-                            // the event
+  // the event
 
   private final boolean encoderGlitchDetection = false;
   private final boolean encoderGlitchRecovery =
