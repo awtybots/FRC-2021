@@ -37,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     motor.setPIDF(kP, kI, kD, kF);
 
-    if (Robot.Companion.getTestMode()) {
+    if (Robot.testMode) {
       SmartDashboard.putNumber("Shooter PID - P", kP);
       SmartDashboard.putNumber("Shooter PID - I", kI);
       SmartDashboard.putNumber("Shooter PID - D", kD);
@@ -61,7 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (Robot.Companion.getTestMode()) {
+    if (Robot.testMode) {
       pidfChanged = false;
 
       kP = getNumberFromSmartDashboard("Shooter PID - P", kP);
