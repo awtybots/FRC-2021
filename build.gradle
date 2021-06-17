@@ -85,6 +85,10 @@ task format(type: com.github.sherter.googlejavaformatgradleplugin.GoogleJavaForm
   source 'src/main'
   include '**/*.java'
 }
+task verifyFormat(type: com.github.sherter.googlejavaformatgradleplugin.VerifyGoogleJavaFormat) {
+  source 'src/main'
+  include '**/*.java'
+}
 task syncGitHooks(type: Sync) {
   from '.githooks'
   into '.git/hooks'
