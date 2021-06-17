@@ -1,7 +1,7 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotMap;
+import frc.robot.Dimensions;
 
 public class DriveCurve extends SequentialCommandGroup {
 
@@ -15,7 +15,7 @@ public class DriveCurve extends SequentialCommandGroup {
     double radians = Math.toRadians(degrees);
 
     double centerArcLength = arcRadius * radians;
-    double differentialArcLength = (RobotMap.Dimensions.trackWidth * 0.5) * radians;
+    double differentialArcLength = (Dimensions.trackWidth * 0.5) * radians;
 
     double leftArcLength = centerArcLength + differentialArcLength;
     double rightArcLength = centerArcLength - differentialArcLength;

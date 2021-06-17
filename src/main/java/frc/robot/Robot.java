@@ -19,10 +19,9 @@ public class Robot extends TimedRobot {
   private Command autonCommand;
 
   private Compressor compressor = new Compressor();
-  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
+  public static PowerDistributionPanel PDP = new PowerDistributionPanel();
   public static Limelight limelight =
-      new Limelight(
-          RobotMap.Dimensions.limelightMountingHeight, RobotMap.Dimensions.limelightMountingAngle);
+      new Limelight(Dimensions.limelightMountingHeight, Dimensions.limelightMountingAngle);
 
   @Override
   public void robotInit() {
@@ -49,7 +48,6 @@ public class Robot extends TimedRobot {
     controller1.getTrgR().whenHeld(new ToggleIntake());
     controller1.getBtnA().whenHeld(new ToggleClimber(ToggleClimber.Forward));
     controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
-    // controller1.getTrgL().whenHeld(new ToggleIntakeMotorOnly()); // TODO why?
 
     // ---- Second Controller ---- //
     /// -- Manual Shots -- ///

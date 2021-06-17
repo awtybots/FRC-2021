@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Dimensions;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.motors.Falcon500;
@@ -28,9 +29,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double current = Robot.pdp.getCurrent(RobotMap.PDP.climber);
-    double encoderPos =
-        climber.getOutputRevsCompleted() * RobotMap.Dimensions.climberWinchCircumference;
+    double current = Robot.PDP.getCurrent(RobotMap.PDP.climber);
+    double encoderPos = climber.getOutputRevsCompleted() * Dimensions.climberWinchCircumference;
 
     SmartDashboard.putNumber("Climber Current", current);
     SmartDashboard.putNumber("Climber Position", encoderPos);
