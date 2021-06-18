@@ -1,56 +1,52 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.config.DriveConfig;
-import org.awtybots.frc.botplus.motors.Falcon500;
-import org.awtybots.frc.botplus.subsystems.Drivetrain;
 
-public class DrivetrainSubsystem extends Drivetrain<Falcon500> {
+public class DrivetrainSubsystem extends SubsystemBase {
 
-  private static double gearRatio = 12.0 / 40.0 * 14.0 / 44.0;
-  private static DriveConfig driveConfig =
-      new DriveConfig(
-          true, // invertRight
-          0.154, // wheelDiameter (m)
-          0.03, // p
-          0.0, // i
-          0.0, // d
-          0.07, // f
-          3.0, // percentRamp
-          1.0, // percentPeak (max output)
-          0.07, // percentNominal (min output)
-          4.0 // velocityPeak (m/s)
-          );
+  private static final double rampTime = 0.3;
 
-  private DrivetrainSubsystem() {
-    super(
-        driveConfig,
-        new Falcon500[] {
-          new Falcon500(RobotMap.CAN.leftDrive1, gearRatio),
-          new Falcon500(RobotMap.CAN.leftDrive2, gearRatio)
-        },
-        new Falcon500[] {
-          new Falcon500(RobotMap.CAN.rightDrive1, gearRatio),
-          new Falcon500(RobotMap.CAN.rightDrive2, gearRatio)
-        });
+  private final TalonFX[] leftMotors =
+      new TalonFX[] {
+        new TalonFX(RobotMap.CAN.leftDrive1), new TalonFX(RobotMap.CAN.leftDrive2),
+      };
+  private final TalonFX[] rightMotors =
+      new TalonFX[] {
+        new TalonFX(RobotMap.CAN.rightDrive1), new TalonFX(RobotMap.CAN.rightDrive2),
+      };
 
-    kill();
+  public DrivetrainSubsystem() {
+    for (TalonFX driveMotor : leftMotors) applyMotorSettings(driveMotor);
+    for (TalonFX driveMotor : rightMotors) {
+      applyMotorSettings(driveMotor);
+      driveMotor.setInverted(true);
+    }
   }
 
-  @Override
-  public void periodic() {
-    super.periodic();
+  private void applyMotorSettings(TalonFX motor) {
+    motor.configFactoryDefault();
+    motor.setNeutralMode(NeutralMode.Brake);
+    motor.configOpenloopRamp(rampTime);
+    motor.configVoltageCompSaturation(12.5);
+    motor.enableVoltageCompensation(true);
+  }
 
-    SmartDashboard.putNumber("Drive Goal Output", getLeftMotors().getGoalVelocity());
-    SmartDashboard.putNumber("Drive Output", getLeftMotors().getWheelVelocity());
+  public void setPercentOutput(double leftSpeed, double rightSpeed) {
+    leftMotors[0].set(ControlMode.PercentOutput, leftSpeed);
+    leftMotors[1].set(ControlMode.PercentOutput, leftSpeed);
+    rightMotors[0].set(ControlMode.PercentOutput, rightSpeed);
+    rightMotors[1].set(ControlMode.PercentOutput, rightSpeed);
+  }
+
+  public void kill() {
+    leftMotors[0].set(ControlMode.PercentOutput, 0);
+    leftMotors[1].set(ControlMode.PercentOutput, 0);
+    rightMotors[0].set(ControlMode.PercentOutput, 0);
+    rightMotors[1].set(ControlMode.PercentOutput, 0);
   }
 
   private static DrivetrainSubsystem instance = new DrivetrainSubsystem();

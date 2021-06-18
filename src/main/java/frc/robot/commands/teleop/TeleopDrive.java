@@ -26,7 +26,7 @@ public class TeleopDrive extends AnalogInputCommand {
     SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
     SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
     DrivetrainSubsystem.getInstance()
-        .setMotorRawOutput(driveControlsInput.getX(), driveControlsInput.getY());
+        .setPercentOutput(driveControlsInput.getX(), driveControlsInput.getY());
   }
 
   private double smoothingFunction(double x) {

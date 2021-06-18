@@ -8,7 +8,7 @@ public class DriveBackwardsTime extends SequentialCommandGroup {
   public DriveBackwardsTime(double time) {
     addCommands(
         new StartEndCommand(
-                () -> DrivetrainSubsystem.getInstance().setMotorRawOutput(-0.3, -0.3),
+                () -> DrivetrainSubsystem.getInstance().setPercentOutput(-0.3, -0.3),
                 () -> DrivetrainSubsystem.getInstance().kill(),
                 DrivetrainSubsystem.getInstance())
             .withTimeout(time));
