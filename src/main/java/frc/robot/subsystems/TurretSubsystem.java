@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotMap;
@@ -38,16 +37,16 @@ public class TurretSubsystem extends SubsystemBase {
     motor.getMotorController().setSensorPhase(true);
   }
 
-  public void setAbsoluteGoalAngle(double newGoalAngle) {
+  public boolean setAbsoluteGoalAngle(double newGoalAngle) {
     newGoalAngle %= 360.0;
     goalAngle = MathUtil.clamp(newGoalAngle, minAngle, maxAngle);
 
     boolean goalReachable = newGoalAngle >= minAngle && newGoalAngle < maxAngle;
-    SmartDashboard.putBoolean("Turret Goal Reachable", goalReachable);
+    return goalReachable;
   }
 
-  public void setRelativeGoalAngle(double newGoalAngle) {
-    setAbsoluteGoalAngle(lastCurrentAngle + newGoalAngle);
+  public boolean setRelativeGoalAngle(double newGoalAngle) {
+    return setAbsoluteGoalAngle(lastCurrentAngle + newGoalAngle);
   }
 
   public boolean atGoalAngle() {
@@ -56,11 +55,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   public double getCurrentAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
-
-    SmartDashboard.putBoolean(
-        "Turret In Bounds",
-        tentativeCurrentAngle >= (minAngle - stopWithinThisAngleFromGoal)
-            && tentativeCurrentAngle <= (maxAngle + stopWithinThisAngleFromGoal));
 
     if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {
@@ -84,11 +78,6 @@ public class TurretSubsystem extends SubsystemBase {
     double currentAngle = getCurrentAngle();
     double angleError = goalAngle - currentAngle;
 
-    SmartDashboard.putNumber("Turret Current Angle", currentAngle);
-    SmartDashboard.putNumber("Turret Goal Angle", goalAngle);
-    SmartDashboard.putNumber("Turret Error Angle", angleError);
-    SmartDashboard.putBoolean("Turret At Goal", atGoalAngle());
-
     double x =
         Math.min(
             (Math.abs(angleError) - stopWithinThisAngleFromGoal)
@@ -100,7 +89,6 @@ public class TurretSubsystem extends SubsystemBase {
     }
     motorOutput *= Math.signum(angleError);
 
-    SmartDashboard.putNumber("Turret Motor Output", motorOutput);
     motor.setRawOutput(motorOutput);
   }
 

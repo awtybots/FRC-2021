@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import org.awtybots.frc.botplus.motors.Pro775;
@@ -63,11 +62,6 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   public double getCurrentLaunchAngle() {
     double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
 
-    SmartDashboard.putBoolean(
-        "Hood In Bounds",
-        tentativeCurrentAngle >= (minLaunchAngle - stopWithinThisAngleFromGoal)
-            && tentativeCurrentAngle <= (maxLaunchAngle + stopWithinThisAngleFromGoal));
-
     if (tentativeCurrentAngle < minLaunchAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxLaunchAngle + slowDownWithinThisAngleFromGoal) {
       return lastCurrentAngle;
@@ -125,13 +119,6 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
     //     }
     //   }
     // }
-
-    SmartDashboard.putNumber("Hood Current Angle", getCurrentLaunchAngle());
-    SmartDashboard.putNumber("Hood Goal Angle", goalLaunchAngle);
-    SmartDashboard.putNumber("Hood Error Angle", 0.0);
-    SmartDashboard.putBoolean("Hood At Goal", atGoalLaunchAngle());
-    SmartDashboard.putNumber("Hood Motor Output", 0.0);
-    SmartDashboard.putBoolean("Hood Encoder Working", !encoderBroken);
 
     // if (!encoderBroken) motor.setRawOutput(motorOutput);
   }
