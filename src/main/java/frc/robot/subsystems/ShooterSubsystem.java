@@ -46,9 +46,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setFlywheelRevsPerSecond(double rps) {
-    SmartDashboard.putNumber("Shooter Goal RPM", rps * 60.0);
     goalRevsPerSecond = rps;
-    motor.setRevsPerSecond(rps);
+    if (rps == 0) motor.setRawOutput(0);
+    else motor.setRevsPerSecond(rps);
   }
 
   public void stopFlywheel() {
