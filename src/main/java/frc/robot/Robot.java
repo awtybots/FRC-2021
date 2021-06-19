@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.automatic.ManualShootingPreset;
 import frc.robot.commands.auton.sequences.*;
 import frc.robot.commands.teleop.*;
-import util.Controller;
+import util.controls.Controller;
 import util.vision.Limelight;
 
 public class Robot extends TimedRobot {
@@ -45,20 +45,20 @@ public class Robot extends TimedRobot {
 
     // ---- First Controller ---- //
     controller1.streamAnalogInputTo(new TeleopDrive());
-    controller1.getTrgR().whenHeld(new ToggleIntake());
-    controller1.getBtnA().whenHeld(new ToggleClimber(ToggleClimber.Forward));
-    controller1.getBtnBack().whenHeld(new ToggleClimber(ToggleClimber.Reverse));
+    controller1.trgR.whenHeld(new ToggleIntake());
+    controller1.btnA.whenHeld(new ToggleClimber(ToggleClimber.Forward));
+    controller1.btnBack.whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
     // ---- Second Controller ---- //
     /// -- Manual Shots -- ///
-    controller2.getBtnA().whenHeld(new ManualShootingPreset(4000.0, 76, false)); // against wall
-    controller2.getBtnX().whenHeld(new ManualShootingPreset(5000.0, 58, true)); // mid range?
-    controller2.getBtnB().whenHeld(new ManualShootingPreset(5700.0, 57, true)); // long range
+    controller2.btnA.whenHeld(new ManualShootingPreset(4000.0, 76, false)); // against wall
+    controller2.btnX.whenHeld(new ManualShootingPreset(5000.0, 58, true)); // mid range?
+    controller2.btnB.whenHeld(new ManualShootingPreset(5700.0, 57, true)); // long range
     /// -- Toggles and Reverse -- ///
-    controller2.getBmpL().whenHeld(new ReverseTower());
-    controller2.getBmpR().whenHeld(new ToggleTower());
-    controller2.getTrgL().whenHeld(new ReverseIndexer());
-    controller2.getTrgR().whenHeld(new ToggleIndexer());
+    controller2.bmpL.whenHeld(new ReverseTower());
+    controller2.bmpR.whenHeld(new ToggleTower());
+    controller2.trgL.whenHeld(new ReverseIndexer());
+    controller2.trgR.whenHeld(new ToggleIndexer());
   }
 
   @Override

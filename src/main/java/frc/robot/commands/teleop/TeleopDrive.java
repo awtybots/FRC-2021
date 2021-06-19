@@ -10,8 +10,8 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import util.AnalogInputCommand;
-import util.ControllerValues;
+import util.controls.AnalogInputCommand;
+import util.controls.ControllerValues;
 
 public class TeleopDrive extends AnalogInputCommand {
 
@@ -35,8 +35,8 @@ public class TeleopDrive extends AnalogInputCommand {
   }
 
   private Vector2d splitArcadeDrive(ControllerValues controllerValues) {
-    double speed = smoothingFunction(controllerValues.getLeftStickY());
-    double steer = smoothingFunction(controllerValues.getRightStickX());
+    double speed = smoothingFunction(controllerValues.leftStickY);
+    double steer = smoothingFunction(controllerValues.rightStickX);
 
     if (speed < 0) {
       steer *= -1;
