@@ -1,9 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TowerSubsystem extends SubsystemBase {
 
@@ -11,15 +12,15 @@ public class TowerSubsystem extends SubsystemBase {
   private static final double shootingPercentOutput = 0.65; // fast while shooting
   private static final double reversePercentOutput = -0.3;
 
-  private final Pro775 tower = new Pro775(RobotMap.CAN.tower, 1.0);
+  private final TalonSRX tower = new TalonSRX(RobotMap.CAN.tower);
   private final DigitalInput limitSwitch = new DigitalInput(RobotMap.DIO.towerLimitSwitch);
 
   private boolean
       stopIfLimitSwitchPressed; // this is not a setting, this is just a flag for internal use
 
   private TowerSubsystem() {
-    tower.getMotorController().configFactoryDefault();
-    tower.getMotorController().setInverted(false);
+    tower.configFactoryDefault();
+    tower.setInverted(false);
 
     stop();
   }
@@ -27,22 +28,22 @@ public class TowerSubsystem extends SubsystemBase {
   public void enableForLoading() {
     if (isFull()) return;
 
-    tower.setRawOutput(loadingPercentOutput);
+    tower.set(ControlMode.PercentOutput, loadingPercentOutput);
     stopIfLimitSwitchPressed = true;
   }
 
   public void enableForShooting() {
-    tower.setRawOutput(shootingPercentOutput);
+    tower.set(ControlMode.PercentOutput, shootingPercentOutput);
     stopIfLimitSwitchPressed = false;
   }
 
   public void reverse() {
-    tower.setRawOutput(reversePercentOutput);
+    tower.set(ControlMode.PercentOutput, reversePercentOutput);
     stopIfLimitSwitchPressed = false;
   }
 
   public void stop() {
-    tower.setRawOutput(0.0);
+    tower.set(ControlMode.PercentOutput, 0.0);
     stopIfLimitSwitchPressed = false;
   }
 

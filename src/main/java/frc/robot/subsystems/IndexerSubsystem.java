@@ -1,33 +1,33 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.motors.Bag;
 
 public class IndexerSubsystem extends SubsystemBase {
 
-  // running them at different speeds worked best last year
-  public static final double indexerLPercentOutput = 0.8;
-  public static final double indexerRPercentOutput = 0.6;
+  public static final double leftSpeed = 0.8;
+  public static final double rightSpeed = 0.6;
 
-  private Bag indexerL;
-  private Bag indexerR;
+  private TalonSRX indexerL;
+  private TalonSRX indexerR;
 
   private IndexerSubsystem() {
-    indexerL = new Bag(RobotMap.CAN.indexerL, 1.0);
-    indexerR = new Bag(RobotMap.CAN.indexerR, 1.0);
+    indexerL = new TalonSRX(RobotMap.CAN.indexerL);
+    indexerR = new TalonSRX(RobotMap.CAN.indexerR);
 
-    indexerL.getMotorController().configFactoryDefault();
-    indexerR.getMotorController().configFactoryDefault();
+    indexerL.configFactoryDefault();
+    indexerR.configFactoryDefault();
 
-    indexerR.getMotorController().setInverted(true); // invert one of them
+    indexerR.setInverted(true); // invert one of them
 
     set(0);
   }
 
-  public void set(int p) {
-    indexerL.setRawOutput(indexerLPercentOutput * p);
-    indexerR.setRawOutput(indexerRPercentOutput * p);
+  public void set(int percent) {
+    indexerL.set(ControlMode.PercentOutput, leftSpeed * percent);
+    indexerR.set(ControlMode.PercentOutput, rightSpeed * percent);
   }
 
   private static IndexerSubsystem instance = new IndexerSubsystem();

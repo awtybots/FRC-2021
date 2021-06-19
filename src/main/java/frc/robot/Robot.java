@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.automatic.ManualShootingPreset;
 import frc.robot.commands.auton.sequences.*;
 import frc.robot.commands.teleop.*;
-import org.awtybots.frc.botplus.commands.Controller;
-import org.awtybots.frc.botplus.sensors.vision.Limelight;
+import util.Controller;
+import util.vision.Limelight;
 
 public class Robot extends TimedRobot {
 
@@ -64,12 +64,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     bindIO();
-    Robot.limelight.setDriverMode(true);
+    Robot.limelight.toggleDriverMode(true);
   }
 
   @Override
   public void disabledInit() {
-    Robot.limelight.setDriverMode(true);
+    Robot.limelight.toggleDriverMode(true);
   }
 
   @Override

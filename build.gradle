@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2021.2.2"
+    id "org.jetbrains.kotlin.jvm" version "1.5.10" // workaround till can be rewritten in java
     id 'com.github.sherter.google-java-format' version '0.9'
 }
 
@@ -34,6 +35,10 @@ deploy {
     }
 }
 
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/java/util'
+    main.java.srcDirs += 'src/main/java/util/vision'
+}
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
 
@@ -55,8 +60,6 @@ dependencies {
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
     simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
-
-    implementation files('libs/botplus-v0.6.3.jar')
 
     // Websocket extensions require additional configuration.
     // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)

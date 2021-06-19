@@ -7,11 +7,11 @@
 
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import org.awtybots.frc.botplus.commands.AnalogInputCommand;
-import org.awtybots.frc.botplus.commands.ControllerValues;
-import org.awtybots.frc.botplus.math.Vector2;
+import util.AnalogInputCommand;
+import util.ControllerValues;
 
 public class TeleopDrive extends AnalogInputCommand {
 
@@ -21,12 +21,11 @@ public class TeleopDrive extends AnalogInputCommand {
 
   @Override
   public void analogExecute(ControllerValues controllerValues) {
-    Vector2 driveControlsInput = splitArcadeDrive(controllerValues);
+    Vector2d driveControlsInput = splitArcadeDrive(controllerValues);
 
-    SmartDashboard.putNumber("Drive Controls L", driveControlsInput.getX());
-    SmartDashboard.putNumber("Drive Controls R", driveControlsInput.getY());
-    DrivetrainSubsystem.getInstance()
-        .setPercentOutput(driveControlsInput.getX(), driveControlsInput.getY());
+    SmartDashboard.putNumber("Drive Controls L", driveControlsInput.x);
+    SmartDashboard.putNumber("Drive Controls R", driveControlsInput.y);
+    DrivetrainSubsystem.getInstance().setPercentOutput(driveControlsInput.y, driveControlsInput.y);
   }
 
   private double smoothingFunction(double x) {
@@ -35,7 +34,7 @@ public class TeleopDrive extends AnalogInputCommand {
         + (Math.pow(x, 7) * 0.7); // ramping function: https://www.desmos.com/calculator/uoq5ezjnlv
   }
 
-  private Vector2 splitArcadeDrive(ControllerValues controllerValues) {
+  private Vector2d splitArcadeDrive(ControllerValues controllerValues) {
     double speed = smoothingFunction(controllerValues.getLeftStickY());
     double steer = smoothingFunction(controllerValues.getRightStickX());
 
@@ -46,7 +45,7 @@ public class TeleopDrive extends AnalogInputCommand {
     double left = speed + steer;
     double right = speed - steer;
 
-    return new Vector2(left, right);
+    return new Vector2d(left, right);
   }
 
   @Override

@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.motors.Pro775;
 
 public class TurretSubsystem extends SubsystemBase {
 
@@ -19,22 +20,20 @@ public class TurretSubsystem extends SubsystemBase {
   private double minimumPercentOutput = 0.13;
   private double maximumPercentOutput = 0.23;
 
-  private final double sensorGearRatio =
-      22.0 / 240.0; // ratio between actual output rotation and encoder-detected
+  private final double turretRatio = 22.0 / 240.0; // ratio between turret pulley and motor pulley
   // rotation
-  private Pro775 motor;
+  private TalonSRX motor;
 
   private TurretSubsystem() {
-    motor = new Pro775(RobotMap.CAN.turret, 1.0);
+    motor = new TalonSRX(RobotMap.CAN.turret);
 
-    motor.getMotorController().configFactoryDefault();
-    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
+    motor.configFactoryDefault();
+    motor.setNeutralMode(NeutralMode.Coast);
 
-    motor.setSensorGearRatio(sensorGearRatio);
-    motor.resetSensorPosition();
+    motor.setSelectedSensorPosition(0);
 
-    motor.getMotorController().setInverted(true);
-    motor.getMotorController().setSensorPhase(true);
+    motor.setInverted(true);
+    motor.setSensorPhase(true);
   }
 
   public boolean setAbsoluteGoalAngle(double newGoalAngle) {
@@ -54,7 +53,7 @@ public class TurretSubsystem extends SubsystemBase {
   }
 
   public double getCurrentAngle() {
-    double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
+    double tentativeCurrentAngle = startAngle /*+ motor.getOutputRevsCompleted()*/ * 360.0;
 
     if (tentativeCurrentAngle < minAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxAngle + slowDownWithinThisAngleFromGoal) {
@@ -89,7 +88,7 @@ public class TurretSubsystem extends SubsystemBase {
     }
     motorOutput *= Math.signum(angleError);
 
-    motor.setRawOutput(motorOutput);
+    motor.set(ControlMode.PercentOutput, motorOutput);
   }
 
   private static TurretSubsystem instance = new TurretSubsystem();

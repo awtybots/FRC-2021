@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import org.awtybots.frc.botplus.motors.Pro775;
 
 // TODO hood is completely broken in some way, come back to this after the event
 public class AdjustableHoodSubsystem extends SubsystemBase {
@@ -31,7 +31,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   // on the way down
 
   private final double sensorGearRatio = 15.0 / 72.0;
-  public Pro775 motor = new Pro775(RobotMap.CAN.adjustableHood, 1.0);
+  public TalonSRX motor = new TalonSRX(RobotMap.CAN.adjustableHood);
 
   // private final Timer constantAngleTimer = new Timer();
   // private double beforeLastCurrentAngle = lastCurrentAngle;
@@ -40,11 +40,10 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   // private boolean currentlyRecovering = false;
 
   private AdjustableHoodSubsystem() {
-    motor.getMotorController().configFactoryDefault();
-    motor.getMotorController().setNeutralMode(NeutralMode.Coast);
+    motor.configFactoryDefault();
+    motor.setNeutralMode(NeutralMode.Coast);
 
-    motor.setSensorGearRatio(sensorGearRatio);
-    motor.resetSensorPosition();
+    motor.setSelectedSensorPosition(0);
 
     // constantAngleTimer.start();
   }
@@ -60,7 +59,7 @@ public class AdjustableHoodSubsystem extends SubsystemBase {
   }
 
   public double getCurrentLaunchAngle() {
-    double tentativeCurrentAngle = startAngle + motor.getOutputRevsCompleted() * 360.0;
+    double tentativeCurrentAngle = startAngle /*+ motor.getOutputRevsCompleted()*/ * 360.0;
 
     if (tentativeCurrentAngle < minLaunchAngle - slowDownWithinThisAngleFromGoal
         || tentativeCurrentAngle > maxLaunchAngle + slowDownWithinThisAngleFromGoal) {
