@@ -2,8 +2,9 @@ package util.controls;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controller {
   private XboxController controller;
@@ -27,13 +28,13 @@ public class Controller {
   public JoystickButton joystickClickL = createButton(XboxController.Button.kStickLeft.value);
   public JoystickButton joystickClickR = createButton(XboxController.Button.kStickRight.value);
 
-  public Button dpadUp = new Button(() -> getDpad(0, 0, 0));
-  public Button dpadRight = new Button(() -> getDpad(45, 90, 135));
-  public Button dpadDown = new Button(() -> getDpad(135, 180, 225));
-  public Button dpadLeft = new Button(() -> getDpad(225, 270, 315));
+  public POVButton dpadUp = new POVButton(controller, 0);
+  public POVButton dpadRight = new POVButton(controller, 90);
+  public POVButton dpadDown = new POVButton(controller, 180);
+  public POVButton dpadLeft = new POVButton(controller, 270);
 
-  public Button trgL = new Button(() -> getTriggerActive(Hand.kLeft));
-  public Button trgR = new Button(() -> getTriggerActive(Hand.kRight));
+  public Trigger trgL = new Trigger(() -> getTrigger(Hand.kLeft) > 0);
+  public Trigger trgR = new Trigger(() -> getTrigger(Hand.kRight) > 0);
 
   /**
    * Stream controller inputs to a [command][AnalogInputCommand] continuously
@@ -55,17 +56,8 @@ public class Controller {
         getTrigger(Hand.kRight));
   }
 
-  private boolean getDpad(int a, int b, int c) {
-    int pov = controller.getPOV();
-    return (pov == a) || (pov == b) || (pov == c);
-  }
-
   private double getTrigger(Hand hand) {
     return deadzone(controller.getTriggerAxis(hand), kDeadzoneTrigger);
-  }
-
-  private boolean getTriggerActive(Hand hand) {
-    return getTrigger(hand) > 0;
   }
 
   private double getX(Hand hand) {

@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 
     // ---- First Controller ---- //
     controller1.streamAnalogInputTo(new TeleopDrive());
-    controller1.trgR.whenHeld(new ToggleIntake());
+    controller1.trgR.whenActive(new ToggleIntake());
     controller1.btnA.whenHeld(new ToggleClimber(ToggleClimber.Forward));
     controller1.btnBack.whenHeld(new ToggleClimber(ToggleClimber.Reverse));
 
@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
     /// -- Toggles and Reverse -- ///
     controller2.bmpL.whenHeld(new ReverseTower());
     controller2.bmpR.whenHeld(new ToggleTower());
-    controller2.trgL.whenHeld(new ReverseIndexer());
-    controller2.trgR.whenHeld(new ToggleIndexer());
+    controller2.trgL.whenActive(new ReverseIndexer());
+    controller2.trgR.whenActive(new ToggleIndexer());
   }
 
   @Override
